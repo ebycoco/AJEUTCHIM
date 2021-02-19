@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Flash{% endblock %}
+
+{% block body %}
+    <h1>Create new Flash</h1>
+
+    {{ include('flash/_form.html.twig') }}
+
+    <a href="{{ path('flash_index') }}">back to list</a>
+{% endblock %}

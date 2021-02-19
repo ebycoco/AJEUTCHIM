@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AnnuelleCotisation{% endblock %}
+
+{% block body %}
+    <h1>AnnuelleCotisation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ annuelle_cotisation.id }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ annuelle_cotisation.montant }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ annuelle_cotisation.createdAt ? annuelle_cotisation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ annuelle_cotisation.updatedAt ? annuelle_cotisation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('annuelle_cotisation_index') }}">back to list</a>
+
+    <a href="{{ path('annuelle_cotisation_edit', {'id': annuelle_cotisation.id}) }}">edit</a>
+
+    {{ include('annuelle_cotisation/_delete_form.html.twig') }}
+{% endblock %}

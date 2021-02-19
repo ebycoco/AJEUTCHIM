@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Don{% endblock %}
+
+{% block body %}
+    <h1>Don</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ don.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ don.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ don.prenom }}</td>
+            </tr>
+            <tr>
+                <th>NumeroTel</th>
+                <td>{{ don.numeroTel }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ don.montant }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ don.email }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ don.ville }}</td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td>{{ don.pays }}</td>
+            </tr>
+            <tr>
+                <th>IdReference</th>
+                <td>{{ don.idReference }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ don.createdAt ? don.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ don.updatedAt ? don.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('don_index') }}">back to list</a>
+
+    <a href="{{ path('don_edit', {'id': don.id}) }}">edit</a>
+
+    {{ include('don/_delete_form.html.twig') }}
+{% endblock %}

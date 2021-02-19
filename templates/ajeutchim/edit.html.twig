@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Ajeutchim{% endblock %}
+
+{% block body %}
+    <h1>Edit Ajeutchim</h1>
+
+    {{ include('ajeutchim/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('ajeutchim_index') }}">back to list</a>
+
+    {{ include('ajeutchim/_delete_form.html.twig') }}
+{% endblock %}

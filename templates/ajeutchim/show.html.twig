@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajeutchim{% endblock %}
+
+{% block body %}
+    <h1>Ajeutchim</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ajeutchim.id }}</td>
+            </tr>
+            <tr>
+                <th>Contenue</th>
+                <td>{{ ajeutchim.contenue }}</td>
+            </tr>
+            <tr>
+                <th>ImageName</th>
+                <td>{{ ajeutchim.imageName }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ ajeutchim.createdAt ? ajeutchim.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ ajeutchim.updatedAt ? ajeutchim.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('ajeutchim_index') }}">back to list</a>
+
+    <a href="{{ path('ajeutchim_edit', {'id': ajeutchim.id}) }}">edit</a>
+
+    {{ include('ajeutchim/_delete_form.html.twig') }}
+{% endblock %}

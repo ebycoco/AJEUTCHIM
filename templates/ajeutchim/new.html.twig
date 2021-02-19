@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Ajeutchim{% endblock %}
+
+{% block body %}
+    <h1>Create new Ajeutchim</h1>
+
+    {{ include('ajeutchim/_form.html.twig') }}
+
+    <a href="{{ path('ajeutchim_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Mandat{% endblock %}
+
+{% block body %}
+    <h1>Edit Mandat</h1>
+
+    {{ include('mandat/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('mandat_index') }}">back to list</a>
+
+    {{ include('mandat/_delete_form.html.twig') }}
+{% endblock %}

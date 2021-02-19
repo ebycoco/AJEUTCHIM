@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mandat index
+{% endblock %}
+
+{% block body %}
+	<h1>Mandat index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nom</th>
+				<th>Prenom</th>
+				<th>Mandat</th>
+				<th>Date du debut</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for mandat in mandats %}
+				<tr>
+					<td>{{ mandat.id }}</td>
+					<td>{{ mandat.membre.nom}}</td>
+					<td>{{ mandat.membre.prenom}}</td>
+					<td>{{ mandat.name}}</td>
+					<td>{{ mandat.createdAt ? mandat.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+						{% if mandat.active %}
+							<a href="{{ path('mandat_edit', {'id': mandat.id}) }}" class="btn btn-warning">Mettre fin</a>
+							<a href="{{ path('mandat_edit', {'id': mandat.id}) }}" class="btn btn-primary">Modifier</a>
+						{% else %}
+							<a href="{{ path('mandat_edit', {'id': mandat.id}) }}" class="btn btn-primary">Modifier</a>
+							<a href="{{ path('president_active', {'id': mandat.id}) }}" class="btn btn-success">Activer</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('mandat_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PostAjeutchim index{% endblock %}
+
+{% block body %}
+    <h1>PostAjeutchim index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post_ajeutchim in post_ajeutchims %}
+            <tr>
+                <td>{{ post_ajeutchim.id }}</td>
+                <td>{{ post_ajeutchim.name }}</td>
+                <td>{{ post_ajeutchim.description }}</td>
+                <td>{{ post_ajeutchim.createdAt ? post_ajeutchim.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ post_ajeutchim.updatedAt ? post_ajeutchim.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('post_ajeutchim_show', {'id': post_ajeutchim.id}) }}">show</a>
+                    <a href="{{ path('post_ajeutchim_edit', {'id': post_ajeutchim.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('post_ajeutchim_new') }}">Create new</a>
+{% endblock %}

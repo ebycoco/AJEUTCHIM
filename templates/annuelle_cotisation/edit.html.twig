@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit AnnuelleCotisation{% endblock %}
+
+{% block body %}
+    <h1>Edit AnnuelleCotisation</h1>
+
+    {{ include('annuelle_cotisation/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('annuelle_cotisation_index') }}">back to list</a>
+
+    {{ include('annuelle_cotisation/_delete_form.html.twig') }}
+{% endblock %}

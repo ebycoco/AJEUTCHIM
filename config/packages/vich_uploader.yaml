@@ -1,0 +1,65 @@
+vich_uploader:
+    db_driver: orm
+    mappings:
+        article:
+            uri_prefix: /images/article
+            upload_destination: '%kernel.project_dir%/public/images/article'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        video:
+            uri_prefix: /images/video
+            upload_destination: '%kernel.project_dir%/public/images/video'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        evenement:
+            uri_prefix: /images/evenement
+            upload_destination: '%kernel.project_dir%/public/images/evenement'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        president:
+            uri_prefix: /images/president
+            upload_destination: '%kernel.project_dir%/public/images/president'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        imageAcceuil:
+            uri_prefix: /images/imageAcceuil
+            upload_destination: '%kernel.project_dir%/public/images/imageAcceuil'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        village:
+            uri_prefix: /images/village
+            upload_destination: '%kernel.project_dir%/public/images/village'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        ajeutchim:
+            uri_prefix: /images/ajeutchim
+            upload_destination: '%kernel.project_dir%/public/images/ajeutchim'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

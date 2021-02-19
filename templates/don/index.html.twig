@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Don index{% endblock %}
+
+{% block body %}
+    <h1>Don index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>NumeroTel</th>
+                <th>Montant</th>
+                <th>Email</th>
+                <th>Ville</th>
+                <th>Pays</th>
+                <th>IdReference</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for don in dons %}
+            <tr>
+                <td>{{ don.id }}</td>
+                <td>{{ don.nom }}</td>
+                <td>{{ don.prenom }}</td>
+                <td>{{ don.numeroTel }}</td>
+                <td>{{ don.montant }}</td>
+                <td>{{ don.email }}</td>
+                <td>{{ don.ville }}</td>
+                <td>{{ don.pays }}</td>
+                <td>{{ don.idReference }}</td>
+                <td>{{ don.createdAt ? don.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ don.updatedAt ? don.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('don_show', {'id': don.id}) }}">show</a>
+                    <a href="{{ path('don_edit', {'id': don.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('don_new') }}">Create new</a>
+{% endblock %}

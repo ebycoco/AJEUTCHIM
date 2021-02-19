@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Village index{% endblock %}
+
+{% block body %}
+    <h1>Village index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Histoire</th>
+                <th>ImageName</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for village in villages %}
+            <tr>
+                <td>{{ village.id }}</td>
+                <td>{{ village.description }}</td>
+                <td>{{ village.histoire }}</td>
+                <td>{{ village.imageName }}</td>
+                <td>{{ village.createdAt ? village.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ village.updatedAt ? village.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('village_show', {'id': village.id}) }}">show</a>
+                    <a href="{{ path('village_edit', {'id': village.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('village_new') }}">Create new</a>
+{% endblock %}

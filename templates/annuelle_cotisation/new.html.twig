@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AnnuelleCotisation{% endblock %}
+
+{% block body %}
+    <h1>Create new AnnuelleCotisation</h1>
+
+    {{ include('annuelle_cotisation/_form.html.twig') }}
+
+    <a href="{{ path('annuelle_cotisation_index') }}">back to list</a>
+{% endblock %}

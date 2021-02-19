@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MembreConseil index{% endblock %}
+
+{% block body %}
+    <h1>MembreConseil index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Post</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for membre_conseil in membre_conseils %}
+            <tr>
+                <td>{{ membre_conseil.id }}</td>
+                <td>{{ membre_conseil.post }}</td>
+                <td>{{ membre_conseil.createdAt ? membre_conseil.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ membre_conseil.updatedAt ? membre_conseil.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('membre_conseil_show', {'id': membre_conseil.id}) }}">show</a>
+                    <a href="{{ path('membre_conseil_edit', {'id': membre_conseil.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('membre_conseil_new') }}">Create new</a>
+{% endblock %}

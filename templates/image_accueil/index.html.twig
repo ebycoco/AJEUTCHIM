@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ImageAccueil index{% endblock %}
+
+{% block body %}
+    <h1>ImageAccueil index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>ImageName</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for image_accueil in image_accueils %}
+            <tr>
+                <td>{{ image_accueil.id }}</td>
+                <td>{{ image_accueil.title }}</td>
+                <td>{{ image_accueil.description }}</td>
+                <td>{{ image_accueil.imageName }}</td>
+                <td>{{ image_accueil.createdAt ? image_accueil.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ image_accueil.updatedAt ? image_accueil.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('image_accueil_show', {'id': image_accueil.id}) }}">show</a>
+                    <a href="{{ path('image_accueil_edit', {'id': image_accueil.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('image_accueil_new') }}">Create new</a>
+{% endblock %}

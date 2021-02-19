@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}President index
+{% endblock %}
+
+{% block body %}
+	<h1>President index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Image</th>
+				<th>Nom</th>
+				<th>Prenom</th>
+				<th>Mandat</th>
+				<th>Debute mandat</th>
+				<th>Fin mandat</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for president in presidents %}
+				<tr>
+					<td>{{ president.id }}</td>
+					<td>{{ president.imageName }}</td>
+					<td>{{ president.membre.nom }}</td>
+					<td>{{ president.membre.prenom }}</td>
+					<td>
+						{% if president.etat == 1 %}
+							<span class="text-danger">Fin mandat</span>
+						{% else %}
+							<span class="text-success">Mandat encours...</span>
+						{% endif %}
+					</td>
+					<td>{{ president.debutedAt ? president.debutedAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ president.finedAt ? president.finedAt|date('Y-m-d H:i:s') : 'Mandat encours...' }}</td>
+					<td>
+						{% if president.etat == 1 %}
+							<a href="{{ path('president_show', {'id': president.id}) }}" class="btn btn-success">Voir info</a>
+						{% else %}
+							<a href="{{ path('president_show', {'id': president.id}) }}" class="btn btn-success">Voir info</a>
+							<a href="{{ path('president_edit', {'id': president.id}) }}" class="btn btn-primary">Rapport</a>
+						{% endif %}
+
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="11">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('president_new') }}">Create new</a>
+{% endblock %}
