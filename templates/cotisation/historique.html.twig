@@ -4,24 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Cotisation index</h1>
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">
-			{{ message }}
-		</div>
-	{% endfor %}
-	{% for message in app.flashes('danger') %}
-		<div class="alert alert-danger">
-			{{ message }}
-		</div>
-	{% endfor %}
-
-	<div class="row mb-3">
-		<div class="col-md-3">
-			<a href="{{ path('cotisation_new') }}" class="btn btn-primary">Ajouter nouvelle</a>
-
-		</div>
-	</div>
+	<h1>Cotisation Historique</h1>
 	<table class="table">
 		<thead class="thead-dark">
 			<tr>
@@ -54,9 +37,8 @@
 							{% if cotisation.resteMontant == 0 %}
 								<a href="{{ path('cotisation_confirme', {'id': cotisation.id}) }}" class="btn btn-warning">Valider</a>
 							{% else %}
-								<span class="badge badge-info">encour...</span>
+								<a href="{{ path('cotisation_edit', {'id': cotisation.id}) }}" class="btn btn-primary">Modifier</a>
 							{% endif %}
-							<a href="{{ path('cotisation_edit', {'id': cotisation.id}) }}" class="btn btn-primary">Modifier</a>
 
 						{% endif %}
 					</td>

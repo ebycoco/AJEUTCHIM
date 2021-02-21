@@ -75,7 +75,7 @@ class Membre
      * @ORM\OneToMany(targetEntity=AnnuelleCotisation::class, mappedBy="membre", orphanRemoval=true)
      */
     private $annuelleCotisations;
- 
+
 
     /**
      * @ORM\OneToMany(targetEntity=MembreConseil::class, mappedBy="membre", orphanRemoval=true)
@@ -272,7 +272,7 @@ class Membre
         }
 
         return $this;
-    }  
+    }
 
     /**
      * @return Collection|MembreConseil[]

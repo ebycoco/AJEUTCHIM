@@ -21,7 +21,7 @@ class MembreController extends AbstractController
     public function index(MembreRepository $membreRepository): Response
     {
         return $this->render('membre/index.html.twig', [
-            'membres' => $membreRepository->findAll(),
+            'membres' => $membreRepository->findMembre(),
         ]);
     }
 
@@ -36,6 +36,7 @@ class MembreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $membre->setReferenceAjeutchim('AJEUT' . mt_rand(99, 999) . 'CHIM');
             $entityManager->persist($membre);
             $entityManager->flush();
 

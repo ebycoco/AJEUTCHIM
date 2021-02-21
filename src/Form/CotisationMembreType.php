@@ -2,34 +2,33 @@
 
 namespace App\Form;
 
-use App\Entity\Adhesion;
+use App\Entity\Cotisation;
 use App\Entity\Membre;
+use App\Entity\MontantAnnuelle;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MembreType extends AbstractType
+class CotisationMembreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('prenom')
-            ->add('ville')
-            ->add('contact')
-            ->add('profession')
-            ->add('email')
-            ->add('adhesion', EntityType::class, [
-                'class' => Adhesion::class,
-                'choice_label' => 'montant'
+            ->add('montant')
+            ->add('annee', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Année de cotisation',
+
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Membre::class,
+            'data_class' => Cotisation::class,
         ]);
     }
 }

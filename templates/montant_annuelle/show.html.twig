@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MontantAnnuelle{% endblock %}
+
+{% block body %}
+    <h1>MontantAnnuelle</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ montant_annuelle.id }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ montant_annuelle.montant }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('montant_annuelle_index') }}">back to list</a>
+
+    <a href="{{ path('montant_annuelle_edit', {'id': montant_annuelle.id}) }}">edit</a>
+
+    {{ include('montant_annuelle/_delete_form.html.twig') }}
+{% endblock %}

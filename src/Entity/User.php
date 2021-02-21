@@ -111,6 +111,11 @@ class User implements UserInterface
      */
     private $postAjeutchims;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MontantAnnuelle::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $montantAnnuelles;
+
 
     public function __construct()
     {
@@ -126,6 +131,7 @@ class User implements UserInterface
         $this->villages = new ArrayCollection();
         $this->adhesions = new ArrayCollection();
         $this->postAjeutchims = new ArrayCollection();
+        $this->montantAnnuelles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -587,6 +593,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($postAjeutchim->getUser() === $this) {
                 $postAjeutchim->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MontantAnnuelle[]
+     */
+    public function getMontantAnnuelles(): Collection
+    {
+        return $this->montantAnnuelles;
+    }
+
+    public function addMontantAnnuelle(MontantAnnuelle $montantAnnuelle): self
+    {
+        if (!$this->montantAnnuelles->contains($montantAnnuelle)) {
+            $this->montantAnnuelles[] = $montantAnnuelle;
+            $montantAnnuelle->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMontantAnnuelle(MontantAnnuelle $montantAnnuelle): self
+    {
+        if ($this->montantAnnuelles->removeElement($montantAnnuelle)) {
+            // set the owning side to null (unless already changed)
+            if ($montantAnnuelle->getUser() === $this) {
+                $montantAnnuelle->setUser(null);
             }
         }
 

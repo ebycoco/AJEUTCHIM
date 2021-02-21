@@ -19,6 +19,44 @@ class CotisationRepository extends ServiceEntityRepository
         parent::__construct($registry, Cotisation::class);
     }
 
+    public function findOnMembre($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.membre = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findCotisation()
+    {
+        return $this->createQueryBuilder('c')
+            // ->andWhere('c.status = 0')
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findSolde()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.status = 1')
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findEncour()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.status = 0')
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Cotisation[] Returns an array of Cotisation objects
     //  */

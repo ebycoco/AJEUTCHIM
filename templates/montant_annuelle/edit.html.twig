@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit MontantAnnuelle{% endblock %}
+
+{% block body %}
+    <h1>Edit MontantAnnuelle</h1>
+
+    {{ include('montant_annuelle/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('montant_annuelle_index') }}">back to list</a>
+
+    {{ include('montant_annuelle/_delete_form.html.twig') }}
+{% endblock %}

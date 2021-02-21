@@ -67,19 +67,19 @@ class BureauController extends AbstractController
                 );
                 return $this->redirectToRoute('bureau_new');
             } else {
-                // verifie s'il le post existe déja dans le nouveau bureau
+                // verifie s'il le post existe dejà dans le nouveau bureau
                 if ($bureauPresi) {
                     $this->addFlash(
                         'warning',
-                        'Le post a été déja choisir veuillez choisir un nouveau post !'
+                        'Le post a été dejà choisir veuillez choisir un nouveau post !'
                     );
                     return $this->redirectToRoute('bureau_new');
                 }
-                // verifie s'il le membre existe déja dans le nouveau bureau
+                // verifie s'il le membre existe dejà dans le nouveau bureau
                 if ($bureauPresiMembreOccupe) {
                     $this->addFlash(
                         'warning',
-                        'Ce Membre a été déja choisir veuillez choisir un nouveau Membre !'
+                        'Ce Membre a été dejà choisir veuillez choisir un nouveau Membre !'
                     );
                     return $this->redirectToRoute('bureau_new');
                 }
