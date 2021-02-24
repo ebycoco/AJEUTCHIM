@@ -9,12 +9,17 @@
 import "./scss/app.scss";
 
 // start the Stimulus application
-import $ from 'jquery';
-import 'bootstrap';
+import $ from "jquery";
+import "bootstrap";
 
-$(document).ready(function() {
-        // you may need to change this code if you are not using Bootstrap Datepicker
-        $('#verif').forEach(function(input){
-           input.addEventListener('click',onclick) 
-        })
-    });
+$(document).ready(function () {
+  // you may need to change this code if you are not using Bootstrap Datepicker
+  function onClickConfirme(event) {
+    event.preventDefault();
+    const url = this.href;
+    console.log("ok");
+  }
+  $("#verif").forEach(function (input) {
+    input.addEventListener("click", onClickConfirme);
+  });
+});
