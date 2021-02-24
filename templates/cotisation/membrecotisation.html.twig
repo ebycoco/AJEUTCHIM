@@ -22,19 +22,6 @@
 
 		</div>
 	</div>
-	<div class="row mt-3 mb-3">
-		<div class="col-md-3">
-			<p>montant total cotisation :
-				{{mont}}
-			</p>
-			<p>montant total adhesion:
-				{{montantAdhesion}}
-			</p>
-			<p>montant en caisse:
-				{{mont + montantAdhesion}}
-			</p>
-		</div>
-	</div>
 	<div class="row">
 		<div class="col">
 			<table class="table">
@@ -67,11 +54,11 @@
 									<span class="badge badge-success">Valider</span>
 								{% else %}
 									{% if cotisation.resteMontant == 0 %}
-										<a href="{{ path('cotisation_confirme', {'id': cotisation.id}) }}" class="btn btn-warning">Valider</a>
+										<a href="{{ path('cotisation_membreco', {'id': cotisation.id}) }}" class="btn btn-warning">Valider</a>
 									{% else %}
 										<span class="badge badge-info">encour...</span>
 									{% endif %}
-									<a href="{{ path('cotisation_edit', {'id': cotisation.id}) }}" class="btn btn-primary">Modifier</a>
+									<a href="{{ path('cotisation_membreco', {'id': cotisation.id}) }}" class="btn btn-primary">Modifier</a>
 
 								{% endif %}
 							</td>

@@ -116,6 +116,11 @@ class User implements UserInterface
      */
     private $montantAnnuelles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Depense::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $depenses;
+
 
     public function __construct()
     {
@@ -132,6 +137,7 @@ class User implements UserInterface
         $this->adhesions = new ArrayCollection();
         $this->postAjeutchims = new ArrayCollection();
         $this->montantAnnuelles = new ArrayCollection();
+        $this->depenses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -623,6 +629,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($montantAnnuelle->getUser() === $this) {
                 $montantAnnuelle->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Depense[]
+     */
+    public function getDepenses(): Collection
+    {
+        return $this->depenses;
+    }
+
+    public function addDepense(Depense $depense): self
+    {
+        if (!$this->depenses->contains($depense)) {
+            $this->depenses[] = $depense;
+            $depense->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepense(Depense $depense): self
+    {
+        if ($this->depenses->removeElement($depense)) {
+            // set the owning side to null (unless already changed)
+            if ($depense->getUser() === $this) {
+                $depense->setUser(null);
             }
         }
 

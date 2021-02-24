@@ -38,6 +38,16 @@ class CotisationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findCo($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.membre = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findSolde()
     {
         return $this->createQueryBuilder('c')

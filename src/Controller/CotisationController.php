@@ -6,6 +6,7 @@ use App\Entity\Cotisation;
 use App\Form\CotisationMembreType;
 use App\Form\CotisationType;
 use App\Repository\CotisationRepository;
+use App\Repository\MembreRepository;
 use App\Repository\MontantAnnuelleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,9 +23,19 @@ class CotisationController extends AbstractController
      * @param CotisationRepository $cotisationRepository
      * @return Response
      */
-    public function index(CotisationRepository $cotisationRepository): Response
+    public function index(CotisationRepository $cotisationRepository, MembreRepository $membreRepository): Response
     {
+        $montantTotal = $cotisationRepository->findCotisation();
+        $membre = $membreRepository->findAll();
+        $montantAdhesion = count($membre) * 500;
+        $mont = 0;
+        for ($i = 0; $i < count($montantTotal); $i++) {
+            $calculmontant = $montantTotal[$i]->getMontantTotalPaye();
+            $mont = $mont + $calculmontant;
+        }
         return $this->render('cotisation/index.html.twig', [
+            'montantAdhesion' => $montantAdhesion,
+            'mont' => $mont,
             'cotisations' => $cotisationRepository->findCotisation(),
         ]);
     }
@@ -38,6 +49,30 @@ class CotisationController extends AbstractController
     {
         return $this->render('cotisation/historique.html.twig', [
             'cotisations' => $cotisationRepository->findCotisation(),
+        ]);
+    }
+
+    /**
+     * @Route("/membrecotisation", name="cotisation_membrecotisation", methods={"GET"})
+     * @param CotisationRepository $cotisationRepository
+     * @return Response
+     */
+    public function membrecotisation(CotisationRepository $cotisationRepository): Response
+    {
+        return $this->render('cotisation/membrecotisation.html.twig', [
+            'cotisations' => $cotisationRepository->findCotisation(),
+        ]);
+    }
+    /**
+     * @Route("/membrecotisation/{id}", name="cotisation_membreco", methods={"GET"})
+     * @param CotisationRepository $cotisationRepository
+     * @return Response
+     */
+    public function membreco(CotisationRepository $cotisationRepository, Cotisation $cotisation): Response
+    {
+        $membre = $cotisation->getMembre();
+        return $this->render('cotisation/membrecotisation.html.twig', [
+            'cotisations' => $cotisationRepository->findCo($membre),
         ]);
     }
 
