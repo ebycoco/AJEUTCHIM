@@ -62,6 +62,21 @@ class DepenseController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/confirme", name="depense_confirme", methods={"GET","POST"})
+     */
+    public function confirme(Request $request, Depense $depense): Response
+    {
+        $form = $this->createForm(DepenseType::class, $depense);
+        $form->handleRequest($request);
+        $entityManager = $this->getDoctrine()->getManager();
+        $depense->setConfirme(true);
+        $entityManager->persist($depense);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('depense_index');
+    }
+
+    /**
      * @Route("/{id}/edit", name="depense_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Depense $depense): Response
@@ -70,7 +85,10 @@ class DepenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $depense->setConfirme(true);
+            $entityManager->persist($depense);
+            $entityManager->flush();
 
             return $this->redirectToRoute('depense_index');
         }

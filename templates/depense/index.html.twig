@@ -28,8 +28,19 @@
 					<td>{{ depense.description }}</td>
 					<td>
 						<div class="custom-control custom-switch">
-							<input type="checkbox" class="custom-control-input" id="verif">
-							<label class="custom-control-label" for="verif">{{ depense.confirme ? 'Oui' : 'Non' }}</label>
+							<a
+								href="{{ path('depense_confirme', {'id': depense.id}) }}" class="confirme">
+								{# {% if depense.confirme == true %}
+																	<input type="checkbox" class="custom-control-input" id="confirme">
+																	<label class="custom-control-label" for="confirme">oui</label>
+								
+																{% else %}
+																	<input type="checkbox" class="custom-control-input" id="confirme">
+																	<label class="custom-control-label" for="confirme">Non</label>
+																{% endif %} #}
+								<input type="checkbox" class="custom-control-input" id="confirme">
+								<label class="custom-control-label" for="confirme">{{ depense.confirme ? 'Oui' : 'Non' }}</label>
+							</a>
 						</div>
 					</td>
 					<td>{{ depense.etat }}</td>
@@ -50,4 +61,20 @@
 	</table>
 
 	<a href="{{ path('depense_new') }}">Create new</a>
-{% endblock %} 
+{% endblock %}
+{% block javascripts %}
+	{{ encore_entry_script_tags('app') }}
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+		function onClickConfirme(event) {
+event.preventDefault();
+const url = this.href;
+axios.get(url).then(function (response) {
+console.log(response);
+})
+}
+document.querySelectorAll('a.confirme').forEach(function (link) {
+link.addEventListener("click", onClickConfirme);
+})
+	</script>
+{% endblock %}
