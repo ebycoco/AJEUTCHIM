@@ -6,6 +6,7 @@ use App\Entity\Cotisation;
 use App\Form\CotisationMembreType;
 use App\Form\CotisationType;
 use App\Repository\CotisationRepository;
+use App\Repository\DecaisementRepository;
 use App\Repository\MembreRepository;
 use App\Repository\MontantAnnuelleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,9 +24,10 @@ class CotisationController extends AbstractController
      * @param CotisationRepository $cotisationRepository
      * @return Response
      */
-    public function index(CotisationRepository $cotisationRepository, MembreRepository $membreRepository): Response
+    public function index(CotisationRepository $cotisationRepository, MembreRepository $membreRepository, DecaisementRepository $decaisementRepository): Response
     {
         $montantTotal = $cotisationRepository->findCotisation();
+        $depenseSanFrais = $decaisementRepository->findAll();
         $membre = $membreRepository->findAll();
         $montantAdhesion = count($membre) * 500;
         $mont = 0;
@@ -33,8 +35,18 @@ class CotisationController extends AbstractController
             $calculmontant = $montantTotal[$i]->getMontantTotalPaye();
             $mont = $mont + $calculmontant;
         }
+        $depenses = 0;
+        $frais = 0;
+        for ($p = 0; $p < count($depenseSanFrais); $p++) {
+            $montantDepen = $depenseSanFrais[$p]->getMontant();
+            $montantDepenFrais = $depenseSanFrais[$p]->getFrais();
+            $depenses = $depenses + $montantDepen;
+            $frais = $frais + $montantDepenFrais;
+        }
         return $this->render('cotisation/index.html.twig', [
             'montantAdhesion' => $montantAdhesion,
+            'frais' => $frais,
+            'depenses' => $depenses,
             'mont' => $mont,
             'cotisations' => $cotisationRepository->findCotisation(),
         ]);

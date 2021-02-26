@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Decaisement
+{% endblock %}
+
+{% block body %}
+	<h1>Create new Decaisement</h1>
+	<p>Le montant restant du
+		{{depense.titre}}
+		est:
+		<span class="text-primary">{{montantRestant}}</span>
+	</p>
+	{{ include('decaisement/_form.html.twig') }}
+
+	<a href="{{ path('decaisement_index') }}">back to list</a>
+{% endblock %}

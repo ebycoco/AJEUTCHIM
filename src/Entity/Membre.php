@@ -97,6 +97,11 @@ class Membre
      */
     private $presidents;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Decaisement::class, mappedBy="membre", orphanRemoval=true)
+     */
+    private $decaisements;
+
 
     public function __construct()
     {
@@ -106,6 +111,7 @@ class Membre
         $this->membreConseil = new ArrayCollection();
         $this->mandats = new ArrayCollection();
         $this->presidents = new ArrayCollection();
+        $this->decaisements = new ArrayCollection();
     }
 
     public function __toString()
@@ -388,6 +394,36 @@ class Membre
             // set the owning side to null (unless already changed)
             if ($president->getMembre() === $this) {
                 $president->setMembre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Decaisement[]
+     */
+    public function getDecaisements(): Collection
+    {
+        return $this->decaisements;
+    }
+
+    public function addDecaisement(Decaisement $decaisement): self
+    {
+        if (!$this->decaisements->contains($decaisement)) {
+            $this->decaisements[] = $decaisement;
+            $decaisement->setMembre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDecaisement(Decaisement $decaisement): self
+    {
+        if ($this->decaisements->removeElement($decaisement)) {
+            // set the owning side to null (unless already changed)
+            if ($decaisement->getMembre() === $this) {
+                $decaisement->setMembre(null);
             }
         }
 

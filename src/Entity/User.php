@@ -121,6 +121,11 @@ class User implements UserInterface
      */
     private $depenses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Decaisement::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $decaisements;
+
 
     public function __construct()
     {
@@ -138,11 +143,17 @@ class User implements UserInterface
         $this->postAjeutchims = new ArrayCollection();
         $this->montantAnnuelles = new ArrayCollection();
         $this->depenses = new ArrayCollection();
+        $this->decaisements = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __toString()
+    {
+        return $this->pseudo;
     }
 
     public function getEmail(): ?string
@@ -659,6 +670,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($depense->getUser() === $this) {
                 $depense->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Decaisement[]
+     */
+    public function getDecaisements(): Collection
+    {
+        return $this->decaisements;
+    }
+
+    public function addDecaisement(Decaisement $decaisement): self
+    {
+        if (!$this->decaisements->contains($decaisement)) {
+            $this->decaisements[] = $decaisement;
+            $decaisement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDecaisement(Decaisement $decaisement): self
+    {
+        if ($this->decaisements->removeElement($decaisement)) {
+            // set the owning side to null (unless already changed)
+            if ($decaisement->getUser() === $this) {
+                $decaisement->setUser(null);
             }
         }
 

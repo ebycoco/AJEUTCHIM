@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Depense;
 use App\Form\DepenseType;
+use App\Repository\DecaisementRepository;
 use App\Repository\DepenseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +19,20 @@ class DepenseController extends AbstractController
     /**
      * @Route("/", name="depense_index", methods={"GET"})
      */
-    public function index(DepenseRepository $depenseRepository): Response
+    public function index(DepenseRepository $depenseRepository, DecaisementRepository $decaisementRepository): Response
     {
         return $this->render('depense/index.html.twig', [
             'depenses' => $depenseRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/presi/confirme", name="confirme_presi", methods={"GET"})
+     */
+    public function confirme_presi(DepenseRepository $depenseRepository): Response
+    {
+        return $this->render('depense/confirme_presi.html.twig', [
+            'depenses' => $depenseRepository->findByEncour(),
         ]);
     }
 
@@ -62,18 +73,27 @@ class DepenseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/confirme", name="depense_confirme", methods={"GET","POST"})
+     * @Route("/accepter/{id}", name="depense_accepter", methods={"GET"})
      */
-    public function confirme(Request $request, Depense $depense): Response
+    public function confirme(Depense $depense): Response
     {
-        $form = $this->createForm(DepenseType::class, $depense);
-        $form->handleRequest($request);
+        $depense->setConfirme(($depense->getConfirme()) ? false : true);
         $entityManager = $this->getDoctrine()->getManager();
-        $depense->setConfirme(true);
         $entityManager->persist($depense);
         $entityManager->flush();
+        return new Response("true");
+    }
 
-        return $this->redirectToRoute('depense_index');
+    /**
+     * @Route("/confirme/presi/{id}", name="depense_confirme", methods={"GET"})
+     */
+    public function confirmePresi(Depense $depense): Response
+    {
+        $depense->setEtat(($depense->getEtat() == 0) ? true : false);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($depense);
+        $entityManager->flush();
+        return new Response("true");
     }
 
     /**

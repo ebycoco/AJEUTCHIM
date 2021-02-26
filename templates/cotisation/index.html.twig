@@ -31,7 +31,12 @@
 				{{montantAdhesion}}
 			</p>
 			<p>montant en caisse:
-				{{mont + montantAdhesion}}
+				{{(mont + montantAdhesion) - (depenses + frais)}}
+			</p>
+		</div>
+		<div class="col-md-3">
+			<p>montant total Des depense :
+				{{depenses + frais}}
 			</p>
 		</div>
 	</div>

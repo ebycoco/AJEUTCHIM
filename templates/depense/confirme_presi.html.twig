@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Depense index
+{% endblock %}
+
+{% block body %}
+	<h1>Depense index</h1>
+
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Titre</th>
+				<th scope="col">Confirmer</th>
+				<th scope="col">Montant</th>
+				<th scope="col">Par</th>
+				<th scope="col">Envoyé</th>
+				<th scope="col">actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for depense in depenses %}
+				<tr>
+					<th scope="row">{{ depense.id }}</th>
+					<td>{{ depense.titre }}</td>
+					<td>
+						<div class="custom-control custom-switch">
+							<input type="checkbox" class="custom-control-input" id="confirme{{ depense.id }}" {{(depense.etat == 1 ) ? 'checked' : ''}} data-id="{{ depense.id }}">
+							<label class="custom-control-label" for="confirme{{ depense.id }}">{{ depense.etat == 1 ? '' : '' }}</label>
+
+						</div>
+						{% if depense.etat == 2 %}
+							En Terminer
+						{% elseif depense.etat == 3 %}
+							Historique
+							{% else %}
+
+						{% endif %}
+					</td>
+					<td>{{ depense.montant }}</td>
+					<td>{{ depense.user }}</td>
+					<td>{{ depense.createdAt ? depense.createdAt|date('d-m-Y à H \\h i') : '' }}</td>
+					<td>
+						<a href="{{ path('depense_show', {'id': depense.id}) }}">show</a>
+						<a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('depense_new') }}">Create new</a>
+{% endblock %}
+{% block javascripts %}
+	{{ encore_entry_script_tags('app') }}
+	<script>
+		window.onload = () => {
+let confirmer = document.querySelectorAll("[type=checkbox]")
+for (let bouton of confirmer) {
+bouton.addEventListener("click", function () {
+let xmlhttp = new XMLHttpRequest;
+xmlhttp.open("get", `/depense/confirme/presi/${
+this.dataset.id
+}`)
+xmlhttp.send()
+})
+}
+}
+	</script>
+{% endblock %}

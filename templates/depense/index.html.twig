@@ -5,51 +5,75 @@
 
 {% block body %}
 	<h1>Depense index</h1>
-
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('danger') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('warning') %}
+		<div class="alert alert-warning">
+			{{ message }}
+		</div>
+	{% endfor %}
 	<table class="table">
-		<thead>
+		<thead class="thead-dark">
 			<tr>
-				<th>Id</th>
-				<th>Titre</th>
-				<th>Description</th>
-				<th>Confirme</th>
-				<th>Etat</th>
-				<th>Montant</th>
-				<th>CreatedAt</th>
-				<th>UpdatedAt</th>
-				<th>actions</th>
+				<th scope="col">Id</th>
+				<th scope="col">Titre</th>
+				<th scope="col">Activer</th>
+				<th scope="col">Etat</th>
+				<th scope="col">Somme</th>
+				<th scope="col">Montant</th>
+				<th scope="col">Montant payé</th>
+				<th scope="col">Montant restant</th>
+				<th scope="col">Envoyé</th>
+				<th scope="col">actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for depense in depenses %}
 				<tr>
-					<td>{{ depense.id }}</td>
+					<th scope="row">{{ depense.id }}</th>
 					<td>{{ depense.titre }}</td>
-					<td>{{ depense.description }}</td>
 					<td>
 						<div class="custom-control custom-switch">
-							<a
-								href="{{ path('depense_confirme', {'id': depense.id}) }}" class="confirme">
-								{# {% if depense.confirme == true %}
-																	<input type="checkbox" class="custom-control-input" id="confirme">
-																	<label class="custom-control-label" for="confirme">oui</label>
-								
-																{% else %}
-																	<input type="checkbox" class="custom-control-input" id="confirme">
-																	<label class="custom-control-label" for="confirme">Non</label>
-																{% endif %} #}
-								<input type="checkbox" class="custom-control-input" id="confirme">
-								<label class="custom-control-label" for="confirme">{{ depense.confirme ? 'Oui' : 'Non' }}</label>
-							</a>
+							<input type="checkbox" class="custom-control-input" id="confirme{{ depense.id }}" {{(depense.confirme) ? 'checked' : ''}} data-id="{{ depense.id }}">
+							<label class="custom-control-label" for="confirme{{ depense.id }}">{{ depense.confirme ? '' : '' }}</label>
+
 						</div>
 					</td>
-					<td>{{ depense.etat }}</td>
-					<td>{{ depense.montant }}</td>
-					<td>{{ depense.createdAt ? depense.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-					<td>{{ depense.updatedAt ? depense.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
 					<td>
-						<a href="{{ path('depense_show', {'id': depense.id}) }}">show</a>
-						<a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a>
+						{% if depense.etat == 0 %}
+							<p class="text-info">En cours ...</p>
+						{% elseif depense.etat == 1 %}
+							<p class="text-success">Decaissement ...</p>
+						{% elseif depense.etat == 2 %}
+							En Terminer
+						{% elseif depense.etat == 3 %}
+							Historique
+							{% else %}
+
+						{% endif %}
+					</td>
+					<td>
+						{% if depense.etat == 1 %}
+
+							<a href="{{ path('decaisement_new', {'id': depense.id}) }}" class="btn btn-primary">Ajouter la somme</a>
+						{% endif %}
+
+					</td>
+					<td>{{ depense.montant }}</td>
+					<td>{{ depense.montanpaye }}</td>
+					<td>{{depense.montant - depense.montanpaye }}</td>
+					<td>{{ depense.createdAt ? depense.createdAt|date('d-m-Y à H \\h i') : '' }}</td>
+					<td>
+						<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-warning">Voir</a>
+						{# <a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a> #}
 					</td>
 				</tr>
 			{% else %}
@@ -64,17 +88,18 @@
 {% endblock %}
 {% block javascripts %}
 	{{ encore_entry_script_tags('app') }}
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script>
-		function onClickConfirme(event) {
-event.preventDefault();
-const url = this.href;
-axios.get(url).then(function (response) {
-console.log(response);
+		window.onload = () => {
+let confirmer = document.querySelectorAll("[type=checkbox]")
+for (let bouton of confirmer) {
+bouton.addEventListener("click", function () {
+let xmlhttp = new XMLHttpRequest;
+xmlhttp.open("get", `/depense/accepter/${
+this.dataset.id
+}`)
+xmlhttp.send()
 })
 }
-document.querySelectorAll('a.confirme').forEach(function (link) {
-link.addEventListener("click", onClickConfirme);
-})
+}
 	</script>
 {% endblock %}

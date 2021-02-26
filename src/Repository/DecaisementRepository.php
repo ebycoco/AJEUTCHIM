@@ -2,35 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Depense;
+use App\Entity\Decaisement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Depense|null find($id, $lockMode = null, $lockVersion = null)
- * @method Depense|null findOneBy(array $criteria, array $orderBy = null)
- * @method Depense[]    findAll()
- * @method Depense[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Decaisement|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Decaisement|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Decaisement[]    findAll()
+ * @method Decaisement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DepenseRepository extends ServiceEntityRepository
+class DecaisementRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Depense::class);
-    }
-
-    public function findByEncour()
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.confirme = 1')
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult();
+        parent::__construct($registry, Decaisement::class);
     }
 
     // /**
-    //  * @return Depense[] Returns an array of Depense objects
+    //  * @return Decaisement[] Returns an array of Decaisement objects
     //  */
     /*
     public function findByExampleField($value)
@@ -47,7 +37,7 @@ class DepenseRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Depense
+    public function findOneBySomeField($value): ?Decaisement
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.exampleField = :val')
