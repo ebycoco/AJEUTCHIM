@@ -9,6 +9,7 @@ use App\Repository\AdhesionRepository;
 use App\Repository\CotisationRepository;
 use App\Repository\DecaisementRepository;
 use App\Repository\MembreRepository;
+use App\Repository\VersementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,10 +33,11 @@ class DecaisementController extends AbstractController
     /**
      * @Route("/new/{id}", name="decaisement_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Depense $depense, MembreRepository $membreRepository, CotisationRepository $cotisationRepository, DecaisementRepository $decaisementRepository): Response
+    public function new(Request $request, Depense $depense, MembreRepository $membreRepository, CotisationRepository $cotisationRepository, DecaisementRepository $decaisementRepository, VersementRepository $versementRepository): Response
     {
         $montantTotal = $cotisationRepository->findCotisation();
         $depenseSanFrais = $decaisementRepository->findAll();
+        $versement = $versementRepository->findAll();
         $membre = $membreRepository->findAll();
         $montantAdhesion = count($membre) * 500;
         // on calcule les cotisations
@@ -53,8 +55,14 @@ class DecaisementController extends AbstractController
             $depenses = $depenses + $montantDepen;
             $frais = $frais + $montantDepenFrais;
         }
+        // on calcule les versements
+        $verse = 0;
+        for ($p = 0; $p < count($versement); $p++) {
+            $montant = $versement[$p]->getMontant();
+            $verse = $verse + $montant;
+        }
         // on calcule ce qu'il reste en caise
-        $montCaise = ($montantAdhesion + $mont) - ($depenses + $frais);
+        $montCaise = ($montantAdhesion + $mont + $verse) - ($depenses + $frais);
 
         if (empty($depense->getMontanpaye())) {
             $montantRestant = $depense->getMontant();
@@ -81,18 +89,31 @@ class DecaisementController extends AbstractController
                     'Vous n\'avez pas assez d\'argent dans la caise !'
                 );
                 return $this->redirectToRoute('depense_index');
-            } 
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $decaisement->setUser($this->getUser());
             $decaisement->setDepense($depense);
             if (empty($depense->getMontanpaye())) {
-                $depense->setMontanpaye($decaisement->getMontant());
+                if ($depense->getMontant() == $decaisement->getMontant()) {
+                    $depense->setEtat(2);
+                    $depense->setMontanpaye($decaisement->getMontant());
+                } else {
+                    $depense->setMontanpaye($decaisement->getMontant());
+                }
             } else {
                 $montantRestant = $decaisement->getMontant() + $depense->getMontanpaye();
-                $depense->setMontanpaye($montantRestant);
+                if ($montantRestant == $depense->getMontant()) {
+                    $depense->setEtat(2);
+                    $depense->setMontanpaye($montantRestant);
+                } else {
+                    $depense->setMontanpaye($montantRestant);
+                }
             }
+            $depense->setConfirme(true);
             $entityManager->persist($decaisement);
             $entityManager->flush();
+
+
 
             $this->addFlash(
                 'success',

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Bureau;
 use App\Entity\Decaisement;
 use App\Entity\Membre;
 use Doctrine\ORM\EntityRepository;
@@ -23,14 +24,15 @@ class DecaisementType extends AbstractType
                 'label' => 'Jour de transaction',
 
             ])
-            ->add('membre', EntityType::class, [
-                'class' => Membre::class,
+            ->add('bureau', EntityType::class, [
+                'class' => Bureau::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er
-                        ->createQueryBuilder('m')
-                        ->orderBy('m.id', 'DESC');
+                        ->createQueryBuilder('b')
+                        ->andWhere('b.etat = 0')
+                        ->orderBy('b.id', 'DESC');
                 },
-                'choice_label' => 'prenom',
+                'choice_label' => 'membre',
                 'label' => 'Remise à',
             ]);
     }

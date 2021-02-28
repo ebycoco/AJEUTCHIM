@@ -53,6 +53,16 @@ class Bureau
      */
     private $etat;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Decaisement::class, mappedBy="bureau", orphanRemoval=true)
+     */
+    private $decaisements;
+
+    public function __construct()
+    {
+        $this->decaisements = new ArrayCollection();
+    }
+
 
 
     public function getId(): ?int
@@ -104,6 +114,36 @@ class Bureau
     public function setEtat(int $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Decaisement[]
+     */
+    public function getDecaisements(): Collection
+    {
+        return $this->decaisements;
+    }
+
+    public function addDecaisement(Decaisement $decaisement): self
+    {
+        if (!$this->decaisements->contains($decaisement)) {
+            $this->decaisements[] = $decaisement;
+            $decaisement->setBureau($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDecaisement(Decaisement $decaisement): self
+    {
+        if ($this->decaisements->removeElement($decaisement)) {
+            // set the owning side to null (unless already changed)
+            if ($decaisement->getBureau() === $this) {
+                $decaisement->setBureau(null);
+            }
+        }
 
         return $this;
     }

@@ -6,6 +6,7 @@ use App\Entity\Depense;
 use App\Form\DepenseType;
 use App\Repository\DecaisementRepository;
 use App\Repository\DepenseRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +22,12 @@ class DepenseController extends AbstractController
      */
     public function index(DepenseRepository $depenseRepository, DecaisementRepository $decaisementRepository): Response
     {
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
+        $depenses = $depenseRepository->findByAnne($annee, 1);
+
         return $this->render('depense/index.html.twig', [
-            'depenses' => $depenseRepository->findAll(),
+            'depenses' => $depenses,
         ]);
     }
 
@@ -46,8 +51,13 @@ class DepenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $jouj = new DateTime('now');
+            $annee = $jouj->format(date('Y'));
+            //->format(date('Y'))
+            //dd($annee);
             $entityManager = $this->getDoctrine()->getManager();
             $depense->setConfirme(false);
+            $depense->setAnnee($annee);
             $depense->setEtat(0);
             $depense->setUser($this->getUser());
             $entityManager->persist($depense);
@@ -77,11 +87,20 @@ class DepenseController extends AbstractController
      */
     public function confirme(Depense $depense): Response
     {
-        $depense->setConfirme(($depense->getConfirme()) ? false : true);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($depense);
-        $entityManager->flush();
-        return new Response("true");
+
+        if ($depense->getEtat() == 0) {
+            $depense->setConfirme(($depense->getConfirme()) ? false : true);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($depense);
+            $entityManager->flush();
+            return new Response("true");
+        } else {
+            $this->addFlash(
+                'info',
+                'Vous ne pouvez pas car le project vient d\'être accepter par le president !'
+            );
+            return $this->redirectToRoute('depense_index');
+        }
     }
 
     /**

@@ -12,9 +12,9 @@
 				<th scope="col">Id</th>
 				<th scope="col">Titre</th>
 				<th scope="col">Confirmer</th>
-				<th scope="col">Montant</th>
-				<th scope="col">Par</th>
-				<th scope="col">Envoyé</th>
+				<th scope="col">Etat</th>
+				<th scope="col">Montant remise</th>
+				<th scope="col">Montant du project</th>
 				<th scope="col">actions</th>
 			</tr>
 		</thead>
@@ -25,24 +25,40 @@
 					<td>{{ depense.titre }}</td>
 					<td>
 						<div class="custom-control custom-switch">
-							<input type="checkbox" class="custom-control-input" id="confirme{{ depense.id }}" {{(depense.etat == 1 ) ? 'checked' : ''}} data-id="{{ depense.id }}">
-							<label class="custom-control-label" for="confirme{{ depense.id }}">{{ depense.etat == 1 ? '' : '' }}</label>
+							{% if depense.etat == 2 %}
+								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
+								<label class="custom-control-label" for="customSwitch2"></label>
+							{% elseif depense.montanpaye  %}
+								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
+								<label class="custom-control-label" for="customSwitch2"></label>
+							{% elseif depense.etat == 0 %}
+								<input type="checkbox" class="custom-control-input" id="confirme{{ depense.id }}" {{(depense.etat == 1 ) ? 'checked' : ''}} data-id="{{ depense.id }}">
+								<label class="custom-control-label" for="confirme{{ depense.id }}">{{ depense.etat == 1 ? '' : '' }}</label>
+							{% elseif depense.montanpaye == null %}
+								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
+								<label class="custom-control-label" for="customSwitch2"></label>
+							{% endif %}
 
 						</div>
-						{% if depense.etat == 2 %}
-							En Terminer
+
+					</td>
+					<td>
+						{% if depense.etat == 1 %}
+							<p class="text-info">En cours de traitement...</p>
+						{% elseif depense.etat == 2 %}
+
+							<p class="text-danger">Terminer</p>
 						{% elseif depense.etat == 3 %}
 							Historique
 							{% else %}
 
 						{% endif %}
 					</td>
+					<td>{{ depense.montanpaye }}</td>
 					<td>{{ depense.montant }}</td>
-					<td>{{ depense.user }}</td>
-					<td>{{ depense.createdAt ? depense.createdAt|date('d-m-Y à H \\h i') : '' }}</td>
 					<td>
-						<a href="{{ path('depense_show', {'id': depense.id}) }}">show</a>
-						<a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a>
+						<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-warning">Voir le project</a>
+						{# <a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a> #}
 					</td>
 				</tr>
 			{% else %}
@@ -52,8 +68,6 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
-	<a href="{{ path('depense_new') }}">Create new</a>
 {% endblock %}
 {% block javascripts %}
 	{{ encore_entry_script_tags('app') }}

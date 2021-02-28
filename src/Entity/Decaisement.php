@@ -31,11 +31,6 @@ class Decaisement
      */
     private $frais;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Membre::class, inversedBy="decaisements")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $membre;
 
     /**
      * @ORM\Column(type="date")
@@ -53,6 +48,12 @@ class Decaisement
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Bureau::class, inversedBy="decaisements")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $bureau;
 
     public function getId(): ?int
     {
@@ -83,17 +84,6 @@ class Decaisement
         return $this;
     }
 
-    public function getMembre(): ?Membre
-    {
-        return $this->membre;
-    }
-
-    public function setMembre(?Membre $membre): self
-    {
-        $this->membre = $membre;
-
-        return $this;
-    }
 
     public function getJour(): ?\DateTimeInterface
     {
@@ -127,6 +117,18 @@ class Decaisement
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getBureau(): ?Bureau
+    {
+        return $this->bureau;
+    }
+
+    public function setBureau(?Bureau $bureau): self
+    {
+        $this->bureau = $bureau;
 
         return $this;
     }

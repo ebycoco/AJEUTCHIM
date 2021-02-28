@@ -72,6 +72,11 @@ class Depense
      */
     private $montanpaye;
 
+    /**
+     * @ORM\Column(type="string", length=4)
+     */
+    private $annee;
+
     public function __construct()
     {
         $this->decaisements = new ArrayCollection();
@@ -193,6 +198,18 @@ class Depense
     public function setMontanpaye(?float $montanpaye): self
     {
         $this->montanpaye = $montanpaye;
+
+        return $this;
+    }
+
+    public function getAnnee(): ?string
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(string $annee): self
+    {
+        $this->annee = $annee;
 
         return $this;
     }

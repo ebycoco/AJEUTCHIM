@@ -10,6 +10,11 @@
 			{{ message }}
 		</div>
 	{% endfor %}
+	{% for message in app.flashes('info') %}
+		<div class="alert alert-info">
+			{{ message }}
+		</div>
+	{% endfor %}
 	{% for message in app.flashes('danger') %}
 		<div class="alert alert-danger">
 			{{ message }}
@@ -27,11 +32,10 @@
 				<th scope="col">Titre</th>
 				<th scope="col">Activer</th>
 				<th scope="col">Etat</th>
-				<th scope="col">Somme</th>
 				<th scope="col">Montant</th>
 				<th scope="col">Montant payé</th>
 				<th scope="col">Montant restant</th>
-				<th scope="col">Envoyé</th>
+				<th scope="col">Annee</th>
 				<th scope="col">actions</th>
 			</tr>
 		</thead>
@@ -39,11 +43,26 @@
 			{% for depense in depenses %}
 				<tr>
 					<th scope="row">{{ depense.id }}</th>
-					<td>{{ depense.titre }}</td>
+					<td>
+						{% if depense.etat == 2  %}
+							{{ depense.titre }}
+						{% else %}
+							<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">{{ depense.titre }}</a>
+						{% endif %}
+					</td>
 					<td>
 						<div class="custom-control custom-switch">
-							<input type="checkbox" class="custom-control-input" id="confirme{{ depense.id }}" {{(depense.confirme) ? 'checked' : ''}} data-id="{{ depense.id }}">
-							<label class="custom-control-label" for="confirme{{ depense.id }}">{{ depense.confirme ? '' : '' }}</label>
+							{% if depense.etat == 0 %}
+								<input type="checkbox" class="custom-control-input" id="confirme{{ depense.id }}" {{(depense.confirme) ? 'checked' : ''}} data-id="{{ depense.id }}">
+								<label class="custom-control-label" for="confirme{{ depense.id }}">{{ depense.confirme ? '' : '' }}</label>
+							{% elseif depense.montanpaye  %}
+								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
+								<label class="custom-control-label" for="customSwitch2"></label>
+							{% else %}
+								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
+								<label class="custom-control-label" for="customSwitch2"></label>
+							{% endif %}
+
 
 						</div>
 					</td>
@@ -53,26 +72,23 @@
 						{% elseif depense.etat == 1 %}
 							<p class="text-success">Decaissement ...</p>
 						{% elseif depense.etat == 2 %}
-							En Terminer
+							Terminer
 						{% elseif depense.etat == 3 %}
 							Historique
 							{% else %}
 
 						{% endif %}
 					</td>
-					<td>
-						{% if depense.etat == 1 %}
-
-							<a href="{{ path('decaisement_new', {'id': depense.id}) }}" class="btn btn-primary">Ajouter la somme</a>
-						{% endif %}
-
-					</td>
 					<td>{{ depense.montant }}</td>
 					<td>{{ depense.montanpaye }}</td>
 					<td>{{depense.montant - depense.montanpaye }}</td>
-					<td>{{ depense.createdAt ? depense.createdAt|date('d-m-Y à H \\h i') : '' }}</td>
+					<td>{{depense.annee}}</td>
 					<td>
-						<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-warning">Voir</a>
+						{% if depense.etat == 1 %}
+							<a href="{{ path('decaisement_new', {'id': depense.id}) }}" class="btn btn-primary">Ajouter la somme</a>
+						{% else %}
+							<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">Voir le project</a>
+						{% endif %}
 						{# <a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a> #}
 					</td>
 				</tr>

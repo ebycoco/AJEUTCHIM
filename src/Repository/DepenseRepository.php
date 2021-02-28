@@ -29,6 +29,19 @@ class DepenseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByAnne($value, $value1)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.annee =  :val')
+            ->orWhere('d.etat =  :val1')
+            ->setParameter('val', $value)
+            ->setParameter('val1', $value1)
+            ->orderBy('d.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Depense[] Returns an array of Depense objects
     //  */
