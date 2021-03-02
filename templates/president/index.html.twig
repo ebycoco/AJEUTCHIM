@@ -11,11 +11,11 @@
 			<tr>
 				<th>Id</th>
 				<th>Image</th>
-				<th>Nom</th>
 				<th>Prenom</th>
 				<th>Mandat</th>
 				<th>Debute mandat</th>
 				<th>Fin mandat</th>
+				<th>Bureau</th>
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -24,7 +24,6 @@
 				<tr>
 					<td>{{ president.id }}</td>
 					<td>{{ president.imageName }}</td>
-					<td>{{ president.membre.nom }}</td>
 					<td>{{ president.membre.prenom }}</td>
 					<td>
 						{% if president.etat == 1 %}
@@ -36,11 +35,15 @@
 					<td>{{ president.debutedAt ? president.debutedAt|date('Y-m-d H:i:s') : '' }}</td>
 					<td>{{ president.finedAt ? president.finedAt|date('Y-m-d H:i:s') : 'Mandat encours...' }}</td>
 					<td>
+						<a href="{{ path('president_show', {'id': president.id}) }}" class="btn btn-success">Voir</a>
+					</td>
+					<td>
 						{% if president.etat == 1 %}
-							<a href="{{ path('president_show', {'id': president.id}) }}" class="btn btn-success">Voir info</a>
+							<a href="{{ path('president_show', {'id': president.id}) }}" class="btn btn-info">Voir info</a>
+							<a href="{{ path('president_photo', {'id': president.id}) }}" class="btn btn-warning">Modifier photo</a>
 						{% else %}
-							<a href="{{ path('president_show', {'id': president.id}) }}" class="btn btn-success">Voir info</a>
-							<a href="{{ path('president_edit', {'id': president.id}) }}" class="btn btn-primary">Rapport</a>
+							<a href="{{ path('president_photo', {'id': president.id}) }}" class="btn btn-dark">Ajouter photo</a>
+							<a href="{{ path('president_edit', {'id': president.id}) }}" class="btn btn-primary">Fin mandat</a>
 						{% endif %}
 
 					</td>

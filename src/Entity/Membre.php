@@ -61,12 +61,6 @@ class Membre
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=Adhesion::class, inversedBy="membres")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $adhesion;
-
-    /**
      * @ORM\OneToMany(targetEntity=Cotisation::class, mappedBy="membre", orphanRemoval=true)
      */
     private $cotisations;
@@ -96,6 +90,16 @@ class Membre
      * @ORM\OneToMany(targetEntity=President::class, mappedBy="membre", orphanRemoval=true)
      */
     private $presidents;
+
+    /**
+     * @ORM\Column(type="string", length=4)
+     */
+    private $annee;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $adhesion;
 
 
 
@@ -202,18 +206,7 @@ class Membre
 
         return $this;
     }
-
-    public function getAdhesion(): ?Adhesion
-    {
-        return $this->adhesion;
-    }
-
-    public function setAdhesion(?Adhesion $adhesion): self
-    {
-        $this->adhesion = $adhesion;
-
-        return $this;
-    }
+ 
 
     /**
      * @return Collection|Cotisation[]
@@ -391,6 +384,30 @@ class Membre
                 $president->setMembre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAnnee(): ?string
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(string $annee): self
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getAdhesion(): ?float
+    {
+        return $this->adhesion;
+    }
+
+    public function setAdhesion(float $adhesion): self
+    {
+        $this->adhesion = $adhesion;
 
         return $this;
     }

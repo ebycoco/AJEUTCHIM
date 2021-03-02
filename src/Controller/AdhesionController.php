@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Adhesion;
+use App\Entity\Adhesion; 
 use App\Form\AdhesionType;
-use App\Repository\AdhesionRepository;
+use App\Repository\AdhesionRepository; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +30,7 @@ class AdhesionController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        
         $adhesion = new Adhesion();
         $form = $this->createForm(AdhesionType::class, $adhesion);
         $form->handleRequest($request);
@@ -38,7 +39,7 @@ class AdhesionController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $adhesion->setUser($this->getUser());
             $entityManager->persist($adhesion);
-            $entityManager->flush();
+            $entityManager->flush(); 
 
             return $this->redirectToRoute('adhesion_index');
         }

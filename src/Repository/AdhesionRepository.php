@@ -19,6 +19,7 @@ class AdhesionRepository extends ServiceEntityRepository
         parent::__construct($registry, Adhesion::class);
     }
 
+    
     // /**
     //  * @return Adhesion[] Returns an array of Adhesion objects
     //  */

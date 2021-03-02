@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Adhesion;
 use App\Entity\Ajeutchim;
+use App\Entity\Annee;
 use App\Entity\Apropos;
 use App\Entity\Comment;
 use App\Entity\Article;
@@ -11,6 +12,7 @@ use App\Entity\Evenementrealiser;
 use App\Entity\Flash;
 use App\Entity\ImageAccueil;
 use App\Entity\Membre;
+use App\Entity\MontantAnnuelle;
 use App\Entity\PostAjeutchim;
 use App\Entity\President;
 use App\Entity\Video;
@@ -25,6 +27,25 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
+        for ($an=0; $an < 9; $an++) {  
+            $annee=new Annee();
+            $annee->setAnnee("202".$an); 
+            $manager->persist($annee);
+        }
+        for ($adhesionn=1; $adhesionn < 2; $adhesionn++) {
+            $user = $this->getReference('user_' . $faker->numberBetween(1, 30));  
+            $adhesion=New Adhesion();
+            $adhesion->setMontant("500"); 
+            $adhesion->setUser($user); 
+            $manager->persist($adhesion);
+        }
+        for ($ac=1; $ac < 2; $ac++) {
+            $user = $this->getReference('user_' . $faker->numberBetween(1, 30));  
+            $montanta=new MontantAnnuelle();
+            $montanta->setMontant("5000"); 
+            $montanta->setUser($user); 
+            $manager->persist($montanta);
+        }
         for ($i = 1; $i <= 30; $i++) {
             $user = $this->getReference('user_' . $faker->numberBetween(1, 30));
             $categorie = $this->getReference('categorie_' . $faker->numberBetween(1, 5));
@@ -118,7 +139,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             $adhesion->setMontant(500);
             $adhesion->setUser($user);
             $manager->persist($adhesion);
-            for ($nbmembre = 1; $nbmembre <= 27; $nbmembre++) {
+            for ($nbmembre = 1; $nbmembre <= 30; $nbmembre++) {
                 $membre = new Membre();
                 $membre->setNom($faker->lastName);
                 $membre->setPrenom($faker->firstName);
@@ -126,8 +147,9 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
                 $membre->setContact($faker->e164PhoneNumber);
                 $membre->setProfession($faker->company);
                 $membre->setEmail($faker->email);
+                $membre->setAnnee($faker->numberBetween(2020, 2021));
                 $membre->setReferenceAjeutchim('AJEUT' . mt_rand(99, 999) . 'CHIM');
-                $membre->setAdhesion($adhesion);
+                $membre->setAdhesion(500);
                 $manager->persist($membre);
                 $this->setReference('membre_' . $nbmembre, $membre);
             }
@@ -222,6 +244,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             $postAjeutchim->setUser($user);
             $manager->persist($postAjeutchim);
         }
+        
         // $product = new Product();
         // $manager->persist($product);
 

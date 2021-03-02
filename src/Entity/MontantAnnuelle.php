@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\AppTimesTampable;
 use App\Repository\MontantAnnuelleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,9 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=MontantAnnuelleRepository::class)
+ * @ORM\Table(name="Ajeutchim_montantannuelles") 
+ * @ORM\HasLifecycleCallbacks
  */
 class MontantAnnuelle
 {
+    use AppTimesTampable;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -29,16 +33,8 @@ class MontantAnnuelle
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Cotisation::class, mappedBy="montantAnnuelle", orphanRemoval=true)
-     */
-    private $cotisations;
-
-    public function __construct()
-    {
-        $this->cotisations = new ArrayCollection();
-    }
+ 
+ 
 
     public function getId(): ?int
     {
@@ -67,35 +63,5 @@ class MontantAnnuelle
         $this->user = $user;
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Cotisation[]
-     */
-    public function getCotisations(): Collection
-    {
-        return $this->cotisations;
-    }
-
-    public function addCotisation(Cotisation $cotisation): self
-    {
-        if (!$this->cotisations->contains($cotisation)) {
-            $this->cotisations[] = $cotisation;
-            $cotisation->setMontantAnnuelle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCotisation(Cotisation $cotisation): self
-    {
-        if ($this->cotisations->removeElement($cotisation)) {
-            // set the owning side to null (unless already changed)
-            if ($cotisation->getMontantAnnuelle() === $this) {
-                $cotisation->setMontantAnnuelle(null);
-            }
-        }
-
-        return $this;
-    }
+    } 
 }

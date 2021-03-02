@@ -27,6 +27,17 @@ class MembreRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllmembre($value)
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.annee = :val')
+            ->setParameter('val', $value)
+            ->orderBy('m.id', 'ASC') 
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Membre[] Returns an array of Membre objects
     //  */

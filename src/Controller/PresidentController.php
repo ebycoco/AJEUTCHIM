@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Mandat;
 use App\Entity\President;
 use App\Form\PresidentFinMandatType;
+use App\Form\PresidentPhotoType;
 use App\Form\PresidentType;
+use App\Repository\BureauRepository;
 use App\Repository\PresidentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,12 +32,15 @@ class PresidentController extends AbstractController
     /**
      * @Route("/new", name="president_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, PresidentRepository $presidentRepository): Response
     {
+        $noubeauPresident = $presidentRepository->findEncour(0);
         $president = new President();
         $form = $this->createForm(PresidentType::class, $president);
-        $form->handleRequest($request);
-
+        $form->handleRequest($request); 
+        if (!empty($noubeauPresident)) {
+            return $this->redirectToRoute('bureau_new');
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $president->setEtat(0);
@@ -43,7 +48,7 @@ class PresidentController extends AbstractController
             $entityManager->persist($president);
             $entityManager->flush();
 
-            return $this->redirectToRoute('president_index');
+            return $this->redirectToRoute('bureau_new');
         }
 
         return $this->render('president/new.html.twig', [
@@ -55,10 +60,44 @@ class PresidentController extends AbstractController
     /**
      * @Route("/{id}", name="president_show", methods={"GET"})
      */
-    public function show(President $president): Response
+    public function show(President $president,BureauRepository $bureauRepository): Response
     {
+        $bureau=$bureauRepository->findMembreBureau($president); 
         return $this->render('president/show.html.twig', [
+            'bureau' => $bureau,
             'president' => $president,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/photo", name="president_photo", methods={"GET","POST"})
+     */
+    public function photo(Request $request, President $president): Response
+    {
+        $form = $this->createForm(PresidentPhotoType::class, $president);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (($president->getFinedAt() == null)) {
+                $entityManager = $this->getDoctrine()->getManager(); 
+                $entityManager->flush();
+                return $this->redirectToRoute('president_index');
+            }else {
+                $entityManager = $this->getDoctrine()->getManager();
+                $president->setEtat(1);
+                $entityManager->flush(); 
+                return $this->redirectToRoute('president_index');
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $president->setEtat(1);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('president_index');
+        }
+
+        return $this->render('president/edit.html.twig', [
+            'president' => $president,
+            'form' => $form->createView(),
         ]);
     }
 

@@ -19,6 +19,14 @@ class CotisationRepository extends ServiceEntityRepository
         parent::__construct($registry, Cotisation::class);
     }
 
+    public function findAllcotisation($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.an = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
     public function findOnMembre($value)
     {
         return $this->createQueryBuilder('c')

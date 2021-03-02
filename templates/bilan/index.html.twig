@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bilan index{% endblock %}
+
+{% block body %}
+    <h1>Bilan index</h1>
+{{ include('bilan/_form.html.twig') }}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Depense</th>
+                <th>Adhesion</th>
+                <th>Cotisation</th>
+                <th>Versement</th>
+                <th>Annee</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bilan in bilans %}
+            <tr>
+                <td>{{ bilan.id }}</td>
+                <td>{{ bilan.depense }}</td>
+                <td>{{ bilan.adhesion }}</td>
+                <td>{{ bilan.cotisation }}</td>
+                <td>{{ bilan.versement }}</td>
+                <td>{{ bilan.annee }}</td>
+                <td>{{ bilan.createdAt ? bilan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ bilan.updatedAt ? bilan.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('bilan_show', {'id': bilan.id}) }}">show</a>
+                    <a href="{{ path('bilan_edit', {'id': bilan.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('bilan_new') }}">Create new</a>
+{% endblock %}

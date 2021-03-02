@@ -126,6 +126,11 @@ class User implements UserInterface
      */
     private $decaisements;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RejectProject::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $rejectProjects;
+
 
     public function __construct()
     {
@@ -144,6 +149,7 @@ class User implements UserInterface
         $this->montantAnnuelles = new ArrayCollection();
         $this->depenses = new ArrayCollection();
         $this->decaisements = new ArrayCollection();
+        $this->rejectProjects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -700,6 +706,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($decaisement->getUser() === $this) {
                 $decaisement->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RejectProject[]
+     */
+    public function getRejectProjects(): Collection
+    {
+        return $this->rejectProjects;
+    }
+
+    public function addRejectProject(RejectProject $rejectProject): self
+    {
+        if (!$this->rejectProjects->contains($rejectProject)) {
+            $this->rejectProjects[] = $rejectProject;
+            $rejectProject->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRejectProject(RejectProject $rejectProject): self
+    {
+        if ($this->rejectProjects->removeElement($rejectProject)) {
+            // set the owning side to null (unless already changed)
+            if ($rejectProject->getUser() === $this) {
+                $rejectProject->setUser(null);
             }
         }
 

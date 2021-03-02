@@ -19,6 +19,15 @@ class VersementRepository extends ServiceEntityRepository
         parent::__construct($registry, Versement::class);
     }
 
+    public function findAllversement($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.an = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Versement[] Returns an array of Versement objects
     //  */

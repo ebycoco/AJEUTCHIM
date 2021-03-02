@@ -19,6 +19,17 @@ class DecaisementRepository extends ServiceEntityRepository
         parent::__construct($registry, Decaisement::class);
     }
 
+    public function findAllDepense($value)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.annee = :val')
+            ->setParameter('val', $value)
+            ->orderBy('d.id', 'ASC') 
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Decaisement[] Returns an array of Decaisement objects
     //  */

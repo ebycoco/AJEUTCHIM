@@ -77,9 +77,25 @@ class Depense
      */
     private $annee;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $rejeter;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RejectProject::class, mappedBy="depense", orphanRemoval=true)
+     */
+    private $rejectProjects;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
+
     public function __construct()
     {
         $this->decaisements = new ArrayCollection();
+        $this->rejectProjects = new ArrayCollection();
     }
 
 
@@ -210,6 +226,60 @@ class Depense
     public function setAnnee(string $annee): self
     {
         $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getRejeter(): ?bool
+    {
+        return $this->rejeter;
+    }
+
+    public function setRejeter(?bool $rejeter): self
+    {
+        $this->rejeter = $rejeter;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RejectProject[]
+     */
+    public function getRejectProjects(): Collection
+    {
+        return $this->rejectProjects;
+    }
+
+    public function addRejectProject(RejectProject $rejectProject): self
+    {
+        if (!$this->rejectProjects->contains($rejectProject)) {
+            $this->rejectProjects[] = $rejectProject;
+            $rejectProject->setDepense($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRejectProject(RejectProject $rejectProject): self
+    {
+        if ($this->rejectProjects->removeElement($rejectProject)) {
+            // set the owning side to null (unless already changed)
+            if ($rejectProject->getDepense() === $this) {
+                $rejectProject->setDepense(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
 
         return $this;
     }

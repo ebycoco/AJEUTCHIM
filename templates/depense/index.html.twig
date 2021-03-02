@@ -30,7 +30,6 @@
 			<tr>
 				<th scope="col">Id</th>
 				<th scope="col">Titre</th>
-				<th scope="col">Activer</th>
 				<th scope="col">Etat</th>
 				<th scope="col">Montant</th>
 				<th scope="col">Montant payé</th>
@@ -44,31 +43,20 @@
 				<tr>
 					<th scope="row">{{ depense.id }}</th>
 					<td>
-						{% if depense.etat == 2  %}
-							{{ depense.titre }}
-						{% else %}
-							<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">{{ depense.titre }}</a>
-						{% endif %}
+					{% if depense.etat == 1 %}
+						<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">{{ depense.titre }}</a>
+					{% else %}
+						
+						{{ depense.titre }}
+					{% endif %}
 					</td>
 					<td>
-						<div class="custom-control custom-switch">
-							{% if depense.etat == 0 %}
-								<input type="checkbox" class="custom-control-input" id="confirme{{ depense.id }}" {{(depense.confirme) ? 'checked' : ''}} data-id="{{ depense.id }}">
-								<label class="custom-control-label" for="confirme{{ depense.id }}">{{ depense.confirme ? '' : '' }}</label>
-							{% elseif depense.montanpaye  %}
-								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
-								<label class="custom-control-label" for="customSwitch2"></label>
-							{% else %}
-								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
-								<label class="custom-control-label" for="customSwitch2"></label>
-							{% endif %}
-
-
-						</div>
-					</td>
-					<td>
-						{% if depense.etat == 0 %}
+						{% if depense.confirme == 0 and depense.rejeter == 0 %}
 							<p class="text-info">En cours ...</p>
+						{% elseif depense.confirme == 1 and depense.etat == 0 and depense.rejeter == null %}
+							<p class="text-info">Traitement en cours ...</p>
+						{% elseif depense.rejeter == 1 %}
+							<strong class="text-danger">Rejeter par president</strong>
 						{% elseif depense.etat == 1 %}
 							<p class="text-success">Decaissement ...</p>
 						{% elseif depense.etat == 2 %}
@@ -85,9 +73,19 @@
 					<td>{{depense.annee}}</td>
 					<td>
 						{% if depense.etat == 1 %}
-							<a href="{{ path('decaisement_new', {'id': depense.id}) }}" class="btn btn-primary">Ajouter la somme</a>
+							<a href="{{ path('decaisement_new', {'id': depense.id}) }}" class="btn btn-primary">Ajouter le montant</a>
+							
 						{% else %}
+							{% if depense.rejeter %}
+								<a href="{{ path('depense_renvoyer', {'id': depense.id}) }}" class="btn btn-warning">Reenvoyer</a>
+								<a href="{{ path('depense_lever', {'id': depense.id}) }}" class="btn btn-danger">En lever</a>
+							{% elseif depense.confirme == 1 and depense.etat == 0 and depense.rejeter == null %}
 							<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">Voir le project</a>
+							{% else %}
+								<a href="{{ path('depense_accepter', {'id': depense.id}) }}" class="btn btn-info">Envoyer au président</a>
+								<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">Voir le project</a>
+							{% endif %}
+
 						{% endif %}
 						{# <a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a> #}
 					</td>

@@ -6,12 +6,33 @@
 {% block body %}
 	<h1>Depense index</h1>
 
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('info') %}
+		<div class="alert alert-info">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('danger') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('warning') %}
+		<div class="alert alert-warning">
+			{{ message }}
+		</div>
+	{% endfor %}
+
 	<table class="table">
 		<thead class="thead-dark">
 			<tr>
 				<th scope="col">Id</th>
 				<th scope="col">Titre</th>
-				<th scope="col">Confirmer</th>
+				<th scope="col">Voir</th>
 				<th scope="col">Etat</th>
 				<th scope="col">Montant remise</th>
 				<th scope="col">Montant du project</th>
@@ -24,41 +45,37 @@
 					<th scope="row">{{ depense.id }}</th>
 					<td>{{ depense.titre }}</td>
 					<td>
-						<div class="custom-control custom-switch">
-							{% if depense.etat == 2 %}
-								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
-								<label class="custom-control-label" for="customSwitch2"></label>
-							{% elseif depense.montanpaye  %}
-								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
-								<label class="custom-control-label" for="customSwitch2"></label>
-							{% elseif depense.etat == 0 %}
-								<input type="checkbox" class="custom-control-input" id="confirme{{ depense.id }}" {{(depense.etat == 1 ) ? 'checked' : ''}} data-id="{{ depense.id }}">
-								<label class="custom-control-label" for="confirme{{ depense.id }}">{{ depense.etat == 1 ? '' : '' }}</label>
-							{% elseif depense.montanpaye == null %}
-								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
-								<label class="custom-control-label" for="customSwitch2"></label>
-							{% endif %}
-
-						</div>
+						<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-warning">Voir le project</a>
 
 					</td>
 					<td>
 						{% if depense.etat == 1 %}
 							<p class="text-info">En cours de traitement...</p>
-						{% elseif depense.etat == 2 %}
-
+						{% elseif depense.etat == 2 %} 
 							<p class="text-danger">Terminer</p>
 						{% elseif depense.etat == 3 %}
 							Historique
-							{% else %}
-
+						{% else %}
+							<strong class="text-info">En attent</strong>
 						{% endif %}
 					</td>
 					<td>{{ depense.montanpaye }}</td>
 					<td>{{ depense.montant }}</td>
 					<td>
-						<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-warning">Voir le project</a>
-						{# <a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a> #}
+						<div class="custom-control custom-switch">
+							{% if depense.etat ==1 %}
+								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
+								<label class="custom-control-label" for="customSwitch2">Accepter</label>
+							{% elseif depense.rejeter %}
+								<input type="checkbox" class="custom-control-input" disabled id="customSwitch2">
+								<label class="custom-control-label text-warning" for="customSwitch2">Refuser</label>
+							{% else %}
+								<a href="{{ path('depense_confirme', {'id': depense.id}) }}" class="btn btn-primary">accepter</a>
+								<a href="{{ path('reject_project_reject', {'id': depense.id}) }}" class="btn btn-danger">Rejeter</a>
+							{% endif %}
+							{# <a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a> #}
+						</div>
+
 					</td>
 				</tr>
 			{% else %}

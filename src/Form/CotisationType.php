@@ -32,17 +32,6 @@ class CotisationType extends AbstractType
                 },
                 'choice_label' => 'prenom',
                 'label' => 'Membre Ajeutchim',
-            ])
-            ->add('montantAnnuelle', EntityType::class, [
-                'class' => MontantAnnuelle::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er
-                        ->createQueryBuilder('ma')
-                        ->orderBy('ma.id', 'DESC');
-                },
-                'choice_label' => 'montant',
-                'label' => 'montant Annuelle',
-
             ]);
     }
 

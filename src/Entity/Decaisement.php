@@ -55,6 +55,11 @@ class Decaisement
      */
     private $bureau;
 
+    /**
+     * @ORM\Column(type="string", length=4)
+     */
+    private $annee;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -129,6 +134,18 @@ class Decaisement
     public function setBureau(?Bureau $bureau): self
     {
         $this->bureau = $bureau;
+
+        return $this;
+    }
+
+    public function getAnnee(): ?string
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(string $annee): self
+    {
+        $this->annee = $annee;
 
         return $this;
     }

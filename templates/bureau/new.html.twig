@@ -55,8 +55,12 @@
 											{% for noubeauPresident in noubeauPresident %}
 												{% if bureau.membre.id == noubeauPresident.membre.id  %}
 													{% if noubeauPresident.membre.prenom == bureau.membre.prenom %}
-
+													{% if bureau.postAjeutchim.name =="Président" %}
+														<a href="{{ path('president_edit', {'id': noubeauPresident.id}) }}" class="btn btn-primary">Fin mandat</a>
+													{% else %} 
 														<a href="{{ path('bureau_edit', {'id': bureau.id}) }}" class="btn btn-warning">Modifier</a>
+													{% endif %}
+
 													{% else %}
 														<a href="{{ path('bureau_edit', {'id': bureau.id}) }}" class="btn btn-danger">changer</a>
 													{% endif %}

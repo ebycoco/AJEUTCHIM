@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Form;
-
-use App\Entity\Adhesion;
+ 
 use App\Entity\Membre;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -19,11 +18,7 @@ class MembreType extends AbstractType
             ->add('ville')
             ->add('contact')
             ->add('profession')
-            ->add('email')
-            ->add('adhesion', EntityType::class, [
-                'class' => Adhesion::class,
-                'choice_label' => 'montant'
-            ]);
+            ->add('email');
     }
 
     public function configureOptions(OptionsResolver $resolver)

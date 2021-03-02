@@ -42,12 +42,7 @@ class Cotisation
      * @ORM\Column(type="date")
      */
     private $annee;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=MontantAnnuelle::class, inversedBy="cotisations")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $montantAnnuelle;
+ 
 
     /**
      * @ORM\Column(type="float",options={"default": 0})
@@ -68,6 +63,16 @@ class Cotisation
      * @ORM\Column(type="boolean",options={"default": 0})
      */
     private $neplus;
+
+    /**
+     * @ORM\Column(type="string", length=4)
+     */
+    private $an;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $montantannuelle;
 
     public function getId(): ?int
     {
@@ -109,18 +114,7 @@ class Cotisation
 
         return $this;
     }
-
-    public function getMontantAnnuelle(): ?MontantAnnuelle
-    {
-        return $this->montantAnnuelle;
-    }
-
-    public function setMontantAnnuelle(?MontantAnnuelle $montantAnnuelle): self
-    {
-        $this->montantAnnuelle = $montantAnnuelle;
-
-        return $this;
-    }
+ 
 
     public function getResteMontant(): ?float
     {
@@ -166,6 +160,30 @@ class Cotisation
     public function setNeplus(bool $neplus): self
     {
         $this->neplus = $neplus;
+
+        return $this;
+    }
+
+    public function getAn(): ?string
+    {
+        return $this->an;
+    }
+
+    public function setAn(string $an): self
+    {
+        $this->an = $an;
+
+        return $this;
+    }
+
+    public function getMontantannuelle(): ?float
+    {
+        return $this->montantannuelle;
+    }
+
+    public function setMontantannuelle(float $montantannuelle): self
+    {
+        $this->montantannuelle = $montantannuelle;
 
         return $this;
     }

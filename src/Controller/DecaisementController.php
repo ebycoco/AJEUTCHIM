@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Bilan;
 use App\Entity\Decaisement;
 use App\Entity\Depense;
 use App\Form\DecaisementType;
 use App\Repository\AdhesionRepository;
+use App\Repository\BilanRepository;
 use App\Repository\CotisationRepository;
 use App\Repository\DecaisementRepository;
 use App\Repository\MembreRepository;
 use App\Repository\VersementRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,13 +36,13 @@ class DecaisementController extends AbstractController
     /**
      * @Route("/new/{id}", name="decaisement_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Depense $depense, MembreRepository $membreRepository, CotisationRepository $cotisationRepository, DecaisementRepository $decaisementRepository, VersementRepository $versementRepository): Response
-    {
+    public function new(Request $request, Depense $depense, MembreRepository $membreRepository, CotisationRepository $cotisationRepository, DecaisementRepository $decaisementRepository, VersementRepository $versementRepository, BilanRepository $bilanRepository): Response
+    { 
         $montantTotal = $cotisationRepository->findCotisation();
         $depenseSanFrais = $decaisementRepository->findAll();
         $versement = $versementRepository->findAll();
         $membre = $membreRepository->findAll();
-        $montantAdhesion = count($membre) * 500;
+        $montantAdhesion = count($membre) * 500; 
         // on calcule les cotisations
         $mont = 0;
         for ($i = 0; $i < count($montantTotal); $i++) {
@@ -70,11 +73,13 @@ class DecaisementController extends AbstractController
             $montantRestant = $depense->getMontant() - $depense->getMontanpaye();
         }
         $decaisement = new Decaisement();
+        $bilan = new Bilan();
         $form = $this->createForm(DecaisementType::class, $decaisement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $jouj = new DateTime('now');
+            $annee = $jouj->format(date('Y'));
             if ($montantRestant < $decaisement->getMontant()) {
                 $this->addFlash(
                     'danger',
@@ -92,6 +97,7 @@ class DecaisementController extends AbstractController
             }
             $entityManager = $this->getDoctrine()->getManager();
             $decaisement->setUser($this->getUser());
+            $decaisement->setAnnee($annee);
             $decaisement->setDepense($depense);
             if (empty($depense->getMontanpaye())) {
                 if ($depense->getMontant() == $decaisement->getMontant()) {
@@ -112,16 +118,29 @@ class DecaisementController extends AbstractController
             $depense->setConfirme(true);
             $entityManager->persist($decaisement);
             $entityManager->flush();
-
-
-
-            $this->addFlash(
-                'success',
-                'Ajouter avec success !'
-            );
+            //on insert dans la table bilan 
+            if ($bilanRepository->findAll() == null) {
+               
+                $bilan->setDepense($decaisement->getMontant() + $decaisement->getFrais());
+                $bilan->setAnnee($annee);
+                $entityManager->persist($bilan);
+                $entityManager->flush();
+            } else { 
+                $nombreBilan = $bilanRepository->findAll(); 
+                $dernierAnnee=$nombreBilan[count($nombreBilan) - 1]->getAnnee(); 
+                if ($dernierAnnee == $annee) { 
+                    $IdPass = $nombreBilan[count($nombreBilan) - 1]->getId();
+                    return $this->redirectToRoute('bilan_ajour', ['id' => $IdPass]);
+                } else { 
+                    $bilan->setDepense($decaisement->getMontant() + $decaisement->getFrais());
+                    $bilan->setAnnee($annee);
+                    $entityManager->persist($bilan);
+                    $entityManager->flush();
+                } 
+            } 
+            $this->addFlash( 'success','Ajouter avec success !');
             return $this->redirectToRoute('depense_index');
         }
-
         return $this->render('decaisement/new.html.twig', [
             'decaisement' => $decaisement,
             'depense' => $depense,
@@ -153,7 +172,6 @@ class DecaisementController extends AbstractController
 
             return $this->redirectToRoute('decaisement_index');
         }
-
         return $this->render('decaisement/edit.html.twig', [
             'decaisement' => $decaisement,
             'form' => $form->createView(),

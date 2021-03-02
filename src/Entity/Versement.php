@@ -48,6 +48,11 @@ class Versement
      */
     private $prenom;
 
+    /**
+     * @ORM\Column(type="string", length=4)
+     */
+    private $an;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -97,6 +102,18 @@ class Versement
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getAn(): ?string
+    {
+        return $this->an;
+    }
+
+    public function setAn(string $an): self
+    {
+        $this->an = $an;
 
         return $this;
     }

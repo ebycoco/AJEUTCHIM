@@ -33,6 +33,7 @@ class DepenseRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.annee =  :val')
+            ->andWhere('d.visible =  false')
             ->orWhere('d.etat =  :val1')
             ->setParameter('val', $value)
             ->setParameter('val1', $value1)

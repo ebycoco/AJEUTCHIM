@@ -28,11 +28,7 @@ class Adhesion
      * @ORM\Column(type="float")
      */
     private $montant;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Membre::class, mappedBy="adhesion", orphanRemoval=true)
-     */
-    private $membres;
+ 
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="adhesions")
@@ -40,10 +36,7 @@ class Adhesion
      */
     private $user;
 
-    public function __construct()
-    {
-        $this->membres = new ArrayCollection();
-    }
+     
 
     public function getId(): ?int
     {
@@ -61,36 +54,7 @@ class Adhesion
 
         return $this;
     }
-
-    /**
-     * @return Collection|Membre[]
-     */
-    public function getMembres(): Collection
-    {
-        return $this->membres;
-    }
-
-    public function addMembre(Membre $membre): self
-    {
-        if (!$this->membres->contains($membre)) {
-            $this->membres[] = $membre;
-            $membre->setAdhesion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMembre(Membre $membre): self
-    {
-        if ($this->membres->removeElement($membre)) {
-            // set the owning side to null (unless already changed)
-            if ($membre->getAdhesion() === $this) {
-                $membre->setAdhesion(null);
-            }
-        }
-
-        return $this;
-    }
+  
 
     public function getUser(): ?User
     {
