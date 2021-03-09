@@ -1,0 +1,51 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Depense
+{% endblock %}
+
+{% block body %}
+	<h1>Depense</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ depense.id }}</td>
+			</tr>
+			<tr>
+				<th>Titre</th>
+				<td>{{ depense.titre }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ depense.description }}</td>
+			</tr>
+			<tr>
+				<th>Confirme</th>
+				<td>{{ depense.confirme ? 'oui' : 'Non' }}</td>
+			</tr>
+			<tr>
+				<th>Etat</th>
+				<td>{{ depense.etat }}</td>
+			</tr>
+			<tr>
+				<th>Par</th>
+				<td>{{ depense.user }}</td>
+			</tr>
+			<tr>
+				<th>Montant du project</th>
+				<td>{{ depense.montant }}</td>
+			</tr>
+			<tr>
+				<th>Envoyé le</th>
+				<td>{{ depense.createdAt ? depense.createdAt|date('d-m-Y H \\h i') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('depense_index') }}">back to list</a>
+
+	<a href="{{ path('depense_edit', {'id': depense.id}) }}">edit</a>
+
+	{{ include('admin/depense/_delete_form.html.twig') }}
+{% endblock %}

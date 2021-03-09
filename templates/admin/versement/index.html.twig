@@ -1,0 +1,96 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Versement index
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Vous être dans Versement</li>
+							</ol>
+						</div>
+						<div class="col-sm-3">
+							<a class="btn btn-primary" href="{{ path('versement_new') }}">Ajouter un versement</a>
+
+						</div>
+
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-3">
+										<h4 class="mt-0 header-title">Commande</h4>
+										<p class="text-muted mb-4">
+											Liste des commandes en attente
+										</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+											<thead>
+												<tr>
+													<th>Id</th>
+													<th>Montant</th>
+													<th>Objet</th>
+													<th>Description</th>
+													<th>Prenom</th>
+													<th>CreatedAt</th>
+													<th>UpdatedAt</th>
+													<th>actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for versement in versements %}
+													<tr>
+														<td>{{ versement.id }}</td>
+														<td>{{ versement.montant }}</td>
+														<td>{{ versement.objet }}</td>
+														<td>{{ versement.description }}</td>
+														<td>{{ versement.prenom }}</td>
+														<td>{{ versement.createdAt ? versement.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+														<td>{{ versement.updatedAt ? versement.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+														<td>
+															<a href="{{ path('versement_show', {'id': versement.id}) }}">show</a>
+															<a href="{{ path('versement_edit', {'id': versement.id}) }}">edit</a>
+														</td>
+													</tr>
+												{% else %}
+													<tr>
+														<td colspan="8">no records found</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- end col -->
+				</div>
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+{% endblock %}

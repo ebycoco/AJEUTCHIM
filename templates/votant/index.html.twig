@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votant index{% endblock %}
+
+{% block body %}
+    <h1>Votant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for votant in votants %}
+            <tr>
+                <td>{{ votant.id }}</td>
+                <td>{{ votant.createdAt ? votant.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ votant.updatedAt ? votant.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('votant_show', {'id': votant.id}) }}">show</a>
+                    <a href="{{ path('votant_edit', {'id': votant.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('votant_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Cotisation index
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Vous être dans Produits</li>
+							</ol>
+						</div>
+						<div class="col-sm-3">
+							<a href="{{ path('cotisation_new') }}" class="btn btn-primary">Ajouter nouvelle</a>
+
+						</div>
+
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success">
+						{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('danger') %}
+					<div class="alert alert-danger">
+						{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('warning') %}
+					<div class="alert alert-warning">
+						{{ message }}
+					</div>
+				{% endfor %}
+
+				<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Prenom</th>
+							<th scope="col">Montant total payé</th>
+							<th scope="col">Montant restant</th>
+							<th scope="col">Année cotisation</th>
+							<th scope="col">Dernière operation</th>
+							<th scope="col">actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for cotisation in cotisations %}
+							<tr>
+								<th scope="row">{{ cotisation.id }}</th>
+								<th scope="row">{{ cotisation.membre.nom }}</th>
+								<th scope="row">{{ cotisation.membre.prenom }}</th>
+								<td>{{ cotisation.montantTotalPaye }}
+									Fcfa</td>
+								<td>{{ cotisation.resteMontant }}
+									Fcfa</td>
+								<td>{{ cotisation.annee |date('Y') }}</td>
+								<td>{{ cotisation.updatedAt ? cotisation.updatedAt|date('d-m-Y à H:i') : '' }}</td>
+								<td>
+									{% if cotisation.neplus == 1 %}
+										<span class="badge badge-success">Valider</span>
+									{% else %}
+										<a href="{{ path('cotisation_confirme', {'id': cotisation.id}) }}" class="btn btn-warning">Confirmer</a>
+
+									{% endif %}
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="5">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+
+{% endblock %}

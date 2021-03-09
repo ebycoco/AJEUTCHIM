@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+{% block title %}{% endblock %}
+{% block body %}
+	<body>
+		<div class="container-fluid">
+			{% include ("includes/_nav.html.twig") %}
+			<div id="fh5co-single-content" class="container-fluid pb-4 pt-4 paddding">
+				<div class="container paddding">
+					<div class="row mx-0">
+						<div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+							<h3 class="mb-5 text-center">TCHIMOUKRO</h3>
+							{% for village in villages %}
+									<img src="{{ vich_uploader_asset(village, 'imageFile')}}" alt="img"/>									<div class="media-body">
+								</div>
+							<h1 class="mt-3">Histoire du village</h1> 
+								<p>{{village.histoire|raw}}</p>
+							{% endfor %}
+							<h1>Histoire d'AJEUTCHIM</h1>
+							{% for ajeutchim in ajeutchims %}
+								<p>
+									{{ajeutchim.contenue|raw}}
+								</p>
+							{% endfor %}
+						</div>
+						{% include ("includes/_sidebarRight.html.twig") %}
+					</div>
+				</div>
+			</div>
+		{% endblock %}

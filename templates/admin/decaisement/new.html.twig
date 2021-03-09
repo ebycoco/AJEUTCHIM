@@ -1,0 +1,43 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}New Decaisement
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<p>Le montant restant du
+							{{depense.titre}}
+							est:
+							<span class="text-primary">{{montantRestant}}</span>
+						</p>
+						<div class="col-sm-6">
+							<h4 class="page-title">Nouvelle Produits</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Nouvelle Produits</li>
+							</ol>
+						</div>
+						<div class="col-sm-6">
+							{# <a class="btn btn-warning" href="{{ path('decaisement_index') }}">Voir la liste</a> #}
+
+						</div>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				{{ include('admin/decaisement/_form.html.twig') }}
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+{% endblock %}

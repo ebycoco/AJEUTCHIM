@@ -18,6 +18,15 @@ class DonRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Don::class);
     }
+    public function findAllDon()
+    {
+        return $this->createQueryBuilder('c')
+            // ->andWhere('c.status = 0')
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Don[] Returns an array of Don objects

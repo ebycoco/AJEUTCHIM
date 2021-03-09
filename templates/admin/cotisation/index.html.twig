@@ -1,0 +1,209 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Cotisation index
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Bienvenue sur le Tabeau bord</li>
+							</ol>
+						</div>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="card mini-stat bg-pattern">
+							<div class="card-body mini-stat-img">
+								<div class="mini-stat-icon">
+									<i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
+								</div>
+								<h6 class="text-uppercase mb-3 mt-0">montant total cotisation
+								</h6>
+								<h5 class="mb-3">{{mont}}</h5>
+								<p class="text-muted mb-0">
+									<span class="text-success mr-2">
+										12%
+										<i class="mdi mdi-arrow-up"></i>
+									</span>
+									From previous period</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="card mini-stat bg-pattern">
+							<div class="card-body mini-stat-img">
+								<div class="mini-stat-icon">
+									<i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
+								</div>
+								<h6 class="text-uppercase mb-3 mt-0">montant total adhesion</h6>
+								<h5 class="mb-3">{{montantAdhesion}}</h5>
+								<p class="text-muted mb-0">
+									<span class="text-success mr-2">
+										12%
+										<i class="mdi mdi-arrow-up"></i>
+									</span>
+									From previous period</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="card mini-stat bg-pattern">
+							<div class="card-body mini-stat-img">
+								<div class="mini-stat-icon">
+									<i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
+								</div>
+								<h6 class="text-uppercase mb-3 mt-0">montant des versements</h6>
+								<h5 class="mb-3">{{verse }}</h5>
+								<p class="text-muted mb-0">
+									<span class="text-success mr-2">
+										12%
+										<i class="mdi mdi-arrow-up"></i>
+									</span>
+									From previous period</p>
+							</div>
+						</div>
+					</div>
+					
+				</div> 
+				<div class="row">  
+				<div class="col-lg-4">
+						<div class="card mini-stat bg-pattern">
+							<div class="card-body mini-stat-img">
+								<div class="mini-stat-icon">
+									<i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
+								</div>
+								<h6 class="text-uppercase mb-3 mt-0">montant total Des dons</h6>
+								<h5 class="mb-3">{{donpersonnelle}}</h5>
+								<p class="text-muted mb-0">
+									<span class="text-success mr-2">
+										12%
+										<i class="mdi mdi-arrow-up"></i>
+									</span>
+									From previous period</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="card mini-stat bg-pattern">
+							<div class="card-body mini-stat-img">
+								<div class="mini-stat-icon">
+									<i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
+								</div>
+								<h6 class="text-uppercase mb-3 mt-0">montant en caisse</h6>
+								<h5 class="mb-3">{{(mont + montantAdhesion + verse + donpersonnelle) - (depenses + frais)}}</h5>
+								<p class="text-muted mb-0">
+									<span class="text-success mr-2">
+										12%
+										<i class="mdi mdi-arrow-up"></i>
+									</span>
+									From previous period</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="card mini-stat bg-pattern">
+							<div class="card-body mini-stat-img">
+								<div class="mini-stat-icon">
+									<i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
+								</div>
+								<h6 class="text-uppercase mb-3 mt-0">montant total Des depense</h6>
+								<h5 class="mb-3">{{depenses + frais}}</h5>
+								<p class="text-muted mb-0">
+									<span class="text-success mr-2">
+										12%
+										<i class="mdi mdi-arrow-up"></i>
+									</span>
+									From previous period</p>
+							</div>
+						</div>
+					</div>
+				</div> 
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success">
+						{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('danger') %}
+					<div class="alert alert-danger">
+						{{ message }}
+					</div>
+				{% endfor %} 
+				<div class="row">
+					<div class="col">
+						<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+							<thead>
+								<tr>
+									<th scope="col">ID</th> 
+									<th scope="col">Prenom</th>
+									<th scope="col">Montant total payé</th>
+									<th scope="col">Montant restant</th>
+									<th scope="col">Année cotisation</th>
+									<th scope="col">Dernière operation</th>
+									<th scope="col">actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for cotisation in cotisations %}
+									<tr>
+										<th scope="row">{{ cotisation.id }}</th> 
+										<th scope="row">{{ cotisation.membre.prenom }}</th>
+										<td>{{ cotisation.montantTotalPaye }}
+											Fcfa</td>
+										<td>{{ cotisation.resteMontant }}
+											Fcfa</td>
+										<td>{{ cotisation.annee |date('Y') }}</td>
+										<td>{{ cotisation.updatedAt ? cotisation.updatedAt|date('d-m-Y à H:i') : '' }}</td>
+										<td>
+											{% if cotisation.neplus == 1 %}
+												<span class="badge badge-success">Valider</span>
+											{% else %}
+												{% if cotisation.resteMontant == 0 %}
+													<a href="{{ path('cotisation_confirme', {'id': cotisation.id}) }}" class="btn btn-warning">Valider</a>
+												{% else %}
+													<span class="badge badge-info">encour...</span>
+												{% endif %}
+												<a href="{{ path('cotisation_edit', {'id': cotisation.id}) }}" class="btn btn-primary">Modifier</a>
+
+											{% endif %}
+										</td>
+									</tr>
+								{% else %}
+									<tr>
+										<td colspan="5">no records found</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+			<!-- container-fluid -->
+
+		</div>
+		<!-- content -->
+
+		<footer class="footer">
+			© 2019 Veltrix
+			<span class="d-none d-sm-inline-block">
+				- Crafted with
+				<i class="mdi mdi-heart text-danger"></i>
+				by Themesbrand</span>.
+		</footer>
+
+	</div> 
+{% endblock %}

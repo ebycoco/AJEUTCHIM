@@ -1,0 +1,263 @@
+<!-- ========== Left Sidebar Start ========== -->
+<div class="left side-menu">
+	<div
+		class="slimscroll-menu" id="remove-scroll">
+
+		<!--- Sidemenu -->
+		<div
+			id="sidebar-menu">
+			<!-- Left Menu Start -->
+			<ul class="metismenu" id="side-menu">
+				<li class="menu-title">Admin home</li>
+				<li>
+					<a href="{{path('admin_index')}}" class="waves-effect">
+						<i class="ion ion-md-speedometer"></i>
+						<span class="badge badge-success badge-pill float-right">2</span>
+						<span>
+							Tableau de bord
+						</span>
+					</a>
+				</li>
+
+				<li class="menu-title">Administration</li>
+				<li>
+					<a href="javascript:void(0);" class="waves-effect waves-light">
+						<i class="mdi mdi-account-group"></i>
+						<span>
+							Membre Ajeutchim
+							<span class="float-right menu-arrow">
+								<i class="mdi mdi-chevron-right"></i>
+							</span>
+						</span>
+					</a>
+					<ul class="submenu">
+						<li>
+							<a href="{{path('membre_index')}}">Liste des membres</a>
+						</li>
+						<li>
+							<a href="{{path('membre_new')}}">Ajouter un membre</a>
+						</li> 
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="waves-effect waves-light">
+						<i class="ion ion-md-cart"></i>
+						<span>
+							Bureau active
+							<span class="float-right menu-arrow">
+								<i class="mdi mdi-chevron-right"></i>
+							</span>
+						</span>
+					</a>
+					<ul class="submenu">
+						<li>
+							<a href="{{path('bureau_new')}} ">Bureau</a>
+						</li> 
+					</ul>
+				</li>
+				<li>
+					<a href=" {{path('president_index')}} " class="waves-effect waves-light">
+						<i class="ion ion-md-clipboard"></i>
+						<span>
+							Président
+						</span>
+					</a>
+				</li> 
+				<li>
+					<a href="{{path('adhesion_index')}} " class="waves-effect waves-light">
+						<i class="ion ion-md-clipboard"></i>
+						<span>
+							Montant d'adhésion
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{path('montant_annuelle_index')}} " class="waves-effect waves-light">
+						<i class="ion ion-md-clipboard"></i>
+						<span>
+							Montant des cotisation annuelle
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{path('versement_index')}} " class="waves-effect waves-light">
+						<i class="ion ion-md-clipboard"></i>
+						<span>
+							Versement
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="waves-effect waves-light">
+						<i class="ion ion-md-cart"></i>
+						<span>
+							Projet
+							<span class="float-right menu-arrow">
+								<i class="mdi mdi-chevron-right"></i>
+							</span>
+						</span>
+					</a>
+					<ul class="submenu">
+						<li>
+							<a href="{{path('depense_index')}} ">Decaisement</a>
+						</li> 
+						<li>
+							<a href="{{path('depense_new')}} ">Ajouter un projet</a>
+						</li> 
+						<li>
+							<a href="{{path('confirme_presi')}} ">Validation par prési</a>
+						</li> 
+					</ul>
+				</li> 
+				<li>
+					<a href="{{path('bilan_index')}} " class="waves-effect waves-light">
+						<i class="ion ion-md-clipboard"></i>
+						<span>
+							Bilan
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{path('desactive_index')}} " class="waves-effect waves-light">
+						<i class="ion ion-md-clipboard"></i>
+						<span>
+							Activer lien d'inscription
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{path('post_ajeutchim_index')}} " class="waves-effect waves-light">
+						<i class="ion ion-md-clipboard"></i>
+						<span>
+							Post d'AJEUTCHIM
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="waves-effect">
+						<i class="ion ion-md-copy"></i>
+						<span>
+							Cotisation
+							<span class="float-right menu-arrow">
+								<i class="mdi mdi-chevron-right"></i>
+							</span>
+						</span>
+					</a>
+					<ul class="submenu">
+					<li>
+							<a href="{{path('cotisation_new')}}">Ajouter une cotisation</a>
+						</li>
+						<li>
+							<a href="{{path('cotisation_encour')}} ">cotisation en cours</a>
+						</li>
+						<li>
+							<a href="{{path('cotisation_solde')}} ">cotisation solder</a>
+						</li>
+						<li>
+							<a href="{{path('cotisation_index')}} ">cotisation</a>
+						</li>
+						<li>
+							<a href="{{path('cotisation_historique')}}">Historique</a>
+						</li>
+						
+						<li>
+							<a href="pages-pricing.html">Pricing</a>
+						</li>
+						<li>
+							<a href="pages-maintenance.html">Maintenance</a>
+						</li>
+						<li>
+							<a href="pages-faq.html">Faq</a>
+						</li>
+						<li>
+							<a href="pages-404.html">Error 404</a>
+						</li>
+						<li>
+							<a href="pages-500.html">Error 500</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="waves-effect">
+						<i class="mdi mdi-account-group"></i>
+						<span>
+							Clients
+							<span class="float-right menu-arrow">
+								<i class="mdi mdi-chevron-right"></i>
+							</span>
+						</span>
+					</a>
+					<ul class="submenu">
+						<li>
+							<a href="#">Liste des clients</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="waves-effect">
+						<i class="mdi mdi-account-group"></i>
+						<span>
+							Utilisateurs
+							<span class="float-right menu-arrow">
+								<i class="mdi mdi-chevron-right"></i>
+							</span>
+						</span>
+					</a>
+					<ul class="submenu">
+						<li>
+							<a href="#">Liste des Utilisateurs</a>
+						</li>
+						<li>
+							<a href="#">Email Read</a>
+						</li>
+						<li>
+							<a href="#">Email Compose</a>
+						</li>
+					</ul>
+				</li>
+
+				<li>
+					<a href="javascript:void(0);" class="waves-effect">
+						<i class="mdi mdi-settings"></i>
+						<span>
+							Settings
+						</span>
+					</a>
+					<ul class="submenu">
+						<li>
+							<a href="pages-login.html">Login One</a>
+						</li>
+						<li>
+							<a href="pages-login-2.html">Login Two</a>
+						</li>
+						<li>
+							<a href="pages-register.html">Register One</a>
+						</li>
+						<li>
+							<a href="pages-register-2.html">Register Two</a>
+						</li>
+						<li>
+							<a href="pages-recoverpw.html">Recover Password One</a>
+						</li>
+						<li>
+							<a href="pages-recoverpw-2.html">Recover Password Two</a>
+						</li>
+						<li>
+							<a href="pages-lock-screen.html">Lock Screen One</a>
+						</li>
+						<li>
+							<a href="pages-lock-screen-2.html">Lock Screen Two</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+		</div>
+		<!-- Sidebar -->
+		<div class="clearfix"></div>
+
+	</div>
+	<!-- Sidebar -left -->
+
+</div>
+<!-- Left Sidebar End -->

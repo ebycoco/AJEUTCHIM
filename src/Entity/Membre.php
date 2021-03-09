@@ -101,6 +101,11 @@ class Membre
      */
     private $adhesion;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Votant::class, mappedBy="membre", orphanRemoval=true)
+     */
+    private $votants;
+
 
 
     public function __construct()
@@ -111,6 +116,7 @@ class Membre
         $this->membreConseil = new ArrayCollection();
         $this->mandats = new ArrayCollection();
         $this->presidents = new ArrayCollection();
+        $this->votants = new ArrayCollection();
     }
 
     public function __toString()
@@ -408,6 +414,36 @@ class Membre
     public function setAdhesion(float $adhesion): self
     {
         $this->adhesion = $adhesion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Votant[]
+     */
+    public function getVotants(): Collection
+    {
+        return $this->votants;
+    }
+
+    public function addVotant(Votant $votant): self
+    {
+        if (!$this->votants->contains($votant)) {
+            $this->votants[] = $votant;
+            $votant->setMembre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotant(Votant $votant): self
+    {
+        if ($this->votants->removeElement($votant)) {
+            // set the owning side to null (unless already changed)
+            if ($votant->getMembre() === $this) {
+                $votant->setMembre(null);
+            }
+        }
 
         return $this;
     }

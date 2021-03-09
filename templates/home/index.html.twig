@@ -1,20 +1,232 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Hello HomeController!{% endblock %}
-
+{% extends "basehome.html.twig" %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<body>
+		<div class="container-fluid">
+			{% include ("includes/_nav.html.twig") %}
+			<div class="container-fluid paddding mb-5">
+				<div class="row mx-0">
+					<div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
+						{% for image_accueil in image_accueils %}
+							<div class="fh5co_suceefh5co_height"><img src="{{ vich_uploader_asset(image_accueil, 'imageFile')}}" alt="img"/>
+								<div class="fh5co_suceefh5co_height_position_absolute"></div>
+								<div class="fh5co_suceefh5co_height_position_absolute_font">
+									<div class="">
+										<a href="#" class="color_fff">
+											<i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{image_accueil.createdAt | date('d')}}
+											{{image_accueil.createdAt | date('F')}}
+											{{image_accueil.createdAt | date('Y')}}
+										</a>
+									</div>
+									<div class="">{{ image_accueil.description|raw }}</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<div class="col-md-6">
+						<div class="row">
+							{% for evenement_realiser in evenement_realisers %}
+								<div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
+									<div class="fh5co_suceefh5co_height_2"><img src="{{ vich_uploader_asset(evenement_realiser, 'imageFile')}}" alt="img"/>
+										<div class="fh5co_suceefh5co_height_position_absolute"></div>
+										<div class="fh5co_suceefh5co_height_position_absolute_font_2">
+											<div class="">
+												<a href="#" class="color_fff">
+													<i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{evenement_realiser.eventedAt | date('d')}}
+													{{evenement_realiser.eventedAt | date('F')}}
+													{{evenement_realiser.eventedAt | date('Y')}}
+												</a>
+											</div>
+											<div class="">
+												<a href="#" class="fh5co_good_font_2">
+													{{evenement_realiser.description|raw}}</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid pt-5">
+				<div class="container animate-box">
+					<div>
+						<div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-2">Annonce</div>
+					</div>
+					<div class="FLASH" style="background:#032597;height: 30px;">
+						<marquee behavior="scroll" scrollamount="3" height="140" scrolldelay="60" onmouseover="this.stop()" onmouseout="this.start()">
+							{% for flashe  in flashes %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+								<P>
+									<font color="#FFF;">
+										<b>{{flashe.content}}</b>
+									</font>
+								</P>
+							{% endfor %}
+						</marquee>
+					</div>
+				</div>
+			</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/ebychoco/Bureau/Programation/AJEUTCHIM/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/ebychoco/Bureau/Programation/AJEUTCHIM/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+			<div class="container-fluid pb-4">
+				<div class="container animate-box">
+					<div>
+						<div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Présidents</div>
+					</div>
+					<div class="owl-carousel owl-theme" id="slider2">
+						{% for president in presidents %}
+							<div class="item px-2">
+								<div class="fh5co_hover_news_img">
+									<div class="fh5co_news_img"><img src="{{ vich_uploader_asset(president, 'imageFile')}}" alt=""/></div>
+									<div>
+										<a href="#" class="d-block fh5co_small_post_heading">
+											<span class="">{{president.membre.prenom}}
+												{{president.membre.nom}}
+											</span>
+										</a>
+										<div class="c_g">
+											{% if president.finedAt == null %}
+												Président actuel élu
+												{{president.debutedAt | date('d')}}
+												{{president.debutedAt | date('F')}}
+												{{president.debutedAt | date('Y')}}
+											{% else %}
+												Président de
+												{{president.debutedAt | date('Y')}}
+												à
+												{{president.finedAt | date('Y')}}
+											{% endif %}
+
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid fh5co_video_news_bg pb-4" style="background-image: url({{asset('images/video-news-bg.jpg')}});">
+				<div class="container animate-box" data-animate-effect="fadeIn">
+					<div>
+						<div class="fh5co_heading fh5co_heading_border_bottom pt-5 pb-2 mb-4  text-black">Vidéo</div>
+					</div>
+					<div>
+						<div class="owl-carousel owl-theme" id="slider3">
+							{% for video in videos %}
+								<div class="item px-2">
+									<div class="fh5co_hover_news_img">
+										<div class="fh5co_hover_news_img_video_tag_position_relative">
+											<div class="fh5co_news_img">
+												<iframe id="video" width="100%" height="200" src="https://www.youtube.com/embed/{{asset('video.lien')}}
+																																																																																											                                        " frameborder="0" allowfullscreen></iframe>
+											</div>
+											<div class="fh5co_hover_news_img_video_tag_position_absolute fh5co_hide">
+												<img src="{{vich_uploader_asset(video, 'imageFile')}}" alt=""/>
+											</div>
+											<div class="fh5co_hover_news_img_video_tag_position_absolute_1 fh5co_hide" id="play-video">
+												<div class="fh5co_hover_news_img_video_tag_position_absolute_1_play_button_1">
+													<div class="fh5co_hover_news_img_video_tag_position_absolute_1_play_button">
+														<span>
+															<i class="fa fa-play"></i>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="pt-2">
+											<span class="text-black">{{video.title}}</span>
+
+											<div class="c_g">
+												<i class="fa fa-clock-o"></i>
+												{{video.CreatedAt | date('d')}}
+												{{video.CreatedAt | date('F')}}
+												{{video.CreatedAt | date('Y')}}</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid pb-4 pt-4 paddding">
+				<div class="container paddding">
+					<div class="row mx-0">
+						<div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
+							<div>
+								<div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Nos Activités</div>
+							</div>
+							{% for article in articles %}
+								<div class="row pb-4">
+									<div class="col-md-5">
+										<div class="fh5co_hover_news_img">
+											<div class="fh5co_news_img"><img src="{{ vich_uploader_asset(article, 'imageFile')}}" alt=""/></div>
+											<div></div>
+										</div>
+									</div>
+									<div class="col-md-7">
+										<a href="{{ path('article_show', {'id': article.id}) }}" class="fh5co_magna py-2">
+											{{article.title}}
+										</a>
+										<a href="{{ path('article_show', {'id': article.id}) }}" class="fh5co_mini_time py-3">
+											Thomson Smith -
+											{{article.publishedAt | date('F')}}
+											{{article.publishedAt | date('d')}},{{article.publishedAt | date('Y')}}
+										</a>
+										<div class="fh5co_consectetur">
+											{{article.description|raw}}
+										</div>
+										<small class="text-muted">{{article.comments|length}}
+											commentaire(s)</small>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+						{% include ("includes/_sidebarRight.html.twig") %}
+					</div>
+					<div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
+						<div class="col-12 text-center pb-4 pt-4">
+							<nav aria-label="Page navigation example">
+								<ul class="pagination justify-content-center">
+									{% if page > 1 %}
+										<li class="page-item">
+											<a class="page-link" href=" {{path('app_home', {page:1} )}} ">
+												Prémière page
+											</a>
+										</li>
+									{% endif %}
+									{% if page > 1 %}
+										<li class="page-item">
+											<a class="page-link" href=" {{path('app_home', {page:page - 1} )}} ">
+												Précédent
+											</a>
+										</li>
+									{% endif %}
+									{% for p in range %}
+										<li class="page-item {{ page == p ? " active " : " " }}">
+											<a class="page-link " href=" {{path('app_home', {page:p} )}} ">
+												{{p}}
+											</a>
+										</li>
+									{% endfor %}
+									{% if page < pages %}
+										<li class="page-item">
+											<a class="page-link" href=" {{path('app_home', {page:page + 1} )}} ">
+												Suivant
+											</a>
+										</li>
+									{% endif %}
+								</ul>
+							</nav>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="gototop js-top">
+				<a href="#" class="js-gotop">
+					<i class="fa fa-arrow-up"></i>
+				</a>
+			</div>
+		{% endblock %}
