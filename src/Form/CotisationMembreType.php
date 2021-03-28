@@ -16,13 +16,7 @@ class CotisationMembreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('montant')
-            ->add('annee', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Année de cotisation',
-
-            ]);
+        $builder;
     }
 
     public function configureOptions(OptionsResolver $resolver)

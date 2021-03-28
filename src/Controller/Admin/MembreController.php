@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Bilan;
 use App\Entity\Membre;
+use App\Entity\User;
 use App\Form\MembreType;
 use App\Repository\BilanRepository;
 use App\Repository\MembreRepository;
@@ -36,7 +37,7 @@ class MembreController extends AbstractController
         $membre = new Membre();
         $bilan = new Bilan();
         $form = $this->createForm(MembreType::class, $membre);
-        $form->handleRequest($request); 
+        $form->handleRequest($request);
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
 
@@ -45,29 +46,30 @@ class MembreController extends AbstractController
             $membre->setReferenceAjeutchim('AJEUT' . mt_rand(99, 999) . 'CHIM');
             $membre->setAnnee($annee);
             $membre->setAdhesion(500);
+            $membre->setUser($this->getUser());
             $entityManager->persist($membre);
             $entityManager->flush();
 
-             //on insert dans la table bilan 
-             if ($bilanRepository->findAll() == null) {
-               
+            //on insert dans la table bilan 
+            if ($bilanRepository->findAll() == null) {
+
                 $bilan->setAdhesion(500);
                 $bilan->setAnnee($annee);
                 $entityManager->persist($bilan);
                 $entityManager->flush();
-            } else { 
-                $nombreBilan = $bilanRepository->findAll(); 
-                $dernierAnnee=$nombreBilan[count($nombreBilan) - 1]->getAnnee(); 
-                if ($dernierAnnee == $annee) { 
+            } else {
+                $nombreBilan = $bilanRepository->findAll();
+                $dernierAnnee = $nombreBilan[count($nombreBilan) - 1]->getAnnee();
+                if ($dernierAnnee == $annee) {
                     $IdPass = $nombreBilan[count($nombreBilan) - 1]->getId();
                     return $this->redirectToRoute('bilan_ajourA', ['id' => $IdPass]);
-                } else { 
+                } else {
                     $bilan->setAdhesion(500);
                     $bilan->setAnnee($annee);
                     $entityManager->persist($bilan);
                     $entityManager->flush();
-                } 
-            } 
+                }
+            }
 
             return $this->redirectToRoute('membre_index');
         }

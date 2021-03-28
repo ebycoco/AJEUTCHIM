@@ -9,3 +9,35 @@ liip_imagine:
                 thumbnail:
                     size: [350,250]
                     mode: outbound
+
+        imagecandidat:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [350,250]
+                    mode: outbound
+
+        imagecandidat_vote:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [50,50]
+                    mode: outbound
+        imagecandidat_admin:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [100,75]
+                    mode: outbound
+        president_admin:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [100,75]
+                    mode: outbound 
+        utilisateur_admin:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [100,75]
+                    mode: outbound

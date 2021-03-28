@@ -1,0 +1,116 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Membre index
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Liste complete de Candidature</li>
+							</ol>
+						</div>
+						<div class="col-sm-3">
+							<a class="btn btn-primary" href="{{ path('candidature_new') }}">Ajouter un membre</a>
+
+						</div>
+
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-3">
+										<h4 class="mt-0 header-title">Liste des membres</h4>
+										{{app.user.id}}
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+											<thead class="thead-dark">
+												<tr>
+													<th>Id</th>
+													<th>Prenom</th>
+													<th>Matricule Ajeutchim</th>
+													<th>Droit</th>
+													<th>Image du candidat</th>
+													<th>Programme du candidat</th>
+													<th>actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for candidature in candidatures %}
+													<tr>
+														<td>{{ candidature.id }}</td>
+														<td>{{ candidature.prenom }}</td>
+														<td>{{ candidature.matriculeAjeutchim }}</td>
+														<td>
+															{% if candidature.droit == 0 %}
+																En cours
+															{% elseif candidature.droit == 1 %}
+																Accepter
+															{% elseif candidature.droit == 2 %}
+																Refuser
+
+															{% else %}
+																Terminer
+															{% endif %}
+														</td>
+														<td><img src="{{ vich_uploader_asset(candidature, 'imageFile')|imagine_filter('imagecandidat_admin')}}" alt="img"/></td>
+														<td>
+															<a class="btn btn-info" href="/images/imageProgramme/{{ candidature.imageProgramme }}" download>
+																Télécharger
+															</a>
+														</td>
+														<td>
+															<a class="btn btn-success" href="{{ path('candidature_show', {'id': candidature.id}) }}">Voir</a>
+															{% if candidature.droit == 1 %}
+																{% elseif candidature.droit == 0 %}
+																	<a class="btn btn-danger" href="{{ path('candidature_refuser', {'id': candidature.id}) }}">Refuser</a>
+																	<a class="btn btn-primary" href="{{ path('candidature_valider', {'id': candidature.id}) }}">Valider</a>
+																{% elseif candidature.droit == 2 %}
+																	<a class="btn btn-warning" href="{{ path('candidature_enlever', {'id': candidature.id}) }}">Enlever</a>
+																{% else %}
+
+															{% endif %}
+														</td>
+													</tr>
+												{% else %}
+													<tr>
+														<td colspan="10">no records found</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- end col -->
+				</div>
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+{% endblock %}

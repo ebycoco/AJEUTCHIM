@@ -1,232 +1,590 @@
-{% extends "basehome.html.twig" %}
+{% extends "base.html.twig" %}
+{% block title %}Acceuil | AJEUTCHIM
+{% endblock %}
 {% block body %}
-	<body>
-		<div class="container-fluid">
-			{% include ("includes/_nav.html.twig") %}
-			<div class="container-fluid paddding mb-5">
-				<div class="row mx-0">
-					<div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
-						{% for image_accueil in image_accueils %}
-							<div class="fh5co_suceefh5co_height"><img src="{{ vich_uploader_asset(image_accueil, 'imageFile')}}" alt="img"/>
-								<div class="fh5co_suceefh5co_height_position_absolute"></div>
-								<div class="fh5co_suceefh5co_height_position_absolute_font">
-									<div class="">
-										<a href="#" class="color_fff">
-											<i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{image_accueil.createdAt | date('d')}}
-											{{image_accueil.createdAt | date('F')}}
-											{{image_accueil.createdAt | date('Y')}}
-										</a>
-									</div>
-									<div class="">{{ image_accueil.description|raw }}</div>
-								</div>
+
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Bien jour !</strong>
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('info') %}
+		<div class="alert alert-info alert-dismissible fade show" role="alert">
+			<strong>Pour votre information !</strong>
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('danger') %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>Attention !</strong>
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('warning') %}
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Attention !</strong>
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	{% endfor %}
+	<!-- Image Carousel -->
+	<div
+		id="carousel" class="carousel slide" data-ride="carousel" data-interval="6500">
+		<!-- Carousel Content -->
+		<div class="carousel-inner ">
+			<div class="carousel-item active reveal">
+				<img src="img/carousel/1.jpg" alt="" class="w-100"/>
+				<div class="carousel-caption ">
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col-8 bg-custom d-none d-md-block py-3 px-0 reveal-2">
+								<h1>Boostrap</h1>
+								<div class="border-top border-primary w-50 mx-auto my-3"></div>
+								<h3 class="pb-3">Complete Website Design</h3>
+								<a href="#" class="buttonsliderd mr-2">View Demo</a>
+								<a href="#" class="buttonsliderp ml-2">Start Now</a>
 							</div>
-						{% endfor %}
-					</div>
-					<div class="col-md-6">
-						<div class="row">
-							{% for evenement_realiser in evenement_realisers %}
-								<div class="col-md-6 col-6 paddding animate-box" data-animate-effect="fadeIn">
-									<div class="fh5co_suceefh5co_height_2"><img src="{{ vich_uploader_asset(evenement_realiser, 'imageFile')}}" alt="img"/>
-										<div class="fh5co_suceefh5co_height_position_absolute"></div>
-										<div class="fh5co_suceefh5co_height_position_absolute_font_2">
-											<div class="">
-												<a href="#" class="color_fff">
-													<i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{evenement_realiser.eventedAt | date('d')}}
-													{{evenement_realiser.eventedAt | date('F')}}
-													{{evenement_realiser.eventedAt | date('Y')}}
-												</a>
-											</div>
-											<div class="">
-												<a href="#" class="fh5co_good_font_2">
-													{{evenement_realiser.description|raw}}</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							{% endfor %}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="container-fluid pt-5">
-				<div class="container animate-box">
-					<div>
-						<div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-2">Annonce</div>
-					</div>
-					<div class="FLASH" style="background:#032597;height: 30px;">
-						<marquee behavior="scroll" scrollamount="3" height="140" scrolldelay="60" onmouseover="this.stop()" onmouseout="this.start()">
-							{% for flashe  in flashes %}
-
-								<P>
-									<font color="#FFF;">
-										<b>{{flashe.content}}</b>
-									</font>
-								</P>
-							{% endfor %}
-						</marquee>
+			<div class="carousel-item reveal">
+				<img src="img/carousel/2.jpg" alt="" class="w-100"/>
+				<div class="carousel-caption">
+					<div class="container">
+						<div class="row justify-content-end text-right">
+							<div class="col-5 bg-custom d-none d-lg-block py-3 px-0 pr-3 reveal-5">
+								<p class="lead pb-3">
+									Lorem ipsum dolor sit amet consectetur adipisicing elit
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															                    Veritatis.
+								</p>
+								<a href="#" class="buttonsliderd">See phone</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="container-fluid pb-4">
-				<div class="container animate-box">
-					<div>
-						<div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Présidents</div>
+			<div class="carousel-item reveal">
+				<img src="img/carousel/3.jpg" alt="" class="w-100"/>
+				<div class="carousel-caption">
+					<div class="container">
+						<div class="row justify-content-start text-left">
+							<div class="col-7 bg-custom d-none d-lg-block py-3 px-0 pl-3 reveal-7">
+								<h3 class="pb-3">Built For Tablets</h3>
+								<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															                    Quaerat, earum.
+								</p>
+								<a href="#" class="buttonsliderp">See tablet</a>
+							</div>
+						</div>
 					</div>
-					<div class="owl-carousel owl-theme" id="slider2">
-						{% for president in presidents %}
-							<div class="item px-2">
-								<div class="fh5co_hover_news_img">
-									<div class="fh5co_news_img"><img src="{{ vich_uploader_asset(president, 'imageFile')}}" alt=""/></div>
-									<div>
-										<a href="#" class="d-block fh5co_small_post_heading">
-											<span class="">{{president.membre.prenom}}
-												{{president.membre.nom}}
-											</span>
-										</a>
-										<div class="c_g">
-											{% if president.finedAt == null %}
-												Président actuel élu
-												{{president.debutedAt | date('d')}}
-												{{president.debutedAt | date('F')}}
-												{{president.debutedAt | date('Y')}}
-											{% else %}
-												Président de
-												{{president.debutedAt | date('Y')}}
-												à
-												{{president.finedAt | date('Y')}}
-											{% endif %}
+				</div>
+			</div>
+		</div>
+		<!-- End Carousel Content -->
 
-										</div>
+		<!-- Previous & Next Buttons -->
+		<a href="#carousel" class="carousel-control-prev" role="button" data-slide="prev">
+			<span class="fas fa-chevron-left fa-2x"></span>
+		</a>
+		<a href="#carousel" class="carousel-control-next" role="button" data-slide="next">
+			<span class="fas fa-chevron-right fa-2x"></span>
+		</a>
+		<!-- End Previous & Next Buttons -->
+	</div>
+	<!-- End Image Carousel -->
+
+	<!--  info panel-->
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-10 info-panel">
+				<div class="row">
+					{% for bureau in bureaux %}
+						{% if bureau.postAjeutchim.name == "Président" %}
+							<div class="col-lg">
+								<img src="img/employee.png" alt="employee" class="float-left"/>
+								<h4>Président</h4>
+								<p>{{ bureau.membre.nom }}
+									{{ bureau.membre.prenom }}</p>
+							</div>
+						{% elseif bureau.postAjeutchim.name == "Vice-présidente" %}
+							<div class="col-lg">
+								<img src="img/hires.png" alt="employee" class="float-left"/>
+								<h4>Vice-présidente</h4>
+								<p>{{ bureau.membre.nom }}
+									{{ bureau.membre.prenom }}</p>
+							</div>
+						{% elseif bureau.postAjeutchim.name == "Secrétaire général" %}
+							<div class="col-lg">
+								<img src="img/security.png" alt="employee" class="float-left"/>
+								<h4>Secrétaire général</h4>
+								<p>{{ bureau.membre.nom }}
+									{{ bureau.membre.prenom }}</p>
+							</div>
+							{% else %}
+						{% endif %}
+					{% endfor %}
+
+
+				</div>
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-10  mt-3">
+							<div class="row">
+								<div class="col">
+									{% set activ = 0 %}
+									{% for vote in votes %}
+										{% if vote.etat == 1 %}
+											{% set activ = 1 %}
+											{% else %}
+										{% endif %}
+									{% endfor %}
+									{% if activ == 1 %}
+										<a href="#vote" class="button1 " role="button" data-toggle="collapse">Voter</a>
+										{% else %}
+									{% endif %}
+								</div>
+								<div class="col">
+									{% set activeet = 0 %}
+									{% for ouverture in ouvertures %}
+										{% if ouverture.etat == 1 %}
+											{% set activeet = 1 %}
+											{% else %}
+										{% endif %}
+									{% endfor %}
+									{% if activeet == 1 %}
+										<a href="{{path('candidature_new')}}" class="button1 ">Déposer ma candidature</a>
+										{% else %}
+									{% endif %}
+								</div>
+								<div class="col">
+									<a href="#adhession" class="button1" role="button" data-toggle="collapse">Demande d'adhésion</a>
+								</div>
+								<div class="col">
+
+									{% set activee = 0 %}
+									{% for desactiver in desactiver %}
+										{% if desactiver.etat == 1 %}
+											{% set activee = 1 %}
+											{% else %}
+										{% endif %}
+									{% endfor %}
+									{% if activee == 1 %}
+										<a href="{{path('app_register')}}" class="button1" role="button" data-toggle="collapse">S'inscrire</a>
+										{% else %}
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fin info panel-->
+	<div class="collapse mt-5" id="vote">
+		<div class="container">
+			{{ form_start(form1) }}
+			<div class="form-group">
+				<div class="col-6 mx-auto">
+					{{ form_row(form1.matricule) }}
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-6 text-right">
+					<button class="btn btn-primary w-md waves-effect waves-light" type="submit">Register</button>
+				</div>
+			</div>
+			{{ form_end(form1) }}
+		</div>
+	</div>
+	<div class="collapse mt-5" id="adhession">
+		<div class="container">
+			{{ include('demande_adhesion/_form.html.twig') }}
+		</div>
+	</div>
+	<div class="container ">
+		<div class="row mt-5 box-shadow-0">
+			<div class="col-lg-8">
+				<div class="card border-0 mb-3">
+					<div class="card-header bg-primary text-white text-uppercase text-center">
+						Mot du president
+					</div>
+					<div class="row py-4">
+						{% for bureau in bureaux %}
+							{% if bureau.postAjeutchim.name == "Président"%}
+								<div class="col-lg-4 text-center figure">
+									<img src="img/code.jpg" class="rounded mx-auto d-block w-100" alt=""/>
+									<figcaption class="figure-caption text-center">
+										{{ bureau.membre.nom }}
+										{{ bureau.membre.prenom }}
+									</figcaption>
+								</div>
+								<div class="col-lg-8 mb-4 my-lg-auto">
+									<h1 class="text-dark font-weight-bold mb-3">
+										Bienvenu
+									</h1>
+									<p class="mb-4">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde distinctio mollitia perspiciatis laudantium officia quis officiis, laborum dolore neque facilis beatae ullam dignissimos provident nisi aut cumque aliquam dolorem quaerat.
+									</p>
+									<a href="#" target="_blank" class="btn btn-outline-warning btn-lg">Lire suite</a>
+								</div>
+								{% else %}
+
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card border-0 mb-3">
+					<div class="card-header bg-warning text-white text-uppercase text-center">
+						Informations
+					</div>
+					<div class="card-body">
+						<div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+							<div class="carousel-inner" role="listbox">
+								{% set activee = "active" %}
+								{% for flashe in flashes %}
+									<div class="carousel-item {{activee}}">
+										<h3>"{{flashe.content}}"</h3>
+										<h4>Jack Dorsey, Twitter Founder and CEO</h4>
+										{% set activee = " " %}
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- resultats -->
+	<section id="resultat" class="container-fluid reveal">
+		<div class="col-12 text-center">
+			<div class="blue-divider"></div>
+			<div class="heading">
+				<h2 class="mt-3">Les Resultats</h2>
+			</div>
+			<p class="lead">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+			</p>
+		</div>
+		<div class="container reveal-1">
+			<div class="row justify-content-center">
+				{% for candidat in candidats %}
+					<div class="col">
+						<div class="card">
+							<img src="{{ vich_uploader_asset(candidat.candidature, 'imageFile')}}" class="card-img-top" alt="img"/>
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										<h5 class="card-title">
+											{{ candidat.nom }}
+											{{ candidat.prenom }}
+										</h5>
+									</div>
+									<div class="col">
+										<h5>Voix obtenue
+											<span class="h4">{{ candidat.nombreVoix }}</span>
+										</h5>
 									</div>
 								</div>
 							</div>
-						{% endfor %}
-
+						</div>
 					</div>
-				</div>
+				{% endfor %}
 			</div>
-			<div class="container-fluid fh5co_video_news_bg pb-4" style="background-image: url({{asset('images/video-news-bg.jpg')}});">
-				<div class="container animate-box" data-animate-effect="fadeIn">
-					<div>
-						<div class="fh5co_heading fh5co_heading_border_bottom pt-5 pb-2 mb-4  text-black">Vidéo</div>
-					</div>
-					<div>
-						<div class="owl-carousel owl-theme" id="slider3">
-							{% for video in videos %}
-								<div class="item px-2">
-									<div class="fh5co_hover_news_img">
-										<div class="fh5co_hover_news_img_video_tag_position_relative">
-											<div class="fh5co_news_img">
-												<iframe id="video" width="100%" height="200" src="https://www.youtube.com/embed/{{asset('video.lien')}}
-																																																																																											                                        " frameborder="0" allowfullscreen></iframe>
-											</div>
-											<div class="fh5co_hover_news_img_video_tag_position_absolute fh5co_hide">
-												<img src="{{vich_uploader_asset(video, 'imageFile')}}" alt=""/>
-											</div>
-											<div class="fh5co_hover_news_img_video_tag_position_absolute_1 fh5co_hide" id="play-video">
-												<div class="fh5co_hover_news_img_video_tag_position_absolute_1_play_button_1">
-													<div class="fh5co_hover_news_img_video_tag_position_absolute_1_play_button">
-														<span>
-															<i class="fa fa-play"></i>
-														</span>
+		</div>
+	</section>
+	<!-- fin resultats -->
+	<!-- president -->
+	<section id="pesi" class="container-fluid reveal">
+		<div class="col-12 text-center">
+			<div class="blue-divider"></div>
+			<div class="heading">
+				<h2 class="mt-3">Les Presidents</h2>
+			</div>
+			<p class="lead">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+			</p>
+		</div>
+		<div class="container reveal-1">
+			<div class="row justify-content-center">
+				<div class="col-md-12">
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner">
+							{% set activee = "active" %}
+							{% for row in presidents|batch(3) %}
+								<div class="carousel-item {{activee}}">
+									<div class="row">
+										{% for president in row %}
+											<div class="col-lg-4">
+												<div class="single-box">
+													<div class="img-area">
+														<img src="img/1.jpg" alt=""/>
+													</div>
+													<div class="img-text">
+														<h2>{{president.membre.prenom}}
+														</h2>
+														<span class="p">{{president.debutedAt ? president.debutedAt|date('Y') : '' }}
+															-
+															{{president.finedAt ? president.finedAt|date('Y') : 'en cours'}}</span>
+														<p>
+															Il a été élu le  10 - 11 - 2020
+														</p>
+														<a href="#" class="buttonsliderp">Son bureau</a>
 													</div>
 												</div>
+												{% set activee = " " %}
 											</div>
-										</div>
-										<div class="pt-2">
-											<span class="text-black">{{video.title}}</span>
-
-											<div class="c_g">
-												<i class="fa fa-clock-o"></i>
-												{{video.CreatedAt | date('d')}}
-												{{video.CreatedAt | date('F')}}
-												{{video.CreatedAt | date('Y')}}</div>
-										</div>
+										{% endfor %}
 									</div>
 								</div>
 							{% endfor %}
+							<a href="#carouselExampleIndicators" class="carousel-control-prev" role="button" data-slide="prev">
+								<span class="fas fa-chevron-left fa-2x"></span>
+							</a>
+							<a href="#carouselExampleIndicators" class="carousel-control-next" role="button" data-slide="next">
+								<span class="fas fa-chevron-right fa-2x"></span>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="container-fluid pb-4 pt-4 paddding">
-				<div class="container paddding">
-					<div class="row mx-0">
-						<div class="col-md-8 animate-box" data-animate-effect="fadeInLeft">
-							<div>
-								<div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">Nos Activités</div>
+		</div>
+	</section>
+	<!-- fin president-->
+
+	<!-- Main Page Heading -->
+	<section id="activite" class="container-fluid reveal">
+		<div class="col-12 text-center mt-5 ">
+			<div class="blue-divider"></div>
+			<div class="heading">
+				<h2 class="mt-3">Dernière articles</h2>
+			</div>
+			<p class="lead">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+			</p>
+		</div>
+		<!-- Three Column Section -->
+		<div class="container">
+			{% for row in articles|batch(3)  %}
+				<div class="row mt-2">
+					{% for article in row %}
+						<div class="col-md-4 reveal-1">
+							<div class="card">
+								<img src="img/1.jpg" class="card-img-top" alt="...">
+								<div class="card-body">
+									<h5 class="card-title">{{article.title}}</h5>
+									<p class="card-text">{{article.description}}</p>
+									<div class="text-center">
+										<a href="#" class="btn btn-outline-warning btn-md">Suite...</a>
+									</div>
+								</div>
 							</div>
-							{% for article in articles %}
-								<div class="row pb-4">
-									<div class="col-md-5">
-										<div class="fh5co_hover_news_img">
-											<div class="fh5co_news_img"><img src="{{ vich_uploader_asset(article, 'imageFile')}}" alt=""/></div>
-											<div></div>
-										</div>
-									</div>
-									<div class="col-md-7">
-										<a href="{{ path('article_show', {'id': article.id}) }}" class="fh5co_magna py-2">
-											{{article.title}}
-										</a>
-										<a href="{{ path('article_show', {'id': article.id}) }}" class="fh5co_mini_time py-3">
-											Thomson Smith -
-											{{article.publishedAt | date('F')}}
-											{{article.publishedAt | date('d')}},{{article.publishedAt | date('Y')}}
-										</a>
-										<div class="fh5co_consectetur">
-											{{article.description|raw}}
-										</div>
-										<small class="text-muted">{{article.comments|length}}
-											commentaire(s)</small>
-									</div>
-								</div>
-							{% endfor %}
 						</div>
-						{% include ("includes/_sidebarRight.html.twig") %}
-					</div>
-					<div class="row mx-0 animate-box" data-animate-effect="fadeInUp">
-						<div class="col-12 text-center pb-4 pt-4">
-							<nav aria-label="Page navigation example">
-								<ul class="pagination justify-content-center">
-									{% if page > 1 %}
-										<li class="page-item">
-											<a class="page-link" href=" {{path('app_home', {page:1} )}} ">
-												Prémière page
-											</a>
-										</li>
-									{% endif %}
-									{% if page > 1 %}
-										<li class="page-item">
-											<a class="page-link" href=" {{path('app_home', {page:page - 1} )}} ">
-												Précédent
-											</a>
-										</li>
-									{% endif %}
-									{% for p in range %}
-										<li class="page-item {{ page == p ? " active " : " " }}">
-											<a class="page-link " href=" {{path('app_home', {page:p} )}} ">
-												{{p}}
-											</a>
-										</li>
-									{% endfor %}
-									{% if page < pages %}
-										<li class="page-item">
-											<a class="page-link" href=" {{path('app_home', {page:page + 1} )}} ">
-												Suivant
-											</a>
-										</li>
-									{% endif %}
-								</ul>
-							</nav>
-						</div>
-
-					</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+	<!-- End Three Column Section -->
+	<section id="galery" class="container-fluid reveal">
+		<div class="col-12 text-center">
+			<div class="blue-divider"></div>
+			<div class="heading">
+				<h2 class="mt-3">GALERY</h2>
+			</div>
+			<p class="lead">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+			</p>
+		</div>
+		<!-- Three Column Section -->
+		<div class="container">
+			<div class="row my-5">
+				<div class="col-md-4 mb-3 reveal-1">
+					<img src="img/1.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				</div>
+				<div class="col-md-4 mb-3 reveal-3">
+					<img src="img/2.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				</div>
+				<div class="col-md-4 mb-3 reveal-2">
+					<img src="img/3.jpg" alt="" class="rounded mx-auto d-block w-100"/>
 				</div>
 			</div>
-			<div class="gototop js-top">
-				<a href="#" class="js-gotop">
-					<i class="fa fa-arrow-up"></i>
+			<div class="row">
+				<div class="col-md-4 mb-3 reveal-4">
+					<img src="img/1.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				</div>
+				<div class="col-md-4 mb-3 reveal-6">
+					<img src="img/2.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				</div>
+				<div class="col-md-4 mb-3 reveal-5">
+					<img src="img/3.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Three Column Section -->
+
+	<!-- Start Two Column Section -->
+	<section id="video" class="container-fluid reveal">
+		<div class="col-12 text-center">
+			<div class="blue-divider"></div>
+			<div class="heading">
+				<h2 class="mt-3">vidéo</h2>
+			</div>
+			<p class="lead">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+			</p>
+		</div>
+		<!-- Three Column Section -->
+		<div class="container reveal-1">
+			<div class="row my-5">
+				<div class="col-md-4 mb-3">
+					<img src="img/1.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				</div>
+				<div class="col-md-4 mb-3">
+					<img src="img/2.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				</div>
+				<div class="col-md-4 mb-3">
+					<img src="img/3.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Three Column Section -->
+
+	<!-- Start Jumbotron -->
+	<div class="jumbotron py-5 mb-0">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7 col-lg-8 col-xl-9 my-auto">
+					<h4>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h4>
+				</div>
+				<div class="col-md-5 col-lg-4 col-xl-3">
+					<a href="#contact" role="button" data-toggle="collapse" class="button1">Nous contacter</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="collapse mt-5 mb-3" id="contact">
+		<div class="container">
+			<form>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="inputEmail4">Email</label>
+						<input type="email" class="form-control" id="inputEmail4" placeholder="Email" required/>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="inputPassword4">Password</label>
+						<input type="password" class="form-control" id="inputPassword4" placeholder="Password" required/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputAddress">Address</label>
+					<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" required/>
+				</div>
+				<div class="form-group">
+					<label for="inputAddress2">Address 2</label>
+					<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" required/>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="inputCity">City</label>
+						<input type="text" class="form-control" id="inputCity" required/>
+					</div>
+					<div class="form-group col-md-4">
+						<label for="inputState">State</label>
+						<select id="inputState" class="form-control">
+							<option selected>Choose...</option>
+							<option>...</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+						<label for="inputZip">Zip</label>
+						<input type="text" class="form-control" id="inputZip"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" id="gridCheck"/>
+						<label class="form-check-label" for="gridCheck">
+							Check me out
+						</label>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">Sign in</button>
+			</form>
+		</div>
+	</div>
+	<!-- End Jumbotron -->
+
+	<!-- Emoji Navbar First -->
+	<a class="navbar bg-primary sticky-top emoji" href="#emoji" role="button" data-toggle="collapse"></a>
+	<!-- Start Fixed Background IMG -->
+	<div class="fixed-background">
+		<div class="row text-light py-5">
+			<div class="col-12 text-center">
+				<h1>Advence to the Next Level</h1>
+				<h3 class="py-4">..see what's on the other side.</h3>
+				<a type="button" data-toggle="modal" data-target="#modal1" class="button1">
+					Blue Pill
+				</a>
+				<a type="button" data-toggle="modal" data-target="#modal1" class="button2">
+					red Pill
 				</a>
 			</div>
-		{% endblock %}
+		</div>
+		<div class="fixed-wrap">
+			<div class="fixed" style="background-image: url({{asset('img/matrix.jpg')}});
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				  position: fixed;"></div>
+		</div>
+	</div>
+	<!-- End Fixed Background IMG -->
+
+	<!-- Emoji Navbar Second -->
+	<div class="charger">
+		<a class="navbar bg-primary sticky-top emoji" href="#emoji" role="button" data-toggle="collapse">
+			<i class="fas fa-plug"></i>
+		</a>
+	</div>
+	<div class="collapse" id="emoji">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-md-3">
+					<img src="img/emoji/panda.gif" alt="" class="w-100"/>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<img src="img/emoji/chicken.gif" alt="" class="w-100"/>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<img src="img/emoji/poo.gif" alt="" class="w-100"/>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<img src="img/emoji/unicorn.gif" alt="" class="w-100"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Popup -->
+	<div class="modal fade" id="modal1">
+		<div class="modal-dialog">
+			<img src="img/emoji/poo.gif" alt="" class="w-100"/>
+		</div>
+	</div>
+{% endblock %}

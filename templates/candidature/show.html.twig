@@ -8,8 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ candidature.id }}</td>
+                <th>Image du candidat</th>
+                <td><img src="{{ vich_uploader_asset(candidature, 'imageFile')|imagine_filter('imagecandidat_admin')}}" alt="img"/></td>
             </tr>
             <tr>
                 <th>Nom</th>
@@ -26,22 +26,12 @@
             <tr>
                 <th>Droit</th>
                 <td>{{ candidature.droit }}</td>
-            </tr>
+            </tr> 
             <tr>
-                <th>ImageCandidat</th>
-                <td>{{ candidature.imageCandidat }}</td>
-            </tr>
-            <tr>
-                <th>ImageProgramme</th>
-                <td>{{ candidature.imageProgramme }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ candidature.createdAt ? candidature.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ candidature.updatedAt ? candidature.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Voir son Progrmme</th>
+                <td><a class="btn btn-warning" href="/images/imageProgramme/{{ candidature.imageProgramme }}" download>
+							Télécharger
+						</a></td>
             </tr>
         </tbody>
     </table>

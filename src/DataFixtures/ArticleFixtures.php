@@ -140,6 +140,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             $adhesion->setUser($user);
             $manager->persist($adhesion);
             for ($nbmembre = 1; $nbmembre <= 30; $nbmembre++) {
+                $user = $this->getReference('user_' . $faker->numberBetween(1, 30));
                 $membre = new Membre();
                 $membre->setNom($faker->lastName);
                 $membre->setPrenom($faker->firstName);
@@ -149,6 +150,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
                 $membre->setEmail($faker->email);
                 $membre->setAnnee($faker->numberBetween(2020, 2021));
                 $membre->setReferenceAjeutchim('AJEUT' . mt_rand(99, 999) . 'CHIM');
+                $membre->setUser($user);
                 $membre->setAdhesion(500);
                 $manager->persist($membre);
                 $this->setReference('membre_' . $nbmembre, $membre);

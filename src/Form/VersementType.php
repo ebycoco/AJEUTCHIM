@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Versement;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,11 +15,13 @@ class VersementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('montant')
+            ->add('montant', TextType::class)
             ->add('objet', ChoiceType::class, [
                 'choices' => $this->getChoices()
             ])
-            ->add('description')
+            ->add('description', CKEditorType::class, [
+                'config_name' => 'main_config',
+            ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prenom de la personne',
             ]);

@@ -19,11 +19,29 @@
 								<li class="breadcrumb-item active">Vous être dans Produits</li>
 							</ol>
 						</div>
-						<div class="col-sm-3">
-							{% if desactives | length < 1 %}
-								<a class="btn btn-primary" href="{{ path('desactive_new') }}">Ajouter un produit</a>
-								{% else %}
+						<div class="col-sm-8">
+							{% if candidats | length > 0 %}
+								<div class="row">
+									<div class="col">
+										<a class="btn btn-primary" href="{{ path('desactive_lien') }}">Ajouter un lien</a>
+									</div>
+									<div class="col">
+										<a class="btn btn-primary" href="{{ path('desactive_ouvertureCandidature') }}">Ouverture des candidatures</a>
+									</div>
+									<div class="col">
+										<a class="btn btn-primary" href="{{ path('desactive_ouvertureVote') }}">Ouverture des votes</a>
+									</div>
+								</div>
+							{% else %}
+								<div class="row">
+									<div class="col">
+										<a class="btn btn-primary" href="{{ path('desactive_lien') }}">Ajouter un lien</a>
+									</div>
+									<div class="col">
+										<a class="btn btn-primary" href="{{ path('desactive_ouvertureCandidature') }}">Ouverture des candidatures</a>
+									</div>
 
+								</div>
 							{% endif %}
 						</div>
 					</div>
@@ -81,9 +99,11 @@
 														<td>{{ desactive.id }}</td>
 														<td>
 															{% if activee == 1 %}
-																<p>Lien d'inscription est activer</p>
+																<p>{{desactive.nom}}
+																	est activer</p>
 															{% else %}
-																<p>Lien d'inscription est Desactiver</p>
+																<p>{{desactive.nom}}
+																	est Desactiver</p>
 															{% endif %}
 														</td>
 														<td>{{ desactive.debut ? desactive.debut|date('d-m-Y') : '' }}</td>
@@ -98,8 +118,12 @@
 
 														</td>
 														<td>
-															<a href="{{ path('desactive_show', {'id': desactive.id}) }}">show</a>
-															<a href="{{ path('desactive_edit', {'id': desactive.id}) }}">edit</a>
+															<a href="{{ path('desactive_edit', {'id': desactive.id}) }}" class="btn btn-primary">Modifier</a>
+															{% if desactive.etat %}
+																<a href="{{ path('desactive_etat', {'id': desactive.id}) }}" class="btn btn-warning">Deactive</a>
+															{% else %}
+																<a href="{{ path('desactive_etat', {'id': desactive.id}) }}" class="btn btn-info">Active</a>
+															{% endif %}
 														</td>
 													</tr>
 												{% else %}
@@ -123,7 +147,7 @@
 		<!-- content -->
 		{{ include('includes/_footer_admin.html.twig')}}
 	</div>
-{% endblock %} 
+{% endblock %}
 {% block javascripts %}
 	{{ encore_entry_script_tags('app') }}
 	<script>

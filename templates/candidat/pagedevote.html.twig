@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidat index
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('info') %}
+			<div class="alert alert-info">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('warning') %}
+			<div class="alert alert-warning">
+				{{ message }}
+			</div>
+		{% endfor %}
+		<h1 class="text-primary text-center">
+			Votez votre candidat de choix</h1> 
+			<p>{{matriculeEntrer}}</p>
+		<div class="row">
+			{% for candidat in candidats %}
+				<div class="col">
+					<div class="card">
+						<img src="{{ vich_uploader_asset(candidat.candidature, 'imageFile')}}" class="card-img-top" alt="img"/>
+						<div class="card-body">
+							<h5 class="card-title">{{ candidat.nom }}
+								{{ candidat.prenom }}</h5>
+							<a href="{{ path('candidat_choix', {'id': candidat.id}) }}" class="btn btn-primary">Je le Vote</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

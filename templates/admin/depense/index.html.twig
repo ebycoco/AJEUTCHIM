@@ -81,13 +81,13 @@
 																<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">{{ depense.titre }}</a>
 															{% else %}
 																{% if depense.rejeter %}
-																<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">Voir le project</a>
-																	{% elseif depense.confirme == 1 and depense.etat == 0 and depense.rejeter == null %}
-																		{{ depense.titre }}
+																	<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">Voir le project</a>
+																{% elseif depense.confirme == 1 and depense.etat == 0 and depense.rejeter == null %}
+																	{{ depense.titre }}
 
-																	{% else %}
-																		<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">Voir le project</a>
-																		
+																{% else %}
+																	<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">Voir le project</a>
+
 																{% endif %}
 															{% endif %}
 														</td>
@@ -121,6 +121,8 @@
 																	<a href="{{ path('depense_lever', {'id': depense.id}) }}" class="btn btn-danger">En lever</a>
 																{% elseif depense.confirme == 1 and depense.etat == 0 and depense.rejeter == null %}
 																	<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-success">Voir le project</a>
+																{% elseif depense.montant == depense.montanpaye %}
+																	<a href="{{ path('depense_lever', {'id': depense.id}) }}" class="btn btn-danger">En lever</a>
 																{% else %}
 																	<a href="{{ path('depense_accepter', {'id': depense.id}) }}" class="btn btn-info">Envoyer au président</a>
 

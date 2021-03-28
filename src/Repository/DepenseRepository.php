@@ -42,6 +42,26 @@ class DepenseRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findByTerminer()
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.visible =  false')
+            ->andWhere('d.etat =  2')
+            ->orderBy('d.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByEncou()
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.visible =  false')
+            ->andWhere('d.rejeter =  0')
+            ->andWhere('d.confirme =  true')
+            ->andWhere('d.etat =  1')
+            ->orderBy('d.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Depense[] Returns an array of Depense objects

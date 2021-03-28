@@ -4,7 +4,7 @@
 
 	<!-- LOGO -->
 	<div class="topbar-left">
-		<a href="index.html" class="logo">
+		<a href="{{path('admin_index')}}" class="logo">
 			<span class="logo-light">
 				AJEUTCHIM
 			</span>
@@ -81,12 +81,18 @@
 		<li class="dropdown notification-list list-inline-item">
 			<div class="dropdown notification-list nav-pro-img">
 				<a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-					<img src="{{asset('assets/images/users/user-4.jpg')}}" alt="user" class="rounded-circle">
+
+					{% if app.user.imageName %}
+						<img src="{{ vich_uploader_asset(app.user, 'imageFile')}}" alt="user" class="rounded-circle">
+					{% else %}
+						<img src="{{asset('assets/images/users/user-4.jpg')}}" alt="user" class="rounded-circle"/>
+
+					{% endif %}
 				</a>
 				<div
 					class="dropdown-menu dropdown-menu-right profile-dropdown ">
 					<!-- item-->
-					<a class="dropdown-item" href="#">
+					<a class="dropdown-item" href="{{ path('admin_utilisateur_profile', {'id': app.user.id}) }}">
 						<i class="mdi mdi-account-circle"></i>
 						Profile</a>
 					<a class="dropdown-item" href="#">

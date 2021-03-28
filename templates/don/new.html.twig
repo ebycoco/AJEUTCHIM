@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Don{% endblock %}
+{% block title %}New Don
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Don</h1>
 
-    {{ include('don/_form.html.twig') }}
+	<h1>Create new Don</h1>
 
-    <a href="{{ path('don_index') }}">back to list</a>
+	{{ include('don/_form.html.twig') }}
+
+	<a href="{{ path('don_index') }}">back to list</a>
 {% endblock %}

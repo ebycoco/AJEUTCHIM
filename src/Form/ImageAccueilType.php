@@ -6,6 +6,7 @@ use App\Entity\ImageAccueil;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ImageAccueilType extends AbstractType
 {
@@ -14,11 +15,17 @@ class ImageAccueilType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('imageName')
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'download_link' => false,
+                'image_uri' => false,
+                'label' => 'Image du président (JPG or PNG file)',
+
+            ])
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('user')
-        ;
+            ->add('user');
     }
 
     public function configureOptions(OptionsResolver $resolver)

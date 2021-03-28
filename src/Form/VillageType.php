@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Village;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,7 +14,9 @@ class VillageType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('histoire')
+            ->add('histoire',CKEditorType::class, [
+                'config_name' => 'main_config',
+                    ])
             ->add('imageName')
             ->add('createdAt')
             ->add('updatedAt')

@@ -1,22 +1,93 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Reset your password{% endblock %}
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+		<title>Reset your password</title>
+		<meta content="Responsive admin theme build on top of Bootstrap 4" name="description"/>
+		<meta content="Themesbrand" name="author"/>
+		<link rel="shortcut icon" href="{{asset('images/faviconlo.ico')}}">
 
-{% block body %}
-    {% for flashError in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
-    <h1>Reset your password</h1>
+		<link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+		<link href="{{asset('assets/css/metismenu.min.css')}}" rel="stylesheet" type="text/css">
+		<link href="{{asset('assets/css/icons.css')}}" rel="stylesheet" type="text/css">
+		<link href="{{asset('assets/css/style.css')}}" rel="stylesheet" type="text/css">
+	</head>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Enter your email address and we we will send you a
-                link to reset your password.
-            </small>
-        </div>
+	<body class="bg-primary">
+		<div class="home-btn d-none d-sm-block">
+			<a href="index.html" class="text-white">
+				<i class="fas fa-home h2"></i>
+			</a>
+		</div>
 
-        <button class="btn btn-primary">Send password reset email</button>
-    {{ form_end(requestForm) }}
-{% endblock %}
+		<div class="account-pages my-5 pt-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-8 col-lg-6 col-xl-5">
+						<div class="card bg-pattern shadow-none">
+							<div class="card-body">
+								<div class="text-center mt-4">
+									<div class="mb-3">
+										<a href="index.html" class="logo"><img src="assets/images/logo-light.png" height="20" alt="logo"></a>
+									</div>
+								</div>
+								<div class="p-3">
+									{% for flashError in app.flashes('reset_password_error') %}
+										<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+									{% endfor %}
+									<h4 class="font-18 text-center">Reset Password</h4>
+									<div class="alert alert-success mt-4 mb-5 text-center" role="alert">
+										Enter your email address and we we will send you a
+																																				                link to reset your password.
+									</div>
+									{{ form_start(requestForm, {label_attr: {class: 'form-horizontal'} }) }}
+
+									<div class="form-group">
+										{{ form_row(requestForm.email) }}
+									</div>
+
+
+									<div class="form-group row">
+										<div class="col-12 text-right">
+											<button class="btn btn-primary w-md waves-effect waves-light" type="submit">Send password reset email</button>
+										</div>
+									</div>
+
+									{{ form_end(requestForm) }}
+
+								</div>
+
+							</div>
+						</div>
+						<div class="mt-5 text-center text-white-50">
+							<p>Remember It ?
+								<a href="{{path('app_login')}}" class="font-500 text-white">
+									Sign In here
+								</a>
+							</p>
+							<p>© 2019 Veltrix. Crafted with
+								<i class="mdi mdi-heart text-danger"></i>
+								by Themesbrand</p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- jQuery  -->
+		<script src="{{asset('assets/js/jquery.min.js')}}"></script>
+		<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+		<script src="{{asset('assets/js/metismenu.min.js')}}"></script>
+		<script src="{{asset('assets/js/jquery.slimscroll.js')}}"></script>
+		<script src="{{asset('assets/js/waves.min.js')}}"></script>
+
+		<!-- App js -->
+		<script src="{{asset('assets/js/app.js')}}"></script>
+
+	</body>
+
+</html>

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit MediaUtilisateur{% endblock %}
+
+{% block body %}
+    <h1>Edit MediaUtilisateur</h1>
+
+    {{ include('media_utilisateur/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('media_utilisateur_index') }}">back to list</a>
+
+    {{ include('media_utilisateur/_delete_form.html.twig') }}
+{% endblock %}

@@ -2,6 +2,9 @@
 
 {% block title %}Cotisation index
 {% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous">
+{% endblock %}
 
 {% block body %}
 	<div
@@ -77,10 +80,10 @@
 							</div>
 						</div>
 					</div>
-					
-				</div> 
-				<div class="row">  
-				<div class="col-lg-4">
+
+				</div>
+				<div class="row">
+					<div class="col-lg-4">
 						<div class="card mini-stat bg-pattern">
 							<div class="card-body mini-stat-img">
 								<div class="mini-stat-icon">
@@ -104,7 +107,7 @@
 									<i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
 								</div>
 								<h6 class="text-uppercase mb-3 mt-0">montant en caisse</h6>
-								<h5 class="mb-3">{{(mont + montantAdhesion + verse + donpersonnelle) - (depenses + frais)}}</h5>
+								<h5 class="mb-3">{{(mont + montantAdhesion + verse + donpersonnelle) - (depenses + frais + autrede)}}</h5>
 								<p class="text-muted mb-0">
 									<span class="text-success mr-2">
 										12%
@@ -121,7 +124,7 @@
 									<i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
 								</div>
 								<h6 class="text-uppercase mb-3 mt-0">montant total Des depense</h6>
-								<h5 class="mb-3">{{depenses + frais}}</h5>
+								<h5 class="mb-3">{{depenses + frais + autrede}}</h5>
 								<p class="text-muted mb-0">
 									<span class="text-success mr-2">
 										12%
@@ -131,7 +134,8 @@
 							</div>
 						</div>
 					</div>
-				</div> 
+				</div>
+				<!-- end row -->
 				{% for message in app.flashes('success') %}
 					<div class="alert alert-success">
 						{{ message }}
@@ -141,13 +145,13 @@
 					<div class="alert alert-danger">
 						{{ message }}
 					</div>
-				{% endfor %} 
+				{% endfor %}
 				<div class="row">
 					<div class="col">
 						<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 							<thead>
 								<tr>
-									<th scope="col">ID</th> 
+									<th scope="col">ID</th>
 									<th scope="col">Prenom</th>
 									<th scope="col">Montant total payé</th>
 									<th scope="col">Montant restant</th>
@@ -159,7 +163,7 @@
 							<tbody>
 								{% for cotisation in cotisations %}
 									<tr>
-										<th scope="row">{{ cotisation.id }}</th> 
+										<th scope="row">{{ cotisation.id }}</th>
 										<th scope="row">{{ cotisation.membre.prenom }}</th>
 										<td>{{ cotisation.montantTotalPaye }}
 											Fcfa</td>
@@ -205,5 +209,29 @@
 				by Themesbrand</span>.
 		</footer>
 
-	</div> 
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+	<script>
+		let depenses = document.querySelector("#depenses")
+let depenseGraph = new Chart(depenses, {
+type: "pie",
+data: {
+labels: [
+"depen1", "depen2", "depen3", "depen4"
+],
+datasets: [
+{
+label: "Répartition des depenses",
+data: [
+2, 5, 3;
+4
+],
+backgroundColor: ["#4090cb", "#e74c5e"]
+}
+]
+}
+})
+	</script>
 {% endblock %}

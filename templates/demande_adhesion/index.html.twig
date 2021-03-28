@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DemandeAdhesion index{% endblock %}
+
+{% block body %}
+    <h1>DemandeAdhesion index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Profession</th>
+                <th>Contact</th>
+                <th>NomPere</th>
+                <th>NomMere</th>
+                <th>Motivation</th>
+                <th>Droit</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for demande_adhesion in demande_adhesions %}
+            <tr>
+                <td>{{ demande_adhesion.id }}</td>
+                <td>{{ demande_adhesion.nom }}</td>
+                <td>{{ demande_adhesion.prenom }}</td>
+                <td>{{ demande_adhesion.profession }}</td>
+                <td>{{ demande_adhesion.contact }}</td>
+                <td>{{ demande_adhesion.nomPere }}</td>
+                <td>{{ demande_adhesion.nomMere }}</td>
+                <td>{{ demande_adhesion.motivation }}</td>
+                <td>{{ demande_adhesion.droit ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('demande_adhesion_show', {'id': demande_adhesion.id}) }}">show</a>
+                    <a href="{{ path('demande_adhesion_edit', {'id': demande_adhesion.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('demande_adhesion_new') }}">Create new</a>
+{% endblock %}

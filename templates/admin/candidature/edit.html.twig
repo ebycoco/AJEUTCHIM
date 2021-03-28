@@ -1,0 +1,14 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Edit Candidature
+{% endblock %}
+
+{% block body %}
+	<h1>Edit Candidature</h1>
+
+	{{ include('admin/candidature/_form.html.twig', {'button_label': 'Update'}) }}
+
+	<a href="{{ path('candidature_index') }}">back to list</a>
+
+	{{ include('admin/candidature/_delete_form.html.twig') }}
+{% endblock %}

@@ -18,27 +18,91 @@
 						</span>
 					</a>
 				</li>
-
 				<li class="menu-title">Administration</li>
-				<li>
-					<a href="javascript:void(0);" class="waves-effect waves-light">
-						<i class="mdi mdi-account-group"></i>
-						<span>
-							Membre Ajeutchim
-							<span class="float-right menu-arrow">
-								<i class="mdi mdi-chevron-right"></i>
+				{% if is_granted('ROLE_TRESO') %}
+					<li>
+						<a href="javascript:void(0);" class="waves-effect waves-light">
+							<i class="mdi mdi-account-group"></i>
+							<span>
+								Membre Ajeutchim
+								<span class="float-right menu-arrow">
+									<i class="mdi mdi-chevron-right"></i>
+								</span>
 							</span>
-						</span>
-					</a>
-					<ul class="submenu">
-						<li>
-							<a href="{{path('membre_index')}}">Liste des membres</a>
-						</li>
-						<li>
-							<a href="{{path('membre_new')}}">Ajouter un membre</a>
-						</li> 
-					</ul>
-				</li>
+						</a>
+						<ul class="submenu">
+							<li>
+								<a href="{{path('membre_index')}}">Liste des membres</a>
+							</li>
+							<li>
+								<a href="{{path('membre_new')}}">Ajouter un membre</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="{{path('versement_index')}} " class="waves-effect waves-light">
+							<i class="ion ion-md-clipboard"></i>
+							<span>
+								Versement
+							</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" class="waves-effect waves-light">
+							<i class="ion ion-md-cart"></i>
+							<span>
+								Bilan
+								<span class="float-right menu-arrow">
+									<i class="mdi mdi-chevron-right"></i>
+								</span>
+							</span>
+						</a>
+						<ul class="submenu">
+							<li>
+								<a href="{{path('bilan_index')}} ">Bilan en cour</a>
+							</li>
+							<li>
+								<a href="{{path('bilan_history')}} ">Historique des bilans</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0);" class="waves-effect">
+							<i class="ion ion-md-copy"></i>
+							<span>
+								Cotisation
+								<span class="float-right menu-arrow">
+									<i class="mdi mdi-chevron-right"></i>
+								</span>
+							</span>
+						</a>
+						<ul class="submenu">
+							<li>
+								<a href="{{path('cotisation_new')}}">Ajouter une cotisation</a>
+							</li>
+							<li>
+								<a href="{{path('cotisation_encour')}} ">cotisation en cours</a>
+							</li>
+							<li>
+								<a href="{{path('cotisation_solde')}} ">cotisation solder</a>
+							</li>
+							<li>
+								<a href="{{path('cotisation_index')}} ">cotisation</a>
+							</li>
+							<li>
+								<a href="{{path('cotisation_historique')}}">Historique</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="{{path('autredepense_index')}} " class="waves-effect waves-light">
+							<i class="ion ion-md-clipboard"></i>
+							<span>
+								Autre depense
+							</span>
+						</a>
+					</li>
+				{% endif %}
 				<li>
 					<a href="javascript:void(0);" class="waves-effect waves-light">
 						<i class="ion ion-md-cart"></i>
@@ -52,7 +116,7 @@
 					<ul class="submenu">
 						<li>
 							<a href="{{path('bureau_new')}} ">Bureau</a>
-						</li> 
+						</li>
 					</ul>
 				</li>
 				<li>
@@ -62,12 +126,12 @@
 							Président
 						</span>
 					</a>
-				</li> 
+				</li>
 				<li>
 					<a href="{{path('adhesion_index')}} " class="waves-effect waves-light">
 						<i class="ion ion-md-clipboard"></i>
 						<span>
-							Montant d'adhésion
+							Droit d'adhésion
 						</span>
 					</a>
 				</li>
@@ -75,18 +139,11 @@
 					<a href="{{path('montant_annuelle_index')}} " class="waves-effect waves-light">
 						<i class="ion ion-md-clipboard"></i>
 						<span>
-							Montant des cotisation annuelle
+							Droit de cotisation
 						</span>
 					</a>
 				</li>
-				<li>
-					<a href="{{path('versement_index')}} " class="waves-effect waves-light">
-						<i class="ion ion-md-clipboard"></i>
-						<span>
-							Versement
-						</span>
-					</a>
-				</li>
+
 				<li>
 					<a href="javascript:void(0);" class="waves-effect waves-light">
 						<i class="ion ion-md-cart"></i>
@@ -99,29 +156,46 @@
 					</a>
 					<ul class="submenu">
 						<li>
+							<a href="{{path('depense_projet')}} ">Liste de projet</a>
+						</li>
+						<li>
 							<a href="{{path('depense_index')}} ">Decaisement</a>
-						</li> 
+						</li>
 						<li>
 							<a href="{{path('depense_new')}} ">Ajouter un projet</a>
-						</li> 
+						</li>
 						<li>
 							<a href="{{path('confirme_presi')}} ">Validation par prési</a>
-						</li> 
+						</li>
 					</ul>
-				</li> 
+				</li>
 				<li>
-					<a href="{{path('bilan_index')}} " class="waves-effect waves-light">
-						<i class="ion ion-md-clipboard"></i>
+					<a href="javascript:void(0);" class="waves-effect waves-light">
+						<i class="ion ion-md-cart"></i>
 						<span>
-							Bilan
+							Administrateurs
+							<span class="float-right menu-arrow">
+								<i class="mdi mdi-chevron-right"></i>
+							</span>
 						</span>
 					</a>
+					<ul class="submenu">
+						<li>
+							<a href="{{path('admin_utilisateur')}}">Liste des Administrateurs</a>
+						</li>
+						<li>
+							<a href="#">Email Read</a>
+						</li>
+						<li>
+							<a href="#">Email Compose</a>
+						</li>
+					</ul>
 				</li>
 				<li>
 					<a href="{{path('desactive_index')}} " class="waves-effect waves-light">
 						<i class="ion ion-md-clipboard"></i>
 						<span>
-							Activer lien d'inscription
+							Activer inscription
 						</span>
 					</a>
 				</li>
@@ -134,54 +208,10 @@
 					</a>
 				</li>
 				<li>
-					<a href="javascript:void(0);" class="waves-effect">
-						<i class="ion ion-md-copy"></i>
+					<a href="javascript:void(0);" class="waves-effect waves-light">
+						<i class="ion ion-md-cart"></i>
 						<span>
-							Cotisation
-							<span class="float-right menu-arrow">
-								<i class="mdi mdi-chevron-right"></i>
-							</span>
-						</span>
-					</a>
-					<ul class="submenu">
-					<li>
-							<a href="{{path('cotisation_new')}}">Ajouter une cotisation</a>
-						</li>
-						<li>
-							<a href="{{path('cotisation_encour')}} ">cotisation en cours</a>
-						</li>
-						<li>
-							<a href="{{path('cotisation_solde')}} ">cotisation solder</a>
-						</li>
-						<li>
-							<a href="{{path('cotisation_index')}} ">cotisation</a>
-						</li>
-						<li>
-							<a href="{{path('cotisation_historique')}}">Historique</a>
-						</li>
-						
-						<li>
-							<a href="pages-pricing.html">Pricing</a>
-						</li>
-						<li>
-							<a href="pages-maintenance.html">Maintenance</a>
-						</li>
-						<li>
-							<a href="pages-faq.html">Faq</a>
-						</li>
-						<li>
-							<a href="pages-404.html">Error 404</a>
-						</li>
-						<li>
-							<a href="pages-500.html">Error 500</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="javascript:void(0);" class="waves-effect">
-						<i class="mdi mdi-account-group"></i>
-						<span>
-							Clients
+							candidatures
 							<span class="float-right menu-arrow">
 								<i class="mdi mdi-chevron-right"></i>
 							</span>
@@ -189,29 +219,13 @@
 					</a>
 					<ul class="submenu">
 						<li>
-							<a href="#">Liste des clients</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="javascript:void(0);" class="waves-effect">
-						<i class="mdi mdi-account-group"></i>
-						<span>
-							Utilisateurs
-							<span class="float-right menu-arrow">
-								<i class="mdi mdi-chevron-right"></i>
-							</span>
-						</span>
-					</a>
-					<ul class="submenu">
-						<li>
-							<a href="#">Liste des Utilisateurs</a>
+							<a href="{{path('candidat_resultat')}} ">Resultat des votes</a>
 						</li>
 						<li>
-							<a href="#">Email Read</a>
+							<a href="{{path('candidature_index')}} ">liste des candidatures</a>
 						</li>
 						<li>
-							<a href="#">Email Compose</a>
+							<a href="#">Ouverture de candidature</a>
 						</li>
 					</ul>
 				</li>

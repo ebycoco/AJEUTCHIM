@@ -1,39 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Flash index{% endblock %}
+{% block title %}Flash index
+{% endblock %}
 
 {% block body %}
-    <h1>Flash index</h1>
+	<h1>Flash index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Content</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for flash in flashes %}
-            <tr>
-                <td>{{ flash.id }}</td>
-                <td>{{ flash.content }}</td>
-                <td>{{ flash.createdAt ? flash.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ flash.updatedAt ? flash.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('flash_show', {'id': flash.id}) }}">show</a>
-                    <a href="{{ path('flash_edit', {'id': flash.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Content</th>
+				<th>CreatedAt</th>
+				<th>UpdatedAt</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for flash in flashes %}
+				<tr>
+					<td>{{ flash.id }}</td>
+					<td>{{ flash.content }}</td>
+					<td>{{ flash.createdAt ? flash.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+						<a href="{{ path('flash_show', {'id': flash.id}) }}">show</a>
+						<a href="{{ path('flash_edit', {'id': flash.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('flash_new') }}">Create new</a>
+	<a href="{{ path('flash_new') }}">Create new</a>
 {% endblock %}

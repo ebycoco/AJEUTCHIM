@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DemandeAdhesion{% endblock %}
+
+{% block body %}
+    <h1>DemandeAdhesion</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ demande_adhesion.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ demande_adhesion.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ demande_adhesion.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Profession</th>
+                <td>{{ demande_adhesion.profession }}</td>
+            </tr>
+            <tr>
+                <th>Contact</th>
+                <td>{{ demande_adhesion.contact }}</td>
+            </tr>
+            <tr>
+                <th>NomPere</th>
+                <td>{{ demande_adhesion.nomPere }}</td>
+            </tr>
+            <tr>
+                <th>NomMere</th>
+                <td>{{ demande_adhesion.nomMere }}</td>
+            </tr>
+            <tr>
+                <th>Motivation</th>
+                <td>{{ demande_adhesion.motivation }}</td>
+            </tr>
+            <tr>
+                <th>Droit</th>
+                <td>{{ demande_adhesion.droit ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('demande_adhesion_index') }}">back to list</a>
+
+    <a href="{{ path('demande_adhesion_edit', {'id': demande_adhesion.id}) }}">edit</a>
+
+    {{ include('demande_adhesion/_delete_form.html.twig') }}
+{% endblock %}

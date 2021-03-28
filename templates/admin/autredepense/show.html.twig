@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autredepense
+{% endblock %}
+
+{% block body %}
+	<h1>Autredepense</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ autredepense.id }}</td>
+			</tr>
+			<tr>
+				<th>Montant</th>
+				<td>{{ autredepense.montant }}</td>
+			</tr>
+			<tr>
+				<th>Motif</th>
+				<td>{{ autredepense.motif }}</td>
+			</tr>
+			<tr>
+				<th>Jourpris</th>
+				<td>{{ autredepense.jourpris ? autredepense.jourpris|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>PublishedAt</th>
+				<td>{{ autredepense.publishedAt ? autredepense.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>UpdatedAt</th>
+				<td>{{ autredepense.updatedAt ? autredepense.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('autredepense_index') }}">back to list</a>
+
+	<a href="{{ path('autredepense_edit', {'id': autredepense.id}) }}">edit</a>
+
+	{{ include('admin/autredepense/_delete_form.html.twig') }}
+{% endblock %}

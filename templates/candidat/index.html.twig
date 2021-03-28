@@ -1,45 +1,159 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Candidat index{% endblock %}
+{% block title %}Resultat
+{% endblock %}
 
 {% block body %}
-    <h1>Candidat index</h1>
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						{% for message in app.flashes('success') %}
+							<div class="alert alert-success">
+								{{ message }}
+							</div>
+						{% endfor %}
+						{% for message in app.flashes('info') %}
+							<div class="alert alert-info">
+								{{ message }}
+							</div>
+						{% endfor %}
+						{% for message in app.flashes('danger') %}
+							<div class="alert alert-danger">
+								{{ message }}
+							</div>
+						{% endfor %}
+						{% for message in app.flashes('warning') %}
+							<div class="alert alert-warning">
+								{{ message }}
+							</div>
+						{% endfor %}
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Liste complete de Candidature</li>
+							</ol>
+						</div>
+						<div class="col-sm-3">
+							<a class="btn btn-primary" href="{{ path('candidature_new') }}">Ajouter un membre</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>NombreVoix</th>
-                <th>Etat</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for candidat in candidats %}
-            <tr>
-                <td>{{ candidat.id }}</td>
-                <td>{{ candidat.nom }}</td>
-                <td>{{ candidat.prenom }}</td>
-                <td>{{ candidat.nombreVoix }}</td>
-                <td>{{ candidat.etat ? 'Yes' : 'No' }}</td>
-                <td>{{ candidat.createdAt ? candidat.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ candidat.updatedAt ? candidat.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('candidat_show', {'id': candidat.id}) }}">show</a>
-                    <a href="{{ path('candidat_edit', {'id': candidat.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+						</div>
 
-    <a href="{{ path('candidat_new') }}">Create new</a>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-3">
+										<h4 class="mt-0 header-title">Les resultats</h4>
+									</div>
+								</div>
+								<div class="row">
+									{% for candidat in candidats %}
+										<div class="col">
+											<div class="card">
+												<img src="{{ vich_uploader_asset(candidat.candidature, 'imageFile')}}" class="card-img-top" alt="img"/>
+												<div class="card-body">
+													<div class="row">
+														<div class="col">
+															<h5 class="card-title">
+																{{ candidat.nom }}
+																{{ candidat.prenom }}
+															</h5>
+														</div>
+														<div class="col">
+															<h5>Voix obtenue
+																<span class="h4">
+																	{% if candidat.tour2 %}
+																		{% if candidat.nombreVoix2 == null %}
+																			0
+																		{% else %}
+																			{{ candidat.nombreVoix2 }}
+																		{% endif %}
+
+																	{% else %}
+																		{% if candidat.nombreVoix == null %}
+																			0
+																		{% else %}
+																			{{ candidat.nombreVoix }}
+																		{% endif %}
+																	{% endif %}
+																</span>
+															</h5>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+								<div class="row mb-3">
+									<div class="col-md-6 offset-md-3">
+										{% set var = 0 %}
+										{% set var2 = 0 %}
+										{% set var3 = 0 %}
+										{% for candidat in candidats %}
+											{% if candidat.etat %}
+												{% set var = 1 %}
+												{% else %}
+											{% endif %}
+											{% if candidat.nombreVoix2 == null  %}
+												{% set var2 = 1 %}
+											{% endif %}
+											{% if candidat.fin %}
+												{% set var3 = 1 %}
+											{% endif %}
+										{% endfor %}
+										{% if var == 1 %}
+											{% if var2 == 0 %}
+												<a href="{{ path('candidat_etatvote') }}" class="btn btn-primary">Reouvert le vote</a>
+												<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
+												</a>
+											{% else %}
+												<a href="{{ path('candidat_etatfin') }}" class="btn btn-secondary">Terminer le vote</a>
+											{% endif %}
+										{% else %}
+											{% if secondTour == "oui" %}
+												{% if autrefdecission == "oui" %}
+													{% if var2 == 1 %}
+														{% else %}
+															<a class="btn btn-primary" href="{{ path('candidat_etatvotesecond') }}">Autre décision
+															</a>
+													{% endif %}
+												{% else %}
+													<a class="btn btn-primary" href="{{ path('candidat_etatvotesecond') }}">Second Tour
+													</a>
+												{% endif %}
+											{% else %}
+												{% if var3 == 1 %}
+													<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
+													</a>
+												{% else %}
+													<a href="{{ path('candidat_etatfin') }}" class="btn btn-secondary">Terminer le vote</a>
+												{% endif %}
+											{% endif %}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end col -->
+				</div>
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
 {% endblock %}

@@ -11,10 +11,8 @@ class VotantType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('membre')
+        $builder 
+            ->add('matricule')
         ;
     }
 

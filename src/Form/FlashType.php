@@ -12,11 +12,7 @@ class FlashType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('user')
-        ;
+            ->add('content');
     }
 
     public function configureOptions(OptionsResolver $resolver)

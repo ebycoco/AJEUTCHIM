@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Entity\Traits\AppTimesTampable;
 use App\Repository\CandidatureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -18,6 +20,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Candidature
 {
     use AppTimesTampable;
+
+    const DROIT = [
+        0 => "En cours",
+        1 => "Accepter",
+        2 => "Refuser", 
+        3 => "Enlever", 
+    ];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -63,7 +72,11 @@ class Candidature
 
     /** 
      * @Vich\UploadableField(mapping="imageProgramme", fileNameProperty="imageProgramme")
-     * @Assert\Image(maxSize = "8M")
+     *  @Assert\File(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage = "SVP uploader un fichier PDF"
+     * )
      * 
      *  
      * @var File|null
@@ -76,6 +89,16 @@ class Candidature
      * @var string|null
      */
     private $imageProgramme;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Candidat::class, mappedBy="candidature", orphanRemoval=true)
+     */
+    private $candidats;
+
+    public function __construct()
+    {
+        $this->candidats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,5 +210,35 @@ class Candidature
     public function getImageProgramme(): ?string
     {
         return $this->imageProgramme;
+    }
+
+    /**
+     * @return Collection|Candidat[]
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(Candidat $candidat): self
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats[] = $candidat;
+            $candidat->setCandidature($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(Candidat $candidat): self
+    {
+        if ($this->candidats->removeElement($candidat)) {
+            // set the owning side to null (unless already changed)
+            if ($candidat->getCandidature() === $this) {
+                $candidat->setCandidature(null);
+            }
+        }
+
+        return $this;
     }
 }

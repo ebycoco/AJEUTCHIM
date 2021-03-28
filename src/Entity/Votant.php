@@ -22,24 +22,24 @@ class Votant
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Membre::class, inversedBy="votants")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $membre;
+    private $matricule;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getMembre(): ?Membre
+    public function getMatricule(): ?string
     {
-        return $this->membre;
+        return $this->matricule;
     }
 
-    public function setMembre(?Membre $membre): self
+    public function setMatricule(string $matricule): self
     {
-        $this->membre = $membre;
+        $this->matricule = $matricule;
 
         return $this;
     }

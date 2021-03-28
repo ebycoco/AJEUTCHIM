@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New MediaUtilisateur{% endblock %}
+
+{% block body %}
+    <h1>Create new MediaUtilisateur</h1>
+
+    {{ include('media_utilisateur/_form.html.twig') }}
+
+    <a href="{{ path('media_utilisateur_index') }}">back to list</a>
+{% endblock %}

@@ -14,21 +14,26 @@
 						<div class="col-sm-6">
 							<h4 class="page-title">Mise a jour des membres</h4>
 							<ol
-								class="breadcrumb">
-								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
-								<li class="breadcrumb-item active">Mise a jour des membres</li>
+								class="breadcrumb"><!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+
 							</ol>
 						</div>
 						<div class="col-sm-6">
-							<a class="btn btn-warning" href="{{ path('membre_index') }}">Voir la liste</a>
-							{{ include('admin/membre/_delete_form.html.twig') }} 
+							<div class="form-row">
+								<div class="col">
+									<a class="btn btn-warning" href="{{ path('membre_index') }}">Retour</a>
+								</div>
+								<div class="col">
+									{{ include('admin/membre/_delete_form.html.twig') }}
+								</div>
+							</div>
 						</div>
 					</div>
 					<!-- end row -->
 				</div>
 				<!-- end page-title -->
 
-				{{ include('admin/membre/_form.html.twig', {'button_label': 'Update'}) }}
+				{{ include('admin/membre/_form.html.twig', {'button_label': 'Mise a jour'}) }}
 				<!-- end row -->
 			</div>
 			<!-- container-fluid -->

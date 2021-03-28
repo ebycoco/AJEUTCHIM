@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\RejectProject;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +13,9 @@ class RejectProjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('motif') 
+            ->add('motif',CKEditorType::class, [
+                'config_name' => 'main_config',
+                    ]) 
         ;
     }
 

@@ -36,6 +36,7 @@ class FlashController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $flash->setUser($this->getUser());
             $entityManager->persist($flash);
             $entityManager->flush();
 
@@ -83,7 +84,7 @@ class FlashController extends AbstractController
      */
     public function delete(Request $request, Flash $flash): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$flash->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $flash->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($flash);
             $entityManager->flush();

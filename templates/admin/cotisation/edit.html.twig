@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-<div
+	<div
 		class="content-page">
 		<!-- Start content -->
 		<div class="content">
@@ -12,16 +12,22 @@
 				<div class="page-title-box">
 					<div class="row align-items-center">
 						<div class="col-sm-6">
-							<h4 class="page-title">Mise a jour Produits</h4>
+							<h4 class="page-title">La somme payé:
+								{{cotisation.montantTotalPaye}}
+								Fcfa</h4>
 							<ol
 								class="breadcrumb">
 								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
-								<li class="breadcrumb-item active">Mise a jour Produits</li>
+								<li class="breadcrumb-item active">La somme restant:
+									<span class="text-primary">
+										{{cotisation.resteMontant}}
+										Fcfa
+									</span>
+								</li>
 							</ol>
 						</div>
 						<div class="col-sm-6">
-							<a class="btn btn-warning" href="{{ path('cotisation_index') }}">Voir la liste</a>
-							{{ include('admin/cotisation/_delete_form.html.twig') }}
+							<a class="btn btn-warning" href="{{ path('cotisation_index') }}">Retour</a>
 
 
 						</div>
@@ -29,32 +35,55 @@
 					<!-- end row -->
 				</div>
 				<!-- end page-title -->
-	{% if cotisation.resteMontant == 0 %}
-		<h1>Attention
-			{{cotisation.membre.nom}}
-			{{cotisation.membre.prenom}}
-			a soldé</h1>
-		<h3>
-			Si vous voulez modifier, veuillez entrer le montant qui lui est a payé
-		</h3>
-	{% else %}
-		<p>
-			il lui reste a paye
-			<span class="text-primary">
-				{{cotisation.resteMontant}}
-			</span>
-		</p>
-		{% for message in app.flashes('warning') %}
-			<div class="alert alert-warning">
-				{{ message }}
-			</div>
-		{% endfor %}
-	{% endif %}
+				{% if cotisation.resteMontant == 0 %}
+					<h1>Attention
+						{{cotisation.membre.nom}}
+						{{cotisation.membre.prenom}}
+						a soldé</h1>
+					<h3>
+						Si vous voulez modifier, veuillez entrer le montant qui lui est a payé
+					</h3>
+				{% else %}
+					{% for message in app.flashes('warning') %}
+						<div class="alert alert-warning">
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endif %}
+				<div class="row">
+					<div class="col-md-5">
+						{{ form_start(form) }}
+						<div class="form-row align-items-center">
+							<div class="col-auto">
+								<label for="mont">Montant</label>
+								<input type="text" name="mont" id="mont" class="form-control" aria-describedby="mont" required>
+								<small id="mont" class="text-muted">
+									Veuillez entrer des chiffres
 
-	{{ include('admin/cotisation/_form.html.twig', {'button_label': 'Update'}) }} 
+								</small>
+							</div>
+							<div class="col-auto">
+								<button class="btn btn-primary">Enregistrer</button>
+							</div>
+						</div>
+						{{ form_end(form) }}
+					</div>
 
-	
-<!-- end row -->
+					<div class="col-md-6">
+						<p>Nom:
+							{{cotisation.membre.nom}}
+						</p>
+						<p>Prenom:
+							{{cotisation.membre.prenom}}
+						</p>
+						<p>Matricule d'AJEUTCHIM:
+							<span class="text-primary">{{cotisation.membre.referenceAjeutchim}}</span>
+						</p>
+					</div>
+				</div>
+
+
+				<!-- end row -->
 			</div>
 			<!-- container-fluid -->
 		</div>

@@ -1,42 +1,31 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Desactiver{% endblock %}
+{% block title %}Desactiver
+{% endblock %}
 
 {% block body %}
-    <h1>Desactiver</h1>
+	<h1>Desactiver</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ desactive.id }}</td>
-            </tr>
-            <tr>
-                <th>Gauche</th>
-                <td>{{ desactive.gauche }}</td>
-            </tr>
-            <tr>
-                <th>Droite</th>
-                <td>{{ desactive.droite }}</td>
-            </tr>
-            <tr>
-                <th>Active</th>
-                <td>{{ desactive.active ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ desactive.createdAt ? desactive.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ desactive.updatedAt ? desactive.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ desactive.id }}</td>
+			</tr>
+			<tr>
+				<th>CreatedAt</th>
+				<td>{{ desactive.createdAt ? desactive.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>UpdatedAt</th>
+				<td>{{ desactive.updatedAt ? desactive.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('desactive_index') }}">back to list</a>
+	<a href="{{ path('desactive_index') }}">back to list</a>
 
-    <a href="{{ path('desactive_edit', {'id': desactive.id}) }}">edit</a>
+	<a href="{{ path('desactive_edit', {'id': desactive.id}) }}">edit</a>
 
-    {{ include('admin/desactive/_delete_form.html.twig') }}
+	{{ include('admin/desactive/_delete_form.html.twig') }}
 {% endblock %}

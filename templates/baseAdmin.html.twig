@@ -8,6 +8,7 @@
 		<meta content="Responsive admin theme build on top of Bootstrap 4" name="description"/>
 		<meta
 		content="Themesbrand" name="author"/>
+
 		<!-- DataTables -->
 		<link href="{{asset('plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css"/>
 		<link
@@ -26,11 +27,13 @@
 		<link href="{{asset('assets/css/metismenu.min.css')}}" rel="stylesheet" type="text/css">
 		<link href="{{asset('assets/css/icons.css')}}" rel="stylesheet" type="text/css">
 		<link href="{{asset('assets/css/style.css')}}" rel="stylesheet" type="text/css">
-		<link rel="shortcut icon" href="{{asset('images/faviconlo.ico')}}">
+		<link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
+
 		<title>
 			{% block title %}Administration
 			{% endblock %}
 		</title>
+
 
 	</head>
 
@@ -47,6 +50,7 @@
 			<!-- END wrapper -->{% block calendrie %}
 		{% endblock %}
 		</div>
+
 		<!-- jQuery  --><script src=" {{asset('assets/js/jquery.min.js')}}"> </script>
 		<script src=" {{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 		<script src=" {{asset('assets/js/metismenu.min.js')}}"></script>
@@ -77,11 +81,20 @@
 		<script src="{{asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
 		<!-- apexcharts -->
 		<script src="{{asset('plugins/apexcharts/apexcharts.min.js')}}"></script>
+		<!-- apexcharts init -->
+		<script src="{{asset('assets/pages/apexcharts.init.js')}}"></script>
 		<!-- Peity JS -->
 		<script src="{{asset('plugins/peity-chart/jquery.peity.min.js')}}"></script>
-		<script src=" {{asset('assets/pages/dashboard.js')}}"></script>
+		<script src="{{asset('assets/pages/dashboard.js')}}"></script>
 		<!-- App js -->
-		<script src=" {{asset('assets/js/app.js')}}"></script>
 
+		<!-- Echart Chart -->
+		<script src="{{asset('plugins/e-charts/echarts.min.js')}}"></script>
+
+		<!-- Echart int -->
+		<script src="{{asset('assets/pages/echart.int.js')}}"></script>
+
+		<script src="{{asset('assets/js/app.js')}}"></script>
+		{% block javascripts %}{% endblock %}
 	</body>
 </html>

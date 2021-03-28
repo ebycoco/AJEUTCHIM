@@ -15,7 +15,7 @@ class PresidentPhotoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder 
+        $builder
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => true,

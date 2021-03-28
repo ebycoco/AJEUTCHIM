@@ -1,0 +1,59 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Membre index
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Liste complete d'AJEUTCHIM</li>
+							</ol>
+						</div>
+						<div class="col-sm-3">
+							<a class="btn btn-primary" href="{{ path('membre_new') }}">Ajouter un membre</a>
+
+						</div>
+
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-3">
+										<h4 class="mt-0 header-title">Liste des membres</h4>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										{{form(userForm)}}
+
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<!-- end col -->
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- container-fluid -->
+			</div>
+			<!-- content -->
+			{{ include('includes/_footer_admin.html.twig')}}
+		</div>
+	{% endblock %}

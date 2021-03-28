@@ -16,17 +16,17 @@ class Annee
      * @ORM\Column(type="integer")
      */
     private $id;
- 
+
 
     /**
-     * @ORM\Column(type="integer",length=4)
+     * @ORM\Column(type="string",length=4)
      */
     private $annee;
 
     public function getId(): ?int
     {
         return $this->id;
-    } 
+    }
 
     public function getAnnee(): ?string
     {

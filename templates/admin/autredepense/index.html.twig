@@ -1,0 +1,111 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Autredepense
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Liste complete des depenses</li>
+							</ol>
+						</div>
+						<div class="col-sm-3">
+							<a class="btn btn-primary" href="{{ path('autredepense_new') }}">Ajouter autre depense</a>
+
+						</div>
+
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-3">
+										<h4 class="mt-0 header-title">Liste des membres</h4>
+									</div>
+								</div>
+								<div class="row">
+									{% for message in app.flashes('success') %}
+										<div class="alert alert-success">
+											{{ message }}
+										</div>
+									{% endfor %}
+									{% for message in app.flashes('info') %}
+										<div class="alert alert-info">
+											{{ message }}
+										</div>
+									{% endfor %}
+									{% for message in app.flashes('danger') %}
+										<div class="alert alert-danger">
+											{{ message }}
+										</div>
+									{% endfor %}
+									{% for message in app.flashes('warning') %}
+										<div class="alert alert-warning">
+											{{ message }}
+										</div>
+									{% endfor %}
+									<div class="col">
+										<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+											<thead>
+												<tr>
+													<th>Id</th>
+													<th>Montant</th>
+													<th>Motif</th>
+													<th>Jourpris</th>
+													<th>PublishedAt</th>
+													<th>UpdatedAt</th>
+													<th>actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for autredepense in autredepenses %}
+													<tr>
+														<td>{{ autredepense.id }}</td>
+														<td>{{ autredepense.montant }}</td>
+														<td>{{ autredepense.motif }}</td>
+														<td>{{ autredepense.jourpris ? autredepense.jourpris|date('Y-m-d') : '' }}</td>
+														<td>{{ autredepense.publishedAt ? autredepense.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
+														<td>{{ autredepense.updatedAt ? autredepense.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+														<td>
+															<a href="{{ path('autredepense_show', {'id': autredepense.id}) }}" class="btn btn-warning">show</a>
+															<a href="{{ path('autredepense_edit', {'id': autredepense.id}) }}" class="btn btn-primary">edit</a>
+														</td>
+													</tr>
+												{% else %}
+													<tr>
+														<td colspan="7">no records found</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- end col -->
+				</div>
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+{% endblock %}

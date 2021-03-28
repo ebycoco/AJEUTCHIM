@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Don;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,14 +16,11 @@ class DonType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('numeroTel')
-            ->add('montant')
+            ->add('montant', IntegerType::class)
             ->add('email')
             ->add('ville')
             ->add('pays')
-            ->add('idReference')
-            ->add('createdAt')
-            ->add('updatedAt')
-        ;
+            ->add('idReference');
     }
 
     public function configureOptions(OptionsResolver $resolver)

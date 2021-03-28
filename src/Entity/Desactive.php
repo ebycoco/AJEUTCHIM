@@ -21,8 +21,11 @@ class Desactive
      * @ORM\Column(type="integer")
      */
     private $id;
- 
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom;
     /**
      * @ORM\Column(type="date")
      */
@@ -31,12 +34,27 @@ class Desactive
     /**
      * @ORM\Column(type="date")
      */
-    private $fin;  
+    private $fin;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
 
     public function getId(): ?int
     {
         return $this->id;
-    }  
+    }
+    public function getNom()
+    {
+        return $this->nom;
+    }
+    public function setNom($nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
 
     public function getDebut(): ?\DateTimeInterface
     {
@@ -61,5 +79,16 @@ class Desactive
 
         return $this;
     }
- 
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
 }

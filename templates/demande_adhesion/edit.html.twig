@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DemandeAdhesion{% endblock %}
+
+{% block body %}
+    <h1>Edit DemandeAdhesion</h1>
+
+    {{ include('demande_adhesion/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('demande_adhesion_index') }}">back to list</a>
+
+    {{ include('demande_adhesion/_delete_form.html.twig') }}
+{% endblock %}

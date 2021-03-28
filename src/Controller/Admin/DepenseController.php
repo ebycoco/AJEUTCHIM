@@ -27,8 +27,27 @@ class DepenseController extends AbstractController
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
         $depenses = $depenseRepository->findByAnne($annee, 1);
-        
+
         return $this->render('admin/depense/index.html.twig', [
+            'depenses' => $depenses,
+        ]);
+    }
+    /**
+     * @Route("/Projet", name="depense_projet", methods={"GET"})
+     */
+    public function projet(DepenseRepository $depenseRepository, DecaisementRepository $decaisementRepository): Response
+    {
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
+        $depenses = $depenseRepository->findByAnne($annee, 1);
+        $depensesterminer = $depenseRepository->findByTerminer();
+        $depensesencour = $depenseRepository->findByEncou();
+        $depensestotal = $depenseRepository->findAll();
+
+        return $this->render('admin/depense/projet.html.twig', [
+            'depensesterminer' => $depensesterminer,
+            'depensesencour' => $depensesencour,
+            'depensestotal' => $depensestotal,
             'depenses' => $depenses,
         ]);
     }
@@ -49,20 +68,20 @@ class DepenseController extends AbstractController
     public function new(Request $request): Response
     {
         $depense = new Depense();
-       
+
         $form = $this->createForm(DepenseType::class, $depense);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $jouj = new DateTime('now');
-            $annee = $jouj->format(date('Y')); 
+            $annee = $jouj->format(date('Y'));
             $entityManager = $this->getDoctrine()->getManager();
             $depense->setConfirme(false);
             $depense->setAnnee($annee);
             $depense->setEtat(0);
             $depense->setVisible(false);
             $depense->setUser($this->getUser());
-            $entityManager->persist($depense); 
+            $entityManager->persist($depense);
             $entityManager->flush();
 
             return $this->redirectToRoute('depense_index');
@@ -97,18 +116,18 @@ class DepenseController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('depense_index');
         } else {
-            $this->addFlash('info','Vous ne pouvez pas car le project vient d\'être accepter par le president !');
+            $this->addFlash('info', 'Vous ne pouvez pas car le project vient d\'être accepter par le president !');
             return $this->redirectToRoute('depense_index');
         }
     }
 
-      /**
+    /**
      * @Route("/renvoyer/{id}", name="depense_renvoyer", methods={"GET"})
      */
     public function renvoyer(Depense $depense): Response
     {
 
-        if ($depense->getEtat() == 0) { 
+        if ($depense->getEtat() == 0) {
             $entityManager = $this->getDoctrine()->getManager();
             $depense->setConfirme(true);
             $depense->setRejeter(false);
@@ -124,15 +143,15 @@ class DepenseController extends AbstractController
         }
     }
 
-      /**
+    /**
      * @Route("/lever/{id}", name="depense_lever", methods={"GET"})
      */
     public function lever(Depense $depense): Response
     {
 
-        if ($depense->getEtat() == 0) { 
+        if ($depense->getEtat() == 0) {
             $entityManager = $this->getDoctrine()->getManager();
-            $depense->setVisible(true); 
+            $depense->setVisible(true);
             $entityManager->persist($depense);
             $entityManager->flush();
             return $this->redirectToRoute('depense_index');

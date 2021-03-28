@@ -1,107 +1,108 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}President{% endblock %}
+{% block title %}President
+{% endblock %}
 
 {% block body %}
-    <div
-			class="content-page">
-			<!-- Start content -->
-			<div class="content">
-				<div class="container-fluid">
-					<div class="page-title-box">
-						<div class="row align-items-center">
-							<div class="col-sm-6">
-								<h4 class="page-title">Administration</h4>
-								<ol
-									class="breadcrumb">
-									<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
-									<li class="breadcrumb-item active">Vous être dans Produits</li>
-								</ol>
-							</div> 
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Vous être dans Produits</li>
+							</ol>
 						</div>
-						<!-- end row -->
 					</div>
-					<!-- end page-title -->
-
-    <div class="row">
-    <div class="col-md-7">
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ president.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ president.membre.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ president.membre.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Proffession</th>
-                <td>{{ president.membre.profession }}</td>
-            </tr>
-            <tr>
-                <th>DebutedAt</th>
-                <td>{{ president.debutedAt ? president.debutedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>FinedAt</th>
-                <td>{{ president.finedAt ? president.finedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Contenue</th>
-                <td>{{ president.contenue }}</td>
-            </tr>
-            <tr>
-                <th>ImageName</th>
-                <td>{{ president.imageName }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ president.createdAt ? president.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ president.updatedAt ? president.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    </div>
-    <div class="col-md-5">
-    <h1>bureau</h1>
-    <table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Post</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Prenom</th> 
-        </tr>
-    </thead>
-        <tbody>
-        {% for bureau in bureau %}
-            <tr> 
-                <td>{{ bureau.postAjeutchim.name }}</td>
-                <td>{{ bureau.membre.nom }}</td>
-                <td>{{ bureau.membre.prenom }}</td>
-            </tr>
-        {% endfor %}   
-        </tbody>
-    </table>
-    </div>
-    </div>
-    <a href="{{ path('president_index') }}">back to list</a>
-
-    <a href="{{ path('president_edit', {'id': president.id}) }}">edit</a>
-
-    {{ include('admin/president/_delete_form.html.twig') }}
-<!-- end row -->
+					<!-- end row -->
 				</div>
-				<!-- container-fluid -->
-			</div><!-- content -->{{ include('includes/_footer_admin.html.twig')}}
+				<!-- end page-title -->
+
+				<div class="row">
+					<div class="col-md-7">
+						<table class="table">
+							<tbody>
+								<tr>
+									<th>Image</th>
+									<td>
+										{% if president.imageName %}
+											<img src="{{ vich_uploader_asset(president, 'imageFile')|imagine_filter('president_admin')}}" alt="img"/></td>
+									{% else %}
+										<img src="{{asset('assets/images/users/user-4.jpg')}}" width="100" height="15" alt="{{ president.membre.prenom }}"/>
+									{% endif %}
+								</tr>
+								<tr>
+									<th>Nom</th>
+									<td>{{ president.membre.nom }}</td>
+								</tr>
+								<tr>
+									<th>Prenom</th>
+									<td>{{ president.membre.prenom }}</td>
+								</tr>
+								<tr>
+									<th>Proffession</th>
+									<td>{{ president.membre.profession }}</td>
+								</tr>
+								<tr>
+									<th>DebutedAt</th>
+									<td>{{ president.debutedAt ? president.debutedAt|date('Y-m-d H:i:s') : '' }}</td>
+								</tr>
+								<tr>
+									<th>FinedAt</th>
+									<td>{{ president.finedAt ? president.finedAt|date('Y-m-d H:i:s') : '' }}</td>
+								</tr>
+								<tr>
+									<th>Contenue</th>
+									<td>{{ president.contenue }}</td>
+								</tr>
+								<tr>
+									<th>CreatedAt</th>
+									<td>{{ president.createdAt ? president.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+								</tr>
+								<tr>
+									<th>UpdatedAt</th>
+									<td>{{ president.updatedAt ? president.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<div class="col-md-5">
+						<h1>bureau</h1>
+						<table class="table">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Post</th>
+									<th scope="col">Nom</th>
+									<th scope="col">Prenom</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for bureau in bureau %}
+									<tr>
+										<td>{{ bureau.postAjeutchim.name }}</td>
+										<td>{{ bureau.membre.nom }}</td>
+										<td>{{ bureau.membre.prenom }}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<a href="{{ path('president_index') }}">back to list</a>
+
+				<a href="{{ path('president_edit', {'id': president.id}) }}">edit</a>
+
+				{{ include('admin/president/_delete_form.html.twig') }}
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div><!-- content -->{{ include('includes/_footer_admin.html.twig')}}
 
 	{% endblock %}
-

@@ -19,6 +19,60 @@ class CandidatRepository extends ServiceEntityRepository
         parent::__construct($registry, Candidat::class);
     }
 
+    public function findCandidat($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.candidature = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findCandidatAvote()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.etat = false')
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findCandidatAnnee($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.annee = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.nombreVoix', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findCandidatAnneeTour2($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.tour2 = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.nombreVoix', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findCandidatSecond($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.nombreVoix = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.nombreVoix', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findCandidatPlusPoint($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.annee = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.nombreVoix', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Candidat[] Returns an array of Candidat objects
     //  */

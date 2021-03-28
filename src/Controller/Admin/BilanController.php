@@ -2,10 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Annee;
 use App\Entity\Bilan;
+use App\Entity\BilanAnneeSearch;
 use App\Entity\Depense;
+use App\Form\AnneeChoixType;
+use App\Form\BilanAnneeSearchType;
 use App\Form\BilanType;
 use App\Repository\AdhesionRepository;
+use App\Repository\AutredepenseRepository;
 use App\Repository\BilanRepository;
 use App\Repository\CotisationRepository;
 use App\Repository\DecaisementRepository;
@@ -16,6 +21,7 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/bilan')]
@@ -27,9 +33,8 @@ class BilanController extends AbstractController
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
         $bilan = new Bilan();
-        $form = $this->createForm(BilanType::class, $bilan);
-        $form->handleRequest($request);
-        (int) $anne = $bilan->getAnnee();  
+
+        (int) $anne = $bilan->getAnnee();
         if ((int) $anne == 0) {
             $bilans = $bilanRepository->findAnnee($annee);
         } elseif ((int) $anne < 2020) {
@@ -37,10 +42,17 @@ class BilanController extends AbstractController
         } else {
             $bilans = $bilanRepository->findAnnee($anne);
         }
-        return $this->render('admin/bilan/index.html.twig', [
+        return $this->render('admin/bilan/bilan.html.twig', [
             'bilans' => $bilans,
             'bilan' => $bilan,
-            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/history', name: 'bilan_history', methods: ['GET', 'POST'])]
+    public function history(Request $request, BilanRepository $bilanRepository): Response
+    {
+        $bilans = $bilanRepository->findAll();
+        return $this->render('admin/bilan/history.html.twig', [
+            'bilans' => $bilans,
         ]);
     }
 
@@ -74,10 +86,42 @@ class BilanController extends AbstractController
     }
 
     #[Route('/{id}/ajour', name: 'bilan_ajour', methods: ['GET', 'POST'])]
-    public function ajour(Bilan $bilan, DecaisementRepository $decaisementRepository): Response
+    public function ajour(Bilan $bilan, DecaisementRepository $decaisementRepository, AutredepenseRepository $autredepenseRepository): Response
     {
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
+        $depenseSanFrais = $decaisementRepository->findAllDepense($annee);
+        $autredepense = $autredepenseRepository->findAllAutreDepense($annee);
+        $autredepenses = 0;
+        for ($p = 0; $p < count($autredepense); $p++) {
+            $montantAutreDepen = $autredepense[$p]->getMontant();
+            $autredepenses = $autredepenses + $montantAutreDepen;
+        }
+        $depenses = 0;
+        $frais = 0;
+        for ($p = 0; $p < count($depenseSanFrais); $p++) {
+            $montantDepen = $depenseSanFrais[$p]->getMontant();
+            $montantDepenFrais = $depenseSanFrais[$p]->getFrais();
+            $depenses = $depenses + $montantDepen;
+            $frais = $frais + $montantDepenFrais;
+        }
+        $depenBilan = $depenses + $frais + $autredepenses;
+        $bilan->setDepense($depenBilan);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('depense_index');
+    }
+    #[Route('/{id}/ajourautre', name: 'bilan_ajourautre', methods: ['GET', 'POST'])]
+    public function ajourautre(Bilan $bilan, AutredepenseRepository $autredepenseRepository, DecaisementRepository $decaisementRepository): Response
+    {
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
+        $autredepense = $autredepenseRepository->findAllAutreDepense($annee);
+        $autredepenses = 0;
+        for ($p = 0; $p < count($autredepense); $p++) {
+            $montantAutreDepen = $autredepense[$p]->getMontant();
+            $autredepenses = $autredepenses + $montantAutreDepen;
+        }
         $depenseSanFrais = $decaisementRepository->findAllDepense($annee);
         $depenses = 0;
         $frais = 0;
@@ -87,20 +131,22 @@ class BilanController extends AbstractController
             $depenses = $depenses + $montantDepen;
             $frais = $frais + $montantDepenFrais;
         }
-        $depenBilan = $depenses + $frais;
+        $depenBilan = $autredepenses + $depenses + $frais;
         $bilan->setDepense($depenBilan);
         $this->getDoctrine()->getManager()->flush();
 
-        return $this->redirectToRoute('depense_index');
+        return $this->redirectToRoute('autredepense_index');
     }
 
     #[Route('/{id}/ajourA', name: 'bilan_ajourA', methods: ['GET', 'POST'])]
-    public function ajourA(Bilan $bilan, MembreRepository $membreRepository): Response
+    public function ajourA(Bilan $bilan, MembreRepository $membreRepository, AdhesionRepository $adhesionRepository): Response
     {
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
         $membre = $membreRepository->findAllmembre($annee);
-        $montantmembreAnnuelle=count($membre)*500;
+        $adhesion = $adhesionRepository->findAll();
+        $adhesionAnnuelle = $adhesion[count($adhesion) - 1]->getMontant();
+        $montantmembreAnnuelle = count($membre) * $adhesionAnnuelle;
         $bilan->setAdhesion($montantmembreAnnuelle);
         $this->getDoctrine()->getManager()->flush();
 
@@ -108,11 +154,12 @@ class BilanController extends AbstractController
     }
 
     #[Route('/{id}/ajourC', name: 'bilan_ajourC', methods: ['GET', 'POST'])]
-    public function ajourC(Bilan $bilan, CotisationRepository $cotisationRepository): Response
+    public function ajourC(Bilan $bilan, CotisationRepository $cotisationRepository, SessionInterface $session): Response
     {
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
         $cotisation = $cotisationRepository->findAllcotisation($annee);
+
         $mont = 0;
         for ($i = 0; $i < count($cotisation); $i++) {
             $calculmontant = $cotisation[$i]->getMontantTotalPaye();
@@ -120,7 +167,13 @@ class BilanController extends AbstractController
         }
         $bilan->setCotisation($mont);
         $this->getDoctrine()->getManager()->flush();
-
+        $membres = $session->get('cotise');
+        $cotisation = $cotisationRepository->findAllcotisationmembre($annee);
+        if ($membres == 0) {
+            $this->addFlash('success', 'Ajouter avec success !');
+            unset($membres);
+            return $this->redirectToRoute('cotisation_solde');
+        }
         return $this->redirectToRoute('cotisation_encour');
     }
     #[Route('/{id}/ajourV', name: 'bilan_ajourV', methods: ['GET', 'POST'])]

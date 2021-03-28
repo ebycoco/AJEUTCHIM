@@ -19,6 +19,17 @@ class VotantRepository extends ServiceEntityRepository
         parent::__construct($registry, Votant::class);
     }
 
+    public function findVotant($value)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.matricule = :val')
+            ->setParameter('val', $value)
+            ->orderBy('v.id', 'DESC') 
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Votant[] Returns an array of Votant objects
     //  */

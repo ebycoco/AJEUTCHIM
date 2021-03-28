@@ -63,7 +63,7 @@
 										<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 											<thead>
 												<tr>
-													<th scope="col">Id</th> 
+													<th scope="col">Id</th>
 													<th scope="col">Voir</th>
 													<th scope="col">Etat</th>
 													<th scope="col">Montant remise</th>
@@ -74,7 +74,7 @@
 											<tbody>
 												{% for depense in depenses %}
 													<tr>
-														<th scope="row">{{ depense.id }}</th> 
+														<th scope="row">{{ depense.id }}</th>
 														<td>
 															<a href="{{ path('depense_show', {'id': depense.id}) }}" class="btn btn-warning">Voir le project</a>
 
@@ -94,7 +94,9 @@
 														<td>{{ depense.montant }}</td>
 														<td>
 															<div class="custom-control custom-switch">
-																{% if depense.etat ==1 %}
+
+																{% if depense.etat ==2 or depense.montanpaye > 0 %}
+
 																	<input type="checkbox" class="custom-control-input" disabled id="customSwitch2" checked>
 																	<label class="custom-control-label" for="customSwitch2">Accepter</label>
 																{% elseif depense.rejeter %}

@@ -20,15 +20,14 @@
 							</ol>
 						</div>
 						<div class="col-sm-6">
-							<a class="btn btn-warning" href="{{ path('membre_index') }}">Voir la liste</a>
+							<a class="btn btn-warning" href="{{ path('membre_index') }}">Retour</a>
 
 						</div>
 					</div>
 					<!-- end row -->
 				</div>
 				<!-- end page-title -->
-
-				{{ include('admin/membre/_form.html.twig') }}
+				{{ include('admin/membre/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 				<!-- end row -->
 			</div>
 			<!-- container-fluid -->

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MediaUtilisateur index{% endblock %}
+
+{% block body %}
+    <h1>MediaUtilisateur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ImageName</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for media_utilisateur in media_utilisateurs %}
+            <tr>
+                <td>{{ media_utilisateur.id }}</td>
+                <td>{{ media_utilisateur.imageName }}</td>
+                <td>{{ media_utilisateur.createdAt ? media_utilisateur.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ media_utilisateur.updatedAt ? media_utilisateur.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('media_utilisateur_show', {'id': media_utilisateur.id}) }}">show</a>
+                    <a href="{{ path('media_utilisateur_edit', {'id': media_utilisateur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('media_utilisateur_new') }}">Create new</a>
+{% endblock %}

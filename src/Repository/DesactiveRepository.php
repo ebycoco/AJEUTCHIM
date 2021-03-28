@@ -19,6 +19,17 @@ class DesactiveRepository extends ServiceEntityRepository
         parent::__construct($registry, Desactive::class);
     }
 
+    public function findBylien($value)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.nom = :val')
+            ->setParameter('val', $value)
+            ->orderBy('d.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Desactiver[] Returns an array of Desactiver objects
     //  */

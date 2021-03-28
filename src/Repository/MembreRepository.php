@@ -22,7 +22,7 @@ class MembreRepository extends ServiceEntityRepository
     public function findMembre()
     {
         return $this->createQueryBuilder('m')
-            ->orderBy('m.id', 'DESC')
+            ->orderBy('m.referenceAjeutchim', 'DESC')
             ->getQuery()
             ->getResult();
     }

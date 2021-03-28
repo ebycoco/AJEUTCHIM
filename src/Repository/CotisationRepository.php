@@ -27,6 +27,14 @@ class CotisationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findAllcotisationmembre($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.an = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
     public function findOnMembre($value)
     {
         return $this->createQueryBuilder('c')
@@ -60,6 +68,7 @@ class CotisationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.status = 1')
+            ->orWhere('c.montantTotalPaye = 5000')
             ->orderBy('c.id', 'DESC')
             ->setMaxResults(10)
             ->getQuery()

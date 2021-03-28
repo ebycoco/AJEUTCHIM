@@ -27,7 +27,7 @@ class CandidatureType extends AbstractType
             ->add('imageProgrammeFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => true,
-                'download_link' => false,
+                'download_link' => true,
                 'image_uri' => false,
                 'label' => 'Votre programme (pdf)',
 

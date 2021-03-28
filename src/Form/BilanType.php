@@ -14,8 +14,8 @@ class BilanType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder 
-            ->add('annee') 
+        $builder
+            ->add('annee')
             // ->add('annee', EntityType::class, [
             //     'class' => Annee::class,
             //     'query_builder' => function (EntityRepository $er) {
@@ -25,7 +25,7 @@ class BilanType extends AbstractType
             //     },
             //     'choice_label' => 'annee',
             //     'label' => 'Recherche par année',
-            // ]) 
+            // ])
         ;
     }
 

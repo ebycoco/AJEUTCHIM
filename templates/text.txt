@@ -1,0 +1,25 @@
+{% for row in presidents|batch(3) %}
+								{% set activee = "active" %}
+								<div class="carousel-item {{activee}}">
+									<div class="row">
+										{% for president in row %}
+											<div class="col-lg-4">
+												<div class="single-box">
+													<div class="img-area">
+														<img src="img/1.jpg" alt=""/>
+													</div>
+													<div class="img-text">
+														<h2>Person one</h2>
+														<span class="p">2020 - 2022</span>
+														<p>
+															Il a été élu le  10 - 11 - 2020
+														</p>
+														<a href="#" class="buttonsliderp">Son bureau</a>
+													</div>
+												</div>
+												{% set activee = " " %}
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+							{% endfor %}
