@@ -1,0 +1,168 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block title %}Candidat index
+{% endblock %}
+
+{% block body %}
+	<div class="form-maj">
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				<strong>Bien jour !</strong>
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('info') %}
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				<strong>Pour votre information !</strong>
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				<strong>Attention !</strong>
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('warning') %}
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				<strong>Attention !</strong>
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+		<div class="container personnelle">
+			<div class="page-title-box">
+				<div class="row align-items-center">
+					<div class="col-sm-6">
+						<h4 class="page-title">Profil</h4>
+					</div>
+
+				</div>
+				<!-- end row -->
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="card">
+						<div class="row no-gutters">
+							<div class="col-md-5">
+								{% if app.user.imageName  %}
+									<img class="card-img img-fluid" src="{{ vich_uploader_asset(app.user, 'imageFile')}}" width="700" height="433" alt="{{app.user.pseudo}}">
+								{% else %}
+									<img class="card-img img-fluid" src="{{asset('assets/images/users/user-4.jpg')}}" width="700" height="433" alt="{{ app.user.pseudo }}"/>
+								{% endif %}
+
+								<p class="card-text text-center">
+									<small class="text-muted">{{app.user.pseudo}}</small>
+								</p>
+							</div>
+							<div class="col-md-7">
+								<div class="card-body ml-2">
+									<h5 class="card-title font-16">Mon profil</h5>
+									<div>
+										<div class="form-group row">
+											<label for="disabledInput">E-mail</label>
+											<input class="form-control" id="disabledInput" type="text" placeholder="{{app.user.email}}" disabled>
+										</div>
+										<div class="form-group row">
+											<label for="disabledInput1">Pseudo</label>
+											<input class="form-control" id="disabledInput1" type="text" placeholder="{{app.user.pseudo}}" disabled>
+										</div>
+									</div>
+									<a href="#" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#modal1" type="button">
+										<small>Cliqué pour modifier</small>
+									</a>
+									<a href="#" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#modal2" type="button">
+										<small>Cliqué pour modifier mot de passe</small>
+									</a>
+
+									<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title mt-0">Modifier le profil</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													{{ form_start(userForm) }}
+													<div class="card profil">
+														<div class="card-body">
+															{{form(userForm)}}
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+																</div>
+															</div>
+														</div>
+													</div>
+
+												</div>
+												<!-- /.modal-content -->
+											</div>
+											<!-- /.modal-dialog -->
+										</div>
+										<!-- /.modal -->
+
+									</div>
+									<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title mt-0">Changer mot de passe</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<div class="card profil">
+														<div class="card-body container">
+															<div class="row mb-3">
+																<div class="col-lg-4 ">
+																	<img src="{{asset('images/gif/warning.gif')}}" height="100" class="img-circle" alt="">
+																</div>
+																<div class="col">
+																	<p>Après la modification de votre mot de passe un e-mail sera envoyé vers votre address E-mail :
+																		<a href="mailto:{{app.user.email}}" target="_blank" rel="noopener noreferrer">{{app.user.email}}</a>.
+																	</p>
+																	<p>Assurez d'avoir le mot de passe de cet E-mail pour confirmer.</p>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<a href="{{path('app_forgot_password_request')}}" class="btn btn-primary">Confirmer</a>
+																<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+											<!-- /.modal-content -->
+										</div>
+										<!-- /.modal-dialog -->
+									</div>
+									<!-- /.modal -->
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+		</div>
+		<!-- container-fluid -->
+		<!-- content -->
+	</div>
+</div>{% endblock %}
