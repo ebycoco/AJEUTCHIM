@@ -38,10 +38,13 @@
 									{% for flashError in app.flashes('reset_password_error') %}
 										<div class="alert alert-danger" role="alert">{{ flashError }}</div>
 									{% endfor %}
+									{% for flashError in app.flashes('reset_password_error') %}
+										<div class="alert alert-warning" role="alert">{{ flashError }}</div>
+									{% endfor %}
 									<h4 class="font-18 text-center">Reset Password</h4>
 									<div class="alert alert-success mt-4 mb-5 text-center" role="alert">
 										Enter your email address and we we will send you a
-																																				                link to reset your password.
+																																														                link to reset your password.
 									</div>
 									{{ form_start(requestForm, {label_attr: {class: 'form-horizontal'} }) }}
 
