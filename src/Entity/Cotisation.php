@@ -17,7 +17,7 @@ class Cotisation
     const STATUS = [
         0 => "Dans le temps",
         1 => "En retard",
-        2 => "Attention",
+        2 => "En avance",
     ];
 
     /**
@@ -42,7 +42,7 @@ class Cotisation
      * @ORM\Column(type="date")
      */
     private $annee;
- 
+
 
     /**
      * @ORM\Column(type="float",options={"default": 0})
@@ -68,6 +68,10 @@ class Cotisation
      * @ORM\Column(type="string", length=4)
      */
     private $an;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $couleurProfile;
 
     /**
      * @ORM\Column(type="float")
@@ -114,7 +118,7 @@ class Cotisation
 
         return $this;
     }
- 
+
 
     public function getResteMontant(): ?float
     {
@@ -172,6 +176,18 @@ class Cotisation
     public function setAn(string $an): self
     {
         $this->an = $an;
+
+        return $this;
+    }
+
+    public function getCouleurProfile(): ?string
+    {
+        return $this->couleurProfile;
+    }
+
+    public function setCouleurProfile($couleurProfile): self
+    {
+        $this->couleurProfile = $couleurProfile;
 
         return $this;
     }

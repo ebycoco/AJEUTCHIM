@@ -27,15 +27,23 @@ class MembreRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function dernierMembreAjouter()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAllmembre($value)
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.annee = :val')
             ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC') 
+            ->orderBy('m.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     // /**

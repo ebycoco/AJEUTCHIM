@@ -1,0 +1,259 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block title %}AJEUTCHIM | Profil
+{% endblock %}
+
+{% block body %}
+	<div class="form-maj">
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				<strong>Bien jour !</strong>
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('info') %}
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				<strong>Pour votre information !</strong>
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				<strong>Attention !</strong>
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('warning') %}
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				<strong>Attention !</strong>
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+		<div class="container personnelle">
+			<div class="row">
+				<div class="col">
+					<div class="card border-primary mb-3 card-personnelle">
+						<div class="card-header card-header-personnel text-center">Mes cotisation</div>
+						{% if is_granted('ROLE_ADMIN') %}
+							<div class="container mt-4 mb-4">
+
+								<h6 class="card-title card-title-personnel text-center">Vous être un Administrateur</h6>
+							</div>
+						{% else %}
+							<div class=" container">
+								<div class="row justify-content-center">
+									<div class="col-md-12">
+										<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+											<div class="carousel-inner">
+												{% set activee = "active" %}
+												{% for row in cotisations|batch(3) %}
+													<div class="carousel-item {{activee}}">
+														<div class="row">
+															{% for cotisation in row %}
+																{% if cotisations | length == 1 %}
+																	<div class=" col ">
+																		<div class="card-header card-header-personnel m-1 mt-2 text-center bg-{{cotisation.couleurProfile}} text-white">cotisation de
+																			{{cotisation.annee|date('Y')}}</div>
+																		<div>
+																			<div class="row">
+																				{% if cotisation.resteMontant == 0 %}
+																					<div class="bg-success mt-6 col-md-1" style="width: 20px; height: 20px; border-radius:50% ;"></div>
+																					<div class="col text-left">
+																						Terminé
+																					</div>
+																				{% else %}
+																					<div class="bg-info mt-6 col-md-1" style="width: 20px; height: 20px; border-radius:50% ;"></div>
+																					<div class="col text-left">
+
+																						En cours...
+																					</div>
+																				{% endif %}
+																			</div>
+																			<h6>Montant à payer :
+																				{{cotisation.montantannuelle}}
+																				fcfa
+																			</h6>
+																			<h6>Montant payer :
+																				{{cotisation.montantTotalPaye}}
+																				fcfa
+																			</h6>
+
+																			{% if cotisation.resteMontant == 0 %}
+																				<h6>Status :
+																					<span class="text-success">Soldé</span>
+																				</h6>
+																			{% else %}
+																				<h6>Montant restant :
+																					{{cotisation.resteMontant}}
+																					fcfa
+																				</h6>
+																			{% endif %}
+
+																		</div>
+																	</div>
+																	<div class=" col">
+																		<div class="card-header card-header-personnel m-1 mt-2 text-center bg-info text-white">cotisation de
+																			{{annee}}</div>
+																		<div>
+																			<div class="row">
+																				<div class="bg-primary mt-6 col-md-1" style="width: 20px; height: 20px; border-radius:50% ;"></div>
+																				<div class="col-lg-4 text-left">
+																					A suivre
+																				</div>
+																			</div>
+																			<h6>Montant à payer : 5 000 fcfa
+																			</h6>
+																			<h6>Montant payer : 0 fcfa
+																			</h6>
+																			<h6>Montant restant : 5 000 fcfa
+																			</h6>
+																		</div>
+																	</div>
+																{% else %}
+																	<div class=" col-lg-4 ">
+																		<div class="card-header card-header-personnel m-1 mt-2 text-center bg-{{cotisation.couleurProfile}} text-white">cotisation de
+																			{{cotisation.annee|date('Y')}}</div>
+																		<div>
+																			<div class="row">
+																				{% if cotisation.resteMontant == 0 %}
+																					<div class="bg-success mt-6 col-md-1" style="width: 20px; height: 20px; border-radius:50% ;"></div>
+																					<div class="col text-left">
+																						Terminé
+																					</div>
+																				{% else %}
+																					<div class="bg-info mt-6 col-md-1" style="width: 20px; height: 20px; border-radius:50% ;"></div>
+																					<div class="col text-left">
+
+																						En cours...
+																					</div>
+																				{% endif %}
+																			</div>
+																			<h6>Montant à payer :
+																				{{cotisation.montantannuelle}}
+																				fcfa
+																			</h6>
+																			<h6>Montant payer :
+																				{{cotisation.montantTotalPaye}}
+																				fcfa
+																			</h6>
+
+																			{% if cotisation.resteMontant == 0 %}
+																				<h6>Status :
+																					<span class="text-success">Soldé</span>
+																				</h6>
+																			{% else %}
+																				<h6>Montant restant :
+																					{{cotisation.resteMontant}}
+																					fcfa
+																				</h6>
+																			{% endif %}
+
+																		</div>
+																		{% set activee = " " %}
+																	</div>
+																{% endif %}
+															{% endfor %}
+														</div>
+													</div>
+												{% else %}
+													<div class=" col">
+														<div class="card-header card-header-personnel m-1 mt-2 text-center bg-info text-white">information</div>
+														<h6 class="text-center">Vous n'avez encore paye de cotisation veuillez contacter le tresorié
+														</h6>
+													</div>
+												{% endfor %}
+												<a href="#carouselExampleIndicators" class="carousel-control-prev" role="button" data-slide="prev">
+													<span class="fas fa-chevron-left fa-2x"></span>
+												</a>
+												<a href="#carouselExampleIndicators" class="carousel-control-next" role="button" data-slide="next">
+													<span class="fas fa-chevron-right fa-2x"></span>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endif %}
+						<div class="card-footer">
+							<p>Si vous ne comprenez quelque chose veuillez contacter le trésorie via ses contact ci-dessous.</p>
+							<h6>Numéro teléphone :
+								<span class="text-primary">+225 07 57 40 16 57</span>
+							</h6>
+							<h6>E-mail :
+								<span class="text-primary">
+									<a href="#">{{app.user.email}}</a>
+								</span>
+							</h6>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col">
+					<div class="card border-primary mb-3 card-personnelle">
+						<div class="card-header card-header-personnel bg-primary text-white">Informations personnelles</div>
+						<div class="card-body">
+							{% if is_granted('ROLE_ADMIN') %}
+								<h6 class="card-title card-title-personnel">pseudo :
+									{{app.user.pseudo}}
+								</h6>
+								<h6>email :
+									{{app.user.email}}</h6>
+							{% else %}
+								<h6>pseudo :
+									<span class="text-uppercase text-primary">{{app.user.pseudo}}</span>
+								</h6>
+								<h6>Nom :
+									<span class="text-uppercase text-primary">{{app.user.membre.nom}}</span>
+								</h6>
+								<h6>Prenom :
+									<span class="text-uppercase text-primary">{{app.user.membre.prenom}}</span>
+								</h6>
+								<h6>Ville :
+									<span class="text-uppercase text-primary">{{app.user.membre.ville}}</span>
+								</h6>
+								<h6>Contact :
+									<span class="text-uppercase text-primary">{{app.user.membre.contact}}</span>
+								</h6>
+								<h6>Matricule :
+									<span class="text-uppercase text-primary">{{app.user.membre.referenceAjeutchim}}</span>
+								</h6>
+								<h6>E-mail :
+									<span class="text-primary">
+										<a href="#">{{app.user.email}}</a>
+									</span>
+								</h6>
+							{% endif %}
+
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card border-primary mb-3 card-personnelle">
+						<div class="card-header card-header-personnel bg-info text-white">Information avant modification</div>
+						<div class="card-body">
+							<p class="card-text text2 text-primary">Vous devrez modifier l'email par defaut.</p>
+							<p class="card-text text2">Veuillez garder vos information confidentiel.</p>
+							<p class="card-text text2">AJEUTCHIM ne sera pas responsable de toute eventualité qui pourrait occasionner la trésorerie.</p>
+						</div>
+						<div class="text-center mb-4">
+							<a href="" class="btn btn-primary">Modifier mes informations</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

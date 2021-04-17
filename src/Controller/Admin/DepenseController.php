@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DepenseController extends AbstractController
 {
     /**
-     * @Route("/", name="depense_index", methods={"GET"})
+     * @Route("/", name="depense_index", methods={"GET"}) 
      */
     public function index(DepenseRepository $depenseRepository, DecaisementRepository $decaisementRepository): Response
     {
@@ -62,36 +62,7 @@ class DepenseController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="depense_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $depense = new Depense();
 
-        $form = $this->createForm(DepenseType::class, $depense);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $jouj = new DateTime('now');
-            $annee = $jouj->format(date('Y'));
-            $entityManager = $this->getDoctrine()->getManager();
-            $depense->setConfirme(false);
-            $depense->setAnnee($annee);
-            $depense->setEtat(0);
-            $depense->setVisible(false);
-            $depense->setUser($this->getUser());
-            $entityManager->persist($depense);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('depense_index');
-        }
-
-        return $this->render('admin/depense/new.html.twig', [
-            'depense' => $depense,
-            'form' => $form->createView(),
-        ]);
-    }
 
     /**
      * @Route("/{id}", name="depense_show", methods={"GET"})

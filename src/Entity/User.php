@@ -174,6 +174,11 @@ class User implements UserInterface
      */
     private $imageName;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Membre::class, inversedBy="users")
+     */
+    private $membre;
+
 
 
     public function __construct()
@@ -901,4 +906,16 @@ class User implements UserInterface
     // {
     //     $this->email = base64_decode($this->email);
     // }
+
+    public function getMembre(): ?Membre
+    {
+        return $this->membre;
+    }
+
+    public function setMembre(?Membre $membre): self
+    {
+        $this->membre = $membre;
+
+        return $this;
+    }
 }

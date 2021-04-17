@@ -8,11 +8,14 @@ use App\Entity\User;
 use App\Form\MembreType;
 use App\Repository\BilanRepository;
 use App\Repository\MembreRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @Route("/admin/membre")
@@ -26,21 +29,32 @@ class MembreController extends AbstractController
     {
         return $this->render('admin/membre/index.html.twig', [
             'membres' => $membreRepository->findMembre(),
+            'derniermembres' => $membreRepository->dernierMembreAjouter(),
         ]);
     }
 
     /**
      * @Route("/new", name="membre_new", methods={"GET","POST"})
      */
-    public function new(Request $request, BilanRepository $bilanRepository): Response
+    public function new(Request $request, BilanRepository $bilanRepository, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository): Response
     {
         $membre = new Membre();
         $bilan = new Bilan();
+        $user = new User();
         $form = $this->createForm(MembreType::class, $membre);
         $form->handleRequest($request);
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
-
+        $email = "Ajeutchim" . mt_rand(1, 999) . "@gmail.com";
+        $users = $userRepository->findAll();
+        $emailentre = $email;
+        for ($i = 0; $i < count($users); $i++) {
+            $emailbase = $users[$i]->getEmail();
+            if ($emailentre == $emailbase) {
+                $emailentre = "Ajeutchim" . mt_rand(1, 999) . "@gmail.com";
+            }
+        }
+        $email = $emailentre;
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $membre->setReferenceAjeutchim('AJEUT' . mt_rand(99, 999) . 'CHIM');
@@ -48,8 +62,25 @@ class MembreController extends AbstractController
             $membre->setAdhesion(500);
             $membre->setUser($this->getUser());
             $entityManager->persist($membre);
+            $pass = "123456";
+            $user->setEmail($email);
+            $user->setMembre($membre);
+            $user->setRoles(['ROLE_MEMBRE']);
+            $user->setIsVerified(1);
+            $user->setMatricule($form->getData()->getReferenceAjeutchim());
+            $mot = explode(" ", $form->getData()->getPrenom());
+            $pseudo = $mot[count($mot) - 1];
+            $user->setPseudo($pseudo . mt_rand(10, 99));
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $pass
+                )
+            );
+            $entityManager->persist($user);
             $entityManager->flush();
-
+            $this->addFlash('success', ' Un nouveau membre a été ajouter, avec pour matricule ' . $membre->getReferenceAjeutchim());
             //on insert dans la table bilan 
             if ($bilanRepository->findAll() == null) {
 
@@ -70,12 +101,12 @@ class MembreController extends AbstractController
                     $entityManager->flush();
                 }
             }
-
             return $this->redirectToRoute('membre_index');
         }
 
         return $this->render('admin/membre/new.html.twig', [
             'membre' => $membre,
+            'email' => $email,
             'form' => $form->createView(),
         ]);
     }

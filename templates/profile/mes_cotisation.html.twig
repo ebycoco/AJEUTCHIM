@@ -1,0 +1,61 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block title %}Mes cotisations
+{% endblock %}
+
+{% block body %}
+	<div class="form-maj">
+		<div class="container personnelle">
+			<h1 class="text-primary text-center">
+				Mes cotisations</h1>
+			{% for row in cotisations|batch(3) %}
+				<div class="row">
+					{% for cotisation in row %}
+						<div class=" col-lg-4">
+							<div class="card-header card-header-personnel m-1 mt-2 text-center bg-{{cotisation.couleurProfile}} text-white">cotisation de
+								{{cotisation.annee|date('Y')}}</div>
+							<div>
+								<div class="row">
+									{% if cotisation.resteMontant == 0 %}
+										<div class="bg-success mt-6 col-md-1" style="width: 20px; height: 20px; border-radius:50% ;"></div>
+										<div class="col text-left">
+											Terminé
+										</div>
+									{% else %}
+										<div class="bg-info mt-6 col-md-1" style="width: 20px; height: 20px; border-radius:50% ;"></div>
+										<div class="col text-left">
+
+											En cours...
+										</div>
+									{% endif %}
+								</div>
+								<h6>Montant à payer :
+									{{cotisation.montantannuelle}}
+									fcfa
+								</h6>
+								<h6>Montant payer :
+									{{cotisation.montantTotalPaye}}
+									fcfa
+								</h6>
+								{% if cotisation.resteMontant == 0 %}
+									<h6>Status :
+										<span class="text-success">Soldé</span>
+									</h6>
+								{% else %}
+									<h6>Montant restant :
+										{{cotisation.resteMontant}}
+										fcfa
+									</h6>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+			<div class="d-flex justify-content-center mt-4">
+				{% do cotisations.setPageRange(2) %}
+				{{knp_pagination_render(cotisations,'base/pagination.html.twig')}}
+			</div>
+		</div>
+	</div>
+{% endblock %}

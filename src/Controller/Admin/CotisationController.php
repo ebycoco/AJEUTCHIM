@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Annee;
 use App\Entity\Bilan;
 use App\Entity\Cotisation;
 use App\Form\CotisationMembreType;
@@ -167,6 +168,10 @@ class CotisationController extends AbstractController
             $montanAnnuel = $montantAnnuelleRepository->findAll();
             $montanAnnuelle = $montanAnnuel[count($montanAnnuel) - 1]->getMontant();
 
+            $anneeEntrer = $form->getData()->getAnnee();
+            $resutatAnnee = explode("-", date(date_format($anneeEntrer, "Y-m-d")));
+            $anneeCotisation = $resutatAnnee[0];
+
             $membrepayant = $cotisation->getMembre();
             $montanRest = $cotisationRepository->findOnMembre($membrepayant);
             if (!empty($montanRest)) {
@@ -200,6 +205,13 @@ class CotisationController extends AbstractController
                     $cotisation->setMontantannuelle($montanAnnuelle);
                     $cotisation->setNeplus(false);
                     $cotisation->setStatus(0);
+                    if ($annee == $anneeCotisation) {
+                        $cotisation->setCouleurProfile("success");
+                    } elseif ($annee > $anneeCotisation) {
+                        $cotisation->setCouleurProfile("warning");
+                    } elseif ($annee < $anneeCotisation) {
+                        $cotisation->setCouleurProfile("info");
+                    }
                     $cotisation->setAn($annee);
                     $entityManager->persist($cotisation);
                     $entityManager->flush();
@@ -216,7 +228,6 @@ class CotisationController extends AbstractController
                         if ($dernierAnnee == $annee) {
                             $IdPass = $nombreBilan[count($nombreBilan) - 1]->getId();
                             $membrecotise = $montanRest;
-                            dd('jjj');
                             $session->set('cotise', $membrecotise);
                             return $this->redirectToRoute('bilan_ajourC', ['id' => $IdPass]);
                         } else {
@@ -239,6 +250,7 @@ class CotisationController extends AbstractController
                 if (empty($montanRest)) {
                     // on ajoute une nouvelle personne 
                     $montantEntrer = $cotisation->getMontant();
+
                     if ($montantEntrer > $montanAnnuelle) {
                         $this->addFlash('danger', 'Le montant entré depasse la montant qui reste a payer !');
                         return $this->redirectToRoute('cotisation_new');
@@ -249,6 +261,13 @@ class CotisationController extends AbstractController
                     $cotisation->setMontantTotalPaye($montantEntrer);
                     $cotisation->setMontantannuelle($montanAnnuelle);
                     $cotisation->setStatus(0);
+                    if ($annee == $anneeCotisation) {
+                        $cotisation->setCouleurProfile("success");
+                    } elseif ($annee > $anneeCotisation) {
+                        $cotisation->setCouleurProfile("warning");
+                    } elseif ($annee < $anneeCotisation) {
+                        $cotisation->setCouleurProfile("info");
+                    }
                     $cotisation->setAn($annee);
                     $cotisation->setNeplus(0);
                     $entityManager->persist($cotisation);
@@ -319,11 +338,23 @@ class CotisationController extends AbstractController
      */
     public function confirme(Request $request, Cotisation $cotisation): Response
     {
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
         $form = $this->createForm(CotisationMembreType::class, $cotisation);
         $form->handleRequest($request);
+        $anneeEntrer = $form->getData()->getAnnee();
+        $resutatAnnee = explode("-", date(date_format($anneeEntrer, "Y-m-d")));
+        $anneeCotisation = $resutatAnnee[0];
         $entityManager = $this->getDoctrine()->getManager();
         $cotisation->setNeplus(true);
         $cotisation->setStatus(true);
+        if ($annee == $anneeCotisation) {
+            $cotisation->setCouleurProfile("success");
+        } elseif ($annee > $anneeCotisation) {
+            $cotisation->setCouleurProfile("warning");
+        } elseif ($annee < $anneeCotisation) {
+            $cotisation->setCouleurProfile("info");
+        }
         $entityManager->persist($cotisation);
         $entityManager->flush();
         return $this->redirectToRoute('cotisation_solde');
@@ -345,6 +376,9 @@ class CotisationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //$matriculeEntrer = $form->get('mont')->getData();
+            $anneeEntrer = $form->getData()->getAnnee();
+            $resutatAnnee = explode("-", date(date_format($anneeEntrer, "Y-m-d")));
+            $anneeCotisation = $resutatAnnee[0];
             $montanAnnuel = $montantAnnuelleRepository->findAll();
             $montanAnnuelle = $montanAnnuel[count($montanAnnuel) - 1]->getMontant();
             $membrepayant = $cotisation->getMembre();
@@ -410,6 +444,13 @@ class CotisationController extends AbstractController
                 $cotisation->setMontantTotalPaye($montanTotalPaye);
                 $cotisation->setMontantannuelle($montanAnnuelle);
                 $cotisation->setStatus(1);
+                if ($annee == $anneeCotisation) {
+                    $cotisation->setCouleurProfile("success");
+                } elseif ($annee > $anneeCotisation) {
+                    $cotisation->setCouleurProfile("warning");
+                } elseif ($annee < $anneeCotisation) {
+                    $cotisation->setCouleurProfile("info");
+                }
                 $entityManager->persist($cotisation);
                 $entityManager->flush();
                 //on insert dans la table bilan 

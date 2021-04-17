@@ -72,19 +72,6 @@ class HomeController extends AbstractController
             $activ = 0;
         }
 
-        $limit = $request->get("limit", 4);
-        $page = $request->get("page", 1);
-        /**@var Paginator $articles */
-        $articles = $this->getDoctrine()->getRepository(Article::class)->findGetPaginatedPosts(
-            $page,
-            $limit
-        );
-        $pages = ceil($articles->count() / $limit);
-        $range = range(
-            max($page - 2, 1),
-            min($page + 2, $pages)
-        );
-
         $candidat = $candidatRepository->findCandidatAvote();
         $votante = $votantRepository->findAll();
         $membre = $membreRepository->findAll();
@@ -97,6 +84,7 @@ class HomeController extends AbstractController
             $matriculeEntrer = $form1->get('matricule')->getData();
             $jouj = new DateTime('now');
             $annee = $jouj->format(date('Y'));
+
             $secondTour = "non";
             $candidatPlusPoint = $candidatRepository->findCandidatPlusPoint($annee);
             for ($i = 0; $i < count($candidatPlusPoint); $i++) {
@@ -146,8 +134,25 @@ class HomeController extends AbstractController
                 $vote = $session->get('vote');
                 $vote = $matriculeEntrer;
                 $session->set('vote', $vote);
+                $tour = "1er Tour";
+                $candidat = $candidatRepository->findCandidatAnnee($annee);
+                if (empty($candidat)) {
+                    return $this->redirectToRoute('candidature_index');
+                }
+                for ($i = 0; $i < count($candidat); $i++) {
+
+                    if ($candidat[$i]->getTour2() == "2ème Tour") {
+                        $tour = $candidat[$i]->getTour2();
+                    }
+                }
+                if ($tour == "2ème Tour") {
+
+                    $candidats = $candidatRepository->findCandidatAnneeTour2($tour);
+                } elseif ($tour == "1er Tour") {
+                    $candidats = $candidatRepository->findCandidatAnnee($annee);
+                }
                 return $this->render('candidat/pagedevote.html.twig', [
-                    'candidats' => $candidatRepository->findCandidatAvote(),
+                    'candidats' => $candidats,
                     'matriculeEntrer' => $matriculeEntrer,
                 ]);
             } elseif ($secondTour = "oui") {
@@ -186,8 +191,24 @@ class HomeController extends AbstractController
                 $vote = $session->get('vote');
                 $vote = $matriculeEntrer;
                 $session->set('vote', $vote);
+                $tour = "1er Tour";
+                $candidat = $candidatRepository->findCandidatAnnee($annee);
+                if (empty($candidat)) {
+                    return $this->redirectToRoute('candidature_index');
+                }
+                for ($i = 0; $i < count($candidat); $i++) {
+
+                    if ($candidat[$i]->getTour2() == "2ème Tour") {
+                        $tour = $candidat[$i]->getTour2();
+                    }
+                }
+                if ($tour == "2ème Tour") {
+                    $candidats = $candidatRepository->findCandidatAnneeTour2($tour);
+                } elseif ($tour == "1er Tour") {
+                    $candidats = $candidatRepository->findCandidatAnnee($annee);
+                }
                 return $this->render('candidat/pagedevote.html.twig', [
-                    'candidats' => $candidatRepository->findCandidatAvote(),
+                    'candidats' => $candidats,
                     'matriculeEntrer' => $matriculeEntrer,
                 ]);
             } else {
@@ -212,18 +233,13 @@ class HomeController extends AbstractController
             'flashes' => $flashRepository->findAll(),
             'presidents' => $presidentRepository->findAll(),
             'videos' => $videoRepository->findAll(),
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articleRepository->dernierArticle(),
             'apropos' => $aproposRepository->findAll(),
             'desactiver' => $desactive,
             'ouvertures' => $ouvertures,
             'votes' => $votes,
-            'candidats' => $candidatRepository->findAll(),
+            'candidats' => $candidatRepository->resultatPublic(),
             'bureaux' => $bureaux,
-            'articles' => $articles,
-            'pages' => $pages,
-            'page' => $page,
-            'limit' => $limit,
-            'range' => $range,
             'activee' => $activee,
             'activeet' => $activeet,
             'activ' => $activ,

@@ -342,6 +342,104 @@ section .heading {
     text-decoration: none;
   }
 }
+/*============= ARTICLE =============*/
+.article img {
+  transition: transform 0.3s ease-out;
+  &:hover {
+    transform: scale(1.075);
+  }
+}
+.footerli {
+  li {
+    list-style: none;
+    a {
+      text-decoration: none;
+    }
+  }
+}
+/*================ PROFILE =========*/
+
+.profile {
+  background: #c4c2bf;
+}
+.sidebar {
+  margin-top: 15vh;
+  background: #fff;
+  border-radius: 20px;
+}
+.nav {
+  position: relative;
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-bottom: 10px;
+}
+.content {
+  margin-top: 15vh;
+  background: #fff;
+  border-radius: 20px;
+}
+.form-maj {
+  margin-top: 45px;
+  margin: 45px;
+  margin-bottom: 45px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.form-maj input {
+  border: none;
+  border-bottom: 1px solid #f6a722;
+}
+.effet-ombre:focus {
+  border-color: none;
+  box-shadow: none;
+}
+.avatar {
+  position: relative;
+  left: 35%;
+}
+.avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.votre-profil {
+  width: 90%;
+  background: #7c22f6;
+  color: #fff;
+}
+.sidebar ul li a {
+  color: #000;
+}
+.sidebar ul li .active {
+  background: #7c22f6;
+  color: #fff;
+  border-radius: 5px;
+}
+.sidebar ul li :hover {
+  background: #7c22f6;
+  color: #fff;
+  border-radius: 5px;
+}
+.footer {
+  background: #000;
+  text-align: center;
+  color: #fff;
+}
+.flex-column li img {
+  width: 28px;
+  height: 28px;
+}
+.sous-menu .decon a {
+  color: #f6a722;
+}
+.sous-menu .decon a:hover {
+  background: red;
+  color: #f6a722;
+}
+.form-control:focus {
+  border-color: none;
+  box-shadow: none;
+}
 /*============= FOOTER =============*/
 footer {
   background-color: #383838;

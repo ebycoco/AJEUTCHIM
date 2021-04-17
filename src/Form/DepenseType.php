@@ -15,11 +15,21 @@ class DepenseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre', TextType::class)
+            ->add('titre', TextType::class, [
+                'required' => false,
+                'label' => 'nom du projet',
+                'attr' => [
+                    'placeholder' => 'Entrer le nom du projet'
+                ]
+            ])
             ->add('description', CKEditorType::class, [
                 'config_name' => 'main_config',
             ])
-            ->add('montant', IntegerType::class);
+            ->add('montant', IntegerType::class, [
+                'attr' => [
+                    'placeholder' => 'Entrer le montant'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

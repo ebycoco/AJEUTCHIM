@@ -73,6 +73,23 @@ class CandidatRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findCandidatPlusPointsecond($value2)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.tour2 = :val2')
+            ->setParameter('val2', $value2)
+            ->orderBy('c.nombreVoix2', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function resultatPublic()
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.vuePublic = 1')
+            ->orderBy('c.nombreVoix', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Candidat[] Returns an array of Candidat objects
     //  */

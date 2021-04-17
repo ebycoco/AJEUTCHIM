@@ -50,9 +50,9 @@
 					<div class="container">
 						<div class="row justify-content-center">
 							<div class="col-8 bg-custom d-none d-md-block py-3 px-0 reveal-2">
-								<h1>Boostrap</h1>
+								<h1>AJEUTCHIM</h1>
 								<div class="border-top border-primary w-50 mx-auto my-3"></div>
-								<h3 class="pb-3">Complete Website Design</h3>
+								<h3 class="pb-3">Notre mission la cohésion sociale</h3>
 								<a href="#" class="buttonsliderd mr-2">View Demo</a>
 								<a href="#" class="buttonsliderp ml-2">Start Now</a>
 							</div>
@@ -67,8 +67,7 @@
 						<div class="row justify-content-end text-right">
 							<div class="col-5 bg-custom d-none d-lg-block py-3 px-0 pr-3 reveal-5">
 								<p class="lead pb-3">
-									Lorem ipsum dolor sit amet consectetur adipisicing elit
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															                    Veritatis.
+									La main dans la main participons tous pour le developpement de TCHIMOUKRO
 								</p>
 								<a href="#" class="buttonsliderd">See phone</a>
 							</div>
@@ -82,11 +81,8 @@
 					<div class="container">
 						<div class="row justify-content-start text-left">
 							<div class="col-7 bg-custom d-none d-lg-block py-3 px-0 pl-3 reveal-7">
-								<h3 class="pb-3">Built For Tablets</h3>
-								<p class="lead">
-									Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															                    Quaerat, earum.
-								</p>
+								<h3 class="pb-3">Notre slogan</h3>
+								<p class="lead">Unie plus que jamais</p>
 								<a href="#" class="buttonsliderp">See tablet</a>
 							</div>
 						</div>
@@ -142,7 +138,7 @@
 				</div>
 				<div class="container">
 					<div class="row justify-content-center">
-						<div class="col-10  mt-3">
+						<div class="col-12  mt-3">
 							<div class="row">
 								<div class="col">
 									{% set activ = 0 %}
@@ -157,20 +153,7 @@
 										{% else %}
 									{% endif %}
 								</div>
-								<div class="col">
-									{% set activeet = 0 %}
-									{% for ouverture in ouvertures %}
-										{% if ouverture.etat == 1 %}
-											{% set activeet = 1 %}
-											{% else %}
-										{% endif %}
-									{% endfor %}
-									{% if activeet == 1 %}
-										<a href="{{path('candidature_new')}}" class="button1 ">Déposer ma candidature</a>
-										{% else %}
-									{% endif %}
-								</div>
-								<div class="col">
+								<div class="col-6">
 									<a href="#adhession" class="button1" role="button" data-toggle="collapse">Demande d'adhésion</a>
 								</div>
 								<div class="col">
@@ -197,18 +180,7 @@
 	<!-- fin info panel-->
 	<div class="collapse mt-5" id="vote">
 		<div class="container">
-			{{ form_start(form1) }}
-			<div class="form-group">
-				<div class="col-6 mx-auto">
-					{{ form_row(form1.matricule) }}
-				</div>
-			</div>
-			<div class="form-group row">
-				<div class="col-6 text-right">
-					<button class="btn btn-primary w-md waves-effect waves-light" type="submit">Register</button>
-				</div>
-			</div>
-			{{ form_end(form1) }}
+			{{include('form/_voteForm.html.twig')}}
 		</div>
 	</div>
 	<div class="collapse mt-5" id="adhession">
@@ -273,43 +245,60 @@
 		</div>
 	</div>
 	<!-- resultats -->
-	<section id="resultat" class="container-fluid reveal">
-		<div class="col-12 text-center">
-			<div class="blue-divider"></div>
-			<div class="heading">
-				<h2 class="mt-3">Les Resultats</h2>
+	{% if candidats | length != 0 %}
+		<section id="resultat" class="container-fluid reveal">
+			<div class="col-12 text-center">
+				<div class="blue-divider"></div>
+				<div class="heading">
+					<h2 class="mt-3">Les Resultats</h2>
+				</div>
+				<p class="lead">
+					Les resultats obtenue après le vote
+				</p>
 			</div>
-			<p class="lead">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
-			</p>
-		</div>
-		<div class="container reveal-1">
-			<div class="row justify-content-center">
-				{% for candidat in candidats %}
-					<div class="col">
-						<div class="card">
-							<img src="{{ vich_uploader_asset(candidat.candidature, 'imageFile')}}" class="card-img-top" alt="img"/>
-							<div class="card-body">
-								<div class="row">
-									<div class="col">
-										<h5 class="card-title">
-											{{ candidat.nom }}
-											{{ candidat.prenom }}
-										</h5>
-									</div>
-									<div class="col">
-										<h5>Voix obtenue
-											<span class="h4">{{ candidat.nombreVoix }}</span>
-										</h5>
+			<div class="container reveal-1">
+				<div class="row justify-content-center">
+					{% for candidat in candidats %}
+						<div class="col">
+							<div class="card">
+								<img src="{{ vich_uploader_asset(candidat.candidature, 'imageFile')}}" class="card-img-top" alt="img"/>
+								<div class="card-body">
+									<div class="row">
+										<div class="col">
+											<h5 class="card-title">
+												{{ candidat.nom }}
+												{{ candidat.prenom }}
+											</h5>
+										</div>
+										<div class="col">
+											<h5>
+												<span class="h4">
+													{% if candidat.nombreVoix2 %}
+														1er tour :
+														{{ candidat.nombreVoix }}
+														voix
+														<br>
+														2ème tour :
+														{{ candidat.nombreVoix2 }}
+														voix
+													{% elseif candidat.nombreVoix %}
+														{{ candidat.nombreVoix }}
+													{% endif %}
+
+
+												</span>
+											</h5>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				{% endfor %}
+					{% endfor %}
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	{% endif %}
+
 	<!-- fin resultats -->
 	<!-- president -->
 	<section id="pesi" class="container-fluid reveal">
@@ -319,7 +308,7 @@
 				<h2 class="mt-3">Les Presidents</h2>
 			</div>
 			<p class="lead">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+				Les présidents qui ont dirriger l'AJEUTCHIM depuis sa création le 10 nouvenbre 2019.
 			</p>
 		</div>
 		<div class="container reveal-1">
@@ -374,10 +363,10 @@
 		<div class="col-12 text-center mt-5 ">
 			<div class="blue-divider"></div>
 			<div class="heading">
-				<h2 class="mt-3">Dernière articles</h2>
+				<h2 class="mt-3">Articles</h2>
 			</div>
 			<p class="lead">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+				Les dernière articles publier
 			</p>
 		</div>
 		<!-- Three Column Section -->
@@ -386,8 +375,10 @@
 				<div class="row mt-2">
 					{% for article in row %}
 						<div class="col-md-4 reveal-1">
-							<div class="card">
-								<img src="img/1.jpg" class="card-img-top" alt="...">
+							<div class="card bg-white rounded shadow article">
+								<div class="mw-100 overflow-hidden">
+									<a href=""><img src="img/1.jpg" class="card-img-top" alt="{{article.title}}"></a>
+								</div>
 								<div class="card-body">
 									<h5 class="card-title">{{article.title}}</h5>
 									<p class="card-text">{{article.description}}</p>
@@ -400,6 +391,15 @@
 					{% endfor %}
 				</div>
 			{% endfor %}
+			{% if articles| length == 6 %}
+				<div class="row">
+					<div class="col text-center">
+						<button class="btn btn-primary">
+							<i class="fa fa-plus" aria-hidden="true"></i>
+						</button>
+					</div>
+				</div>
+			{% endif %}
 		</div>
 	</section>
 	<!-- End Three Column Section -->
@@ -410,31 +410,50 @@
 				<h2 class="mt-3">GALERY</h2>
 			</div>
 			<p class="lead">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+				Les plus belle photo de l'AJEUTCHIM
 			</p>
 		</div>
 		<!-- Three Column Section -->
 		<div class="container">
 			<div class="row my-5">
-				<div class="col-md-4 mb-3 reveal-1">
-					<img src="img/1.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				<div class="col-md-4 mb-3 reveal-1 bg-white rounded  article">
+					<div class="mw-100 overflow-hidden">
+						<img src="img/1.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+					</div>
 				</div>
-				<div class="col-md-4 mb-3 reveal-3">
-					<img src="img/2.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				<div class="col-md-4 mb-3 reveal-3 bg-white rounded  article">
+					<div class="mw-100 overflow-hidden">
+						<img src="img/2.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+					</div>
 				</div>
-				<div class="col-md-4 mb-3 reveal-2">
-					<img src="img/3.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				<div class="col-md-4 mb-3 reveal-2 bg-white rounded  article">
+					<div class="mw-100 overflow-hidden">
+						<img src="img/3.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4 mb-3 reveal-4">
-					<img src="img/1.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				<div class="col-md-4 mb-3 reveal-4 bg-white rounded  article">
+					<div class="mw-100 overflow-hidden">
+						<img src="img/1.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+					</div>
 				</div>
-				<div class="col-md-4 mb-3 reveal-6">
-					<img src="img/2.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				<div class="col-md-4 mb-3 reveal-6 bg-white rounded  article">
+					<div class="mw-100 overflow-hidden">
+						<img src="img/2.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+					</div>
 				</div>
-				<div class="col-md-4 mb-3 reveal-5">
-					<img src="img/3.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+				<div class="col-md-4 mb-3 reveal-5 bg-white rounded  article">
+					<div class="mw-100 overflow-hidden">
+						<img src="img/3.jpg" alt="" class="rounded mx-auto d-block w-100"/>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col text-center">
+					<button class="btn btn-primary">
+						<i class="fa fa-plus" aria-hidden="true"></i>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -449,7 +468,7 @@
 				<h2 class="mt-3">vidéo</h2>
 			</div>
 			<p class="lead">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, voluptas.
+				Les derniers vidéo publier sur la chaine youtube d'AJEUTCHIM.
 			</p>
 		</div>
 		<!-- Three Column Section -->
@@ -465,6 +484,13 @@
 					<img src="img/3.jpg" alt="" class="rounded mx-auto d-block w-100"/>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col text-center">
+					<button class="btn btn-primary">
+						<i class="fa fa-plus" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
 		</div>
 	</section>
 	<!-- End Three Column Section -->
@@ -474,7 +500,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-7 col-lg-8 col-xl-9 my-auto">
-					<h4>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h4>
+					<h4>L'équipe de l'AJEUTCHIM est disponible pour recevoir vos message .</h4>
 				</div>
 				<div class="col-md-5 col-lg-4 col-xl-3">
 					<a href="#contact" role="button" data-toggle="collapse" class="button1">Nous contacter</a>
@@ -484,52 +510,7 @@
 	</div>
 	<div class="collapse mt-5 mb-3" id="contact">
 		<div class="container">
-			<form>
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label for="inputEmail4">Email</label>
-						<input type="email" class="form-control" id="inputEmail4" placeholder="Email" required/>
-					</div>
-					<div class="form-group col-md-6">
-						<label for="inputPassword4">Password</label>
-						<input type="password" class="form-control" id="inputPassword4" placeholder="Password" required/>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputAddress">Address</label>
-					<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" required/>
-				</div>
-				<div class="form-group">
-					<label for="inputAddress2">Address 2</label>
-					<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" required/>
-				</div>
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label for="inputCity">City</label>
-						<input type="text" class="form-control" id="inputCity" required/>
-					</div>
-					<div class="form-group col-md-4">
-						<label for="inputState">State</label>
-						<select id="inputState" class="form-control">
-							<option selected>Choose...</option>
-							<option>...</option>
-						</select>
-					</div>
-					<div class="form-group col-md-2">
-						<label for="inputZip">Zip</label>
-						<input type="text" class="form-control" id="inputZip"/>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" id="gridCheck"/>
-						<label class="form-check-label" for="gridCheck">
-							Check me out
-						</label>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-primary">Sign in</button>
-			</form>
+			{{include('form/_contactForm.html.twig')}}
 		</div>
 	</div>
 	<!-- End Jumbotron -->
@@ -540,19 +521,18 @@
 	<div class="fixed-background">
 		<div class="row text-light py-5">
 			<div class="col-12 text-center">
-				<h1>Advence to the Next Level</h1>
-				<h3 class="py-4">..see what's on the other side.</h3>
+				<h1>Veux tu sourie ?</h1>
+				<h3 class="py-4">Cliquez sur ces boutons</h3>
 				<a type="button" data-toggle="modal" data-target="#modal1" class="button1">
-					Blue Pill
+					Voir mon contenue
 				</a>
-				<a type="button" data-toggle="modal" data-target="#modal1" class="button2">
-					red Pill
+				<a type="button" data-toggle="modal" data-target="#modal2" class="button2">
+					Voir mon contenue
 				</a>
 			</div>
 		</div>
 		<div class="fixed-wrap">
-			<div class="fixed" style="background-image: url({{asset('img/matrix.jpg')}});
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				  position: fixed;"></div>
+			<div class="fixed" style="background-image: url({{asset('img/matrix.jpg')}});position: fixed;"></div>
 		</div>
 	</div>
 	<!-- End Fixed Background IMG -->
@@ -585,6 +565,11 @@
 	<div class="modal fade" id="modal1">
 		<div class="modal-dialog">
 			<img src="img/emoji/poo.gif" alt="" class="w-100"/>
+		</div>
+	</div>
+	<div class="modal fade" id="modal2">
+		<div class="modal-dialog">
+			<img src="img/emoji/chicken.gif" alt="" class="w-100"/>
 		</div>
 	</div>
 {% endblock %}

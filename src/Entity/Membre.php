@@ -105,7 +105,12 @@ class Membre
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="membres")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user; 
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="membre")
+     */
+    private $users; 
 
     public function __construct()
     {
@@ -114,7 +119,8 @@ class Membre
         $this->bureaus = new ArrayCollection();
         $this->membreConseil = new ArrayCollection();
         $this->mandats = new ArrayCollection();
-        $this->presidents = new ArrayCollection(); 
+        $this->presidents = new ArrayCollection();
+        $this->users = new ArrayCollection(); 
     }
 
     public function __toString()
@@ -423,6 +429,36 @@ class Membre
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setMembre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getMembre() === $this) {
+                $user->setMembre(null);
+            }
+        }
 
         return $this;
     }  

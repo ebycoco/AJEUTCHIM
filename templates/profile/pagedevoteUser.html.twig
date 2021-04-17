@@ -1,0 +1,27 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block title %}Candidat index
+{% endblock %}
+
+{% block body %}
+	<div class="form-maj">
+		<div class="container personnelle">
+			<h1 class="text-primary text-center">
+				Votez votre candidat de choix</h1>
+			<div class="row">
+				{% for candidat in candidats %}
+					<div class="col">
+						<div class="card">
+							<img src="{{ vich_uploader_asset(candidat.candidature, 'imageFile')}}" class="card-img-top" alt="img"/>
+							<div class="card-body">
+								<h5 class="card-title">{{ candidat.nom }}
+									{{ candidat.prenom }}</h5>
+								<a href="{{ path('candidat_choix', {'id': candidat.id}) }}" class="btn btn-primary">Je le Vote</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

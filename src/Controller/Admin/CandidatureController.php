@@ -25,15 +25,30 @@ class CandidatureController extends AbstractController
     }
 
     #[Route('/new', name: 'candidature_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, MembreRepository $membreRepository): Response
+    public function new(Request $request, MembreRepository $membreRepository, CandidatureRepository $candidatureRepository): Response
     {
+        $listeCandidat = $candidatureRepository->findAll();
         $candidature = new Candidature();
         $form = $this->createForm(CandidatureType::class, $candidature);
         $form->handleRequest($request);
+        $matriculeUser = $this->getUser()->getMatricule();
+        if ($matriculeUser == null) {
+            $this->addFlash('danger', 'Vous ne pouvez pas déposer de candidature car vous être administrateur!');
+            return $this->redirectToRoute('app_profile');
+        }
+        for ($i = 0; $i < count($listeCandidat); $i++) {
+            $matriculeList = $listeCandidat[$i]->getMatriculeAjeutchim();
+            if ($matriculeUser == $matriculeList) {
+                $this->addFlash('danger', 'Vous ne pouvez plus poser de candidature car votre candidature est en cours de traitement !');
+                return $this->redirectToRoute('app_profile');
+            }
+        }
+
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $membre = $membreRepository->findAll();
-            $voire = $form->get('matriculeAjeutchim')->getData();
+            $voire = $matriculeUser;
 
             $peut = null;
             for ($i = 0; $i < count($membre); $i++) {
@@ -44,17 +59,18 @@ class CandidatureController extends AbstractController
             }
             if ($peut == null) {
                 $this->addFlash('warning', 'Votre matricule est invalid !');
-                return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('app_profile');
             }
             $entityManager = $this->getDoctrine()->getManager();
+            $candidature->setMatriculeAjeutchim($matriculeUser);
             $candidature->setDroit(0);
             $entityManager->persist($candidature);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_home');
+            $this->addFlash('success', 'Votre candidature a été envoyé avec success !');
+            return $this->redirectToRoute('app_profile');
         }
 
-        return $this->render('candidature/new.html.twig', [
+        return $this->render('profile/candidature.html.twig', [
             'candidature' => $candidature,
             'form' => $form->createView(),
         ]);

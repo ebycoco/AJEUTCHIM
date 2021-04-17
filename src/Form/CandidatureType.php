@@ -15,7 +15,6 @@ class CandidatureType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
-            ->add('matriculeAjeutchim')
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => true,
@@ -31,8 +30,7 @@ class CandidatureType extends AbstractType
                 'image_uri' => false,
                 'label' => 'Votre programme (pdf)',
 
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

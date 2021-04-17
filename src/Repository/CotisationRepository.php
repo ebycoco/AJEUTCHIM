@@ -40,6 +40,8 @@ class CotisationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c.membre = :val')
             ->setParameter('val', $value)
+            ->orderBy('c.annee', 'DESC')
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }

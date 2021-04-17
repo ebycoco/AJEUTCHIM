@@ -1,0 +1,22 @@
+{% include ("partials/headerProfil.html.twig") with {"title": block("title")} %}
+{% include ("partials/navbarProfil.html.twig") %}
+
+<div class="container-fluid profile">
+	<div class="row">
+		<div class="col-md-3">
+			{% include ("partials/sidebarProfil.html.twig") %}
+		</div>
+		<div class="col-md-9">
+			<div class="content"> {% block body %}{% endblock %}
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="footer">
+		{% include ("partials/footerProfil.html.twig") %}
+	</div>
+</div>
+{% block javascripts %}
+	{{encore_entry_script_tags('app')}}
+{% endblock %}</body></html>

@@ -22,12 +22,21 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findGetPaginatedPosts(int $page, int $limit): Paginator
     {
-        return new Paginator($this->createQueryBuilder('a')
-            ->addSelect('c')
-            ->join('a.comments','c')
-            ->setMaxResults($limit)
-            ->setFirstResult(($page * $limit) - $limit) 
+        return new Paginator(
+            $this->createQueryBuilder('a')
+                ->addSelect('c')
+                ->join('a.comments', 'c')
+                ->setMaxResults($limit)
+                ->setFirstResult(($page * $limit) - $limit)
         );
+    }
+    public function dernierArticle()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(6)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**
