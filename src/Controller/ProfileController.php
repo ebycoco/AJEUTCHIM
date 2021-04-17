@@ -3,21 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\Depense;
+use App\Entity\User;
 use DateTime;
 use App\Entity\Votant;
 use App\Form\DepenseType;
+use App\Form\EditUserConnecterType;
 use App\Form\VotantType;
 use App\Repository\MembreRepository;
 use App\Repository\VotantRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\DesactiveRepository;
 use App\Repository\CotisationRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/profile")
@@ -315,6 +319,77 @@ class ProfileController extends AbstractController
             'activ' => $activ,
             'annee' => $annee,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/utilisateur/profile/{id}", name="user_profile")
+     */
+    public function userprofil(User $user, Request $request, DesactiveRepository $desactiveRepository, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder,): Response
+    {
+        $IdPass = $this->getUser()->getId();
+        $form = $this->createForm(EditUserConnecterType::class, $user);
+        $mainte = new DateTime("now");
+        $ouvertures = $desactiveRepository->findBylien('Candidature');
+        $votes = $desactiveRepository->findBylien('Vote');
+        $membre = $this->getUser()->getid();
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
+        if (!empty($ouvertures)) {
+            $debut = $ouvertures[count($ouvertures) - 1]->getDebut();
+            $fin = $ouvertures[count($ouvertures) - 1]->getFin();
+            if ($fin > $mainte) {
+                $activeet = 1;
+            } else {
+                $activeet = 0;
+            }
+        } else {
+            $activeet = 0;
+        }
+        if (!empty($votes)) {
+            $debut = $votes[count($votes) - 1]->getDebut();
+            $fin = $votes[count($votes) - 1]->getFin();
+            if ($fin > $mainte) {
+                $activ = 1;
+            } else {
+                $activ = 0;
+            }
+        } else {
+            $activ = 0;
+        }
+        // if ($this->getUser()->getPassword(
+        //     $passwordEncoder->encodePassword(
+        //         $this->getUser(),
+        //         "123456"
+        //     )
+        // ) == $this->getUser()->getPassword()) {
+        //     $this->addFlash('warning', 'Vous devrez changez e-mail d\'abord!');
+        // }
+        $emaildefault = $this->getUser()->getEmail();
+        $motemaildefault = substr($emaildefault, 0, 9);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $emailform = $form->get('email')->getData();
+            $motemailentrer = substr($emailform, 0, 9);
+            if ($motemaildefault === $motemailentrer) {
+                $this->addFlash('warning', 'Vous devrez changez e-mail');
+                return $this->redirectToRoute('user_profile', ['id' => $IdPass]);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Ajouter avec success !');
+            return $this->redirectToRoute('user_profile', ['id' => $IdPass]);
+        }
+
+        return $this->render('profile/profile.html.twig', [
+            'userForm' => $form->createView(),
+            'activeet' => $activeet,
+            'ouvertures' => $ouvertures,
+            'votes' => $votes,
+            'activ' => $activ,
+            'annee' => $annee,
         ]);
     }
 }
