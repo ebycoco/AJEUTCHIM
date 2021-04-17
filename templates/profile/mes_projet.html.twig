@@ -1,0 +1,98 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block title %}Mes cotisations
+{% endblock %}
+
+{% block body %}
+	<div class="form-maj">
+		<div class="container personnelle">
+			<h1 class="text-warning text-center">
+				Mes projets</h1>
+			<div class="table-responsive project-list">
+				<table class="table project-table table-nowrap">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Projets</th>
+							<th scope="col">Date de créaction</th>
+							<th scope="col">Status</th>
+							<th scope="col">Motif</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for depense in depenses %}
+							<tr>
+								<th scope="row">{{ depense.id }}</th>
+								<td>
+									{{ depense.titre }}
+								</td>
+								<td>{{ depense.createdAt ? depense.createdAt|date('d-m-Y') : '' }}</td>
+								<td>
+									{% if depense.confirme == 0 and depense.rejeter == 0 %}
+										<span class="text-warning font-12">
+											<i class="mdi mdi-checkbox-blank-circle mr-1"></i>En cours ...</span>
+									{% elseif depense.confirme == 1 and depense.etat == 0 and depense.rejeter == null %}
+										<span class="text-info font-12">
+											<i class="mdi mdi-checkbox-blank-circle mr-1"></i>
+											Traitement en cours ...</span>
+									{% elseif depense.rejeter == 1 %}
+										<span class="text-danger font-12">
+											<i class="mdi mdi-checkbox-blank-circle mr-1"></i>Rejeter par president</span>
+									{% elseif depense.etat == 1 %}
+										<span class="text-primary font-12">
+											<i class="mdi mdi-checkbox-blank-circle mr-1"></i>Decaissement ...</span>
+									{% elseif depense.etat == 2 %}
+										<span class="text-success font-12">
+											<i class="mdi mdi-checkbox-blank-circle mr-1"></i>Terminer
+										</span>
+									{% elseif depense.etat == 3 %}
+										Historique
+										{% else %}
+
+									{% endif %}
+								</td>
+								<td>
+									<div class="action">
+										{% if  depense.confirme == 0 and depense.rejeter == 0 %}
+											<p class="text-info">En attente</p>
+										{% elseif  depense.etat == 1%}
+											<p class="text-success">Bon projet</p>
+										{% elseif depense.rejeter == 1 %}
+											<a href="{{ path('depense_edit', {'id': depense.id}) }}" class="btn btn-warning">Voir</a>
+										{% elseif depense.etat == 2 %}
+											<p class="text-success">Termié</p>
+										{% endif %}
+									</div>
+								</td>
+								<td>
+									<div class="action">
+										{% if  depense.confirme == 0 and depense.rejeter == 0 %}
+											<p class="text-success">En cour...</p>
+										{% elseif  depense.etat == 1%}
+											<p class="text-success">Valider</p>
+										{% elseif depense.rejeter == 1 %}
+											<p class="text-danger">Refuser</p>
+										{% elseif depense.etat == 2 %}
+											<p class="text-success">Decaissement Termié</p>
+										{% endif %}
+									</div>
+								</td>
+
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="9">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="d-flex justify-content-center mt-4">
+				{% do depenses.setPageRange(2) %}
+				{{knp_pagination_render(depenses,'base/pagination.html.twig')}}
+			</div>
+		</div>
+	</div>
+{% endblock %}

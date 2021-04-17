@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="Ajeutchim_users") 
  * @ORM\HasLifecycleCallbacks
  */
-class User implements UserInterface
+class User implements UserInterface, Serializable
 {
     use AppTimesTampable;
 
@@ -898,15 +898,6 @@ class User implements UserInterface
         return $this->imageName;
     }
 
-    // public function serialize()
-    // {
-    //     ret;
-    // }
-    // public function unserialize($serialized)
-    // {
-    //     $this->email = base64_decode($this->email);
-    // }
-
     public function getMembre(): ?Membre
     {
         return $this->membre;
@@ -917,5 +908,27 @@ class User implements UserInterface
         $this->membre = $membre;
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 }

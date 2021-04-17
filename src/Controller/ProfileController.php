@@ -14,6 +14,7 @@ use App\Repository\VotantRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\DesactiveRepository;
 use App\Repository\CotisationRepository;
+use App\Repository\DepenseRepository;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,13 +25,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * @Route("/profile")
+ * @Route("/profile/utilisateur")
  */
 class ProfileController extends AbstractController
 {
     #[Route('/', name: 'app_profile')]
     public function index(Request $request, DesactiveRepository $desactiveRepository, CotisationRepository $cotisationRepository, VotantRepository $votantRepository, SessionInterface $session, MembreRepository $membreRepository, CandidatRepository $candidatRepository): Response
     {
+        $emaildefault = $this->getUser()->getEmail();
+        $motemaildefault = substr($emaildefault, 0, 9);
+        if ($motemaildefault === "Ajeutchim") {
+            $this->addFlash('warning', 'Vous devrez changez e-mail pour faire des modifications');
+        }
         $candidat = $candidatRepository->findCandidatAvote();
         $votante = $votantRepository->findAll();
         $membre = $membreRepository->findAll();
@@ -259,7 +265,7 @@ class ProfileController extends AbstractController
         ]);
     }
     /**
-     * @Route("/new", name="projet_new", methods={"GET","POST"})
+     * @Route("/nouvelle-projet", name="projet_new", methods={"GET","POST"})
      */
     public function projet(Request $request, DesactiveRepository $desactiveRepository): Response
     {
@@ -307,7 +313,7 @@ class ProfileController extends AbstractController
             $depense->setUser($this->getUser());
             $entityManager->persist($depense);
             $entityManager->flush();
-            $this->addFlash('success', 'Vous projet nous a été envoyer une équipe va s\'en charger de traiter dans un bref delai !');
+            $this->addFlash('success', 'Votre projet nous a été envoyer, une équipe va s\'en charger de traiter dans un bref delai !');
             return $this->redirectToRoute('app_profile');
         }
 
@@ -321,18 +327,16 @@ class ProfileController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
     /**
-     * @Route("/utilisateur/profile/{id}", name="user_profile")
+     * @Route("/mes-projets", name="mes_projets", methods={"GET","POST"})
      */
-    public function userprofil(User $user, Request $request, DesactiveRepository $desactiveRepository, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder,): Response
+    public function mesprojets(Request $request, DesactiveRepository $desactiveRepository, DepenseRepository $depenseRepository, PaginatorInterface $paginator): Response
     {
-        $IdPass = $this->getUser()->getId();
-        $form = $this->createForm(EditUserConnecterType::class, $user);
         $mainte = new DateTime("now");
         $ouvertures = $desactiveRepository->findBylien('Candidature');
-        $votes = $desactiveRepository->findBylien('Vote');
         $membre = $this->getUser()->getid();
+        $data = $depenseRepository->findOnMembre($membre);
+        $votes = $desactiveRepository->findBylien('Vote');
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
         if (!empty($ouvertures)) {
@@ -357,30 +361,100 @@ class ProfileController extends AbstractController
         } else {
             $activ = 0;
         }
-        // if ($this->getUser()->getPassword(
-        //     $passwordEncoder->encodePassword(
-        //         $this->getUser(),
-        //         "123456"
-        //     )
-        // ) == $this->getUser()->getPassword()) {
-        //     $this->addFlash('warning', 'Vous devrez changez e-mail d\'abord!');
-        // }
+        $depenses = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            12
+        );
+        return $this->render('profile/mes_projet.html.twig', [
+            'depenses' => $depenses,
+            'activeet' => $activeet,
+            'ouvertures' => $ouvertures,
+            'votes' => $votes,
+            'activ' => $activ,
+            'annee' => $annee,
+        ]);
+    }
+    /**
+     * @Route("/mes-projets/edit/{id}", name="depense_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Depense $depense): Response
+    {
+        $form = $this->createForm(DepenseType::class, $depense);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $depense->setConfirme(true);
+            $entityManager->persist($depense);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('depense_index');
+        }
+
+        return $this->render('admin/depense/edit.html.twig', [
+            'depense' => $depense,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/mise-a-jour", name="user_profile")
+     */
+    public function userprofil(Request $request, DesactiveRepository $desactiveRepository): Response
+    {
+        $IdPass = $this->getUser()->getId();
+        $user = $this->getUser();
+        $form = $this->createForm(EditUserConnecterType::class, $user);
+        $mainte = new DateTime("now");
+        $ouvertures = $desactiveRepository->findBylien('Candidature');
+        $votes = $desactiveRepository->findBylien('Vote');
+        $membre = $this->getUser();
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
+        if (!empty($ouvertures)) {
+            $debut = $ouvertures[count($ouvertures) - 1]->getDebut();
+            $fin = $ouvertures[count($ouvertures) - 1]->getFin();
+            if ($fin > $mainte) {
+                $activeet = 1;
+            } else {
+                $activeet = 0;
+            }
+        } else {
+            $activeet = 0;
+        }
+        if (!empty($votes)) {
+            $debut = $votes[count($votes) - 1]->getDebut();
+            $fin = $votes[count($votes) - 1]->getFin();
+            if ($fin > $mainte) {
+                $activ = 1;
+            } else {
+                $activ = 0;
+            }
+        } else {
+            $activ = 0;
+        }
         $emaildefault = $this->getUser()->getEmail();
         $motemaildefault = substr($emaildefault, 0, 9);
+        if ($motemaildefault === "Ajeutchim") {
+            $this->addFlash('warning', 'Vous devrez changez e-mail pour faire des modifications');
+        }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $emailform = $form->get('email')->getData();
             $motemailentrer = substr($emailform, 0, 9);
-            if ($motemaildefault === $motemailentrer) {
+
+            if ($motemailentrer === "Ajeutchim") {
                 $this->addFlash('warning', 'Vous devrez changez e-mail');
                 return $this->redirectToRoute('user_profile', ['id' => $IdPass]);
+            } else {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'Votre e-mail a été modifier avec!');
+                return $this->redirectToRoute('user_profile', ['id' => $IdPass]);
             }
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-            $this->addFlash('success', 'Ajouter avec success !');
-            return $this->redirectToRoute('user_profile', ['id' => $IdPass]);
         }
 
         return $this->render('profile/profile.html.twig', [

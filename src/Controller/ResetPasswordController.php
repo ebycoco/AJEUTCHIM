@@ -82,10 +82,15 @@ class ResetPasswordController extends AbstractController
         if (null === ($resetToken = $this->getTokenObjectFromSession())) {
             return $this->redirectToRoute('app_forgot_password_request');
         }
-
-        return $this->render('reset_password/check_email.html.twig', [
-            'resetToken' => $resetToken,
-        ]);
+        if ($this->getUser()) {
+            $this->addFlash('success', 'Veuillez consulter votre boîte E-mail:' . $this->getUser()->getEmail() . ' nous avons envoyé un email pour changer votre mot de passe. Vous avez un délai de 1 heure ');
+            $this->addFlash('warning', 'Veuillez vous déconnecter SVP !');
+            return $this->redirectToRoute('app_profile');
+        } else {
+            return $this->render('reset_password/check_email.html.twig', [
+                'resetToken' => $resetToken,
+            ]);
+        }
     }
 
     /**

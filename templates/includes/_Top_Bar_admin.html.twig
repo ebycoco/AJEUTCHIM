@@ -83,16 +83,15 @@
 				<a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
 
 					{% if app.user.imageName %}
-						<img src="{{ vich_uploader_asset(app.user, 'imageFile')}}" alt="user" class="rounded-circle">
+						<img src="{{ vich_uploader_asset(app.user , 'imageFile')}}" alt="image de {{ app.user.pseudo }}" class="rounded-circle"/>
 					{% else %}
-						<img src="{{asset('assets/images/users/user-4.jpg')}}" alt="user" class="rounded-circle"/>
-
+						<img src="{{asset('images/avatar.jpeg')}}" alt="{{ app.user.membre }}" class="rounded-circle"/>
 					{% endif %}
 				</a>
 				<div
 					class="dropdown-menu dropdown-menu-right profile-dropdown ">
 					<!-- item-->
-					<a class="dropdown-item" href="{{ path('admin_utilisateur_profile', {'id': app.user.id}) }}">
+					<a class="dropdown-item" href="{{ path('app_profile') }}">
 						<i class="mdi mdi-account-circle"></i>
 						Profile</a>
 					<a class="dropdown-item" href="#">

@@ -1,7 +1,11 @@
 <div class="sidebar">
 	<div class="nav mb-4">
 		<div class="avatar">
-			<img src="{{asset('images/avatar.jpeg')}}" class="img-circle" alt="">
+			{% if app.user.imageName %}
+				<img src="{{ vich_uploader_asset(app.user , 'imageFile')}}" alt="image de {{ app.user.pseudo }}" class="rounded-circle"/>
+			{% else %}
+				<img src="{{asset('images/avatar.jpeg')}}" alt="{{ app.user.pseudo }}" class="rounded-circle"/>
+			{% endif %}
 		</div>
 		<div class="votre-profil mt-2 rounded">
 			<h6 class="text-center mt-2">Votre profile</h6>
@@ -54,17 +58,18 @@
 				</a>
 			</li>
 			<li class="nav-item">
+				<a class="nav-link {{set_active_route('mes_projets')}}" href="{{path('mes_projets')}}"><img src="{{asset('images/medical-record.png')}}" class="img-circle" alt="">
+					Mes projets</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link" href="{{path('admin_index')}}"><img src="{{asset('images/monitor.png')}}" class="img-circle" alt="">
 					Administration</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link " href="{{path('user_profile', {'id': app.user.id})}}"><img src="{{asset('images/medical-record.png')}}" class="img-circle" alt="">
-					Mes informations</a>
-			</li>
+
 		</ul>
 		<ul class="nav flex-column sous-menu mt-5">
 			<li class="nav-item">
-				<a class="nav-link" href="#"><img src="{{asset('images/edit.png')}}" class="img-circle" alt="">
+				<a class="nav-link {{set_active_route('user_profile')}}" href="{{path('user_profile')}}"><img src="{{asset('images/edit.png')}}" class="img-circle" alt="">
 					Mise à jour</a>
 			</li>
 			<li class="nav-item decon">

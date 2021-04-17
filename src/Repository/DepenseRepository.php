@@ -62,6 +62,15 @@ class DepenseRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findOnMembre($value)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.user = :val')
+            ->setParameter('val', $value)
+            ->orderBy('d.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Depense[] Returns an array of Depense objects

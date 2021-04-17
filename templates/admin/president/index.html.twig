@@ -63,9 +63,8 @@
 																<img src="{{ vich_uploader_asset(president, 'imageFile')|imagine_filter('president_admin')}}" alt="image de {{ president.membre.prenom }}"/>
 															{% else %}
 																<img src="{{asset('assets/images/users/user-4.jpg')}}" width="100" height="15" alt="{{ president.membre.prenom }}"/>
-															</td>
-
-														{% endif %}
+															{% endif %}
+														</td>
 														<td>{{ president.membre.prenom }}</td>
 														<td>
 															{% if president.etat == 1 %}

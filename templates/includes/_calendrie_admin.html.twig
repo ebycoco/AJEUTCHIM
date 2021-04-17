@@ -6,7 +6,11 @@
 				<div class="mx-3">
 					<div class="bg-white user-wid-content p-1 rounded">
 						<div class="user-img">
-							<img src=" {{asset('assets/images/users/user-1.jpg')}} " alt="user-img" title="" class="rounded-circle thumb-md img-fluid">
+							{% if app.user.imageName %}
+								<img src="{{ vich_uploader_asset(app.user , 'imageFile')}}" alt="image de {{ app.user.pseudo }}" class="rounded-circle thumb-md img-fluid"/>
+							{% else %}
+								<img src="{{asset('images/avatar.jpeg')}}" alt="{{ app.user.membre }}" class="rounded-circle thumb-md img-fluid"/>
+							{% endif %}
 						</div>
 						<h5 class="font-14 mb-1">
 							<a href="javascript: void(0);">{{app.user.pseudo}}</a>

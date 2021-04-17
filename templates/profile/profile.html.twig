@@ -7,7 +7,7 @@
 	<div class="form-maj">
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success alert-dismissible fade show" role="alert">
-				<strong>Bien jour !</strong>
+				<strong>Bien jouer !</strong>
 				{{ message }}
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -132,10 +132,10 @@
 																	<img src="{{asset('images/gif/warning.gif')}}" height="100" class="img-circle" alt="">
 																</div>
 																<div class="col">
-																	<p>Après la modification de votre mot de passe un e-mail sera envoyé vers votre address E-mail :
-																		<a href="mailto:{{app.user.email}}" target="_blank" rel="noopener noreferrer">{{app.user.email}}</a>.
+																	<p>Veuillez entrer l'e-mail suivant:
+																		<a href="mailto:{{app.user.email}}" target="_blank" rel="noopener noreferrer">{{app.user.email}}</a>
+																		dans le champ e-mail.
 																	</p>
-																	<p>Assurez d'avoir le mot de passe de cet E-mail pour confirmer.</p>
 																</div>
 															</div>
 															<div class="modal-footer">
