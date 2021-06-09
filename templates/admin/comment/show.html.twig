@@ -1,0 +1,66 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}comment
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<h1>comment</h1>
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ comment.id }}</td>
+						</tr>
+						<tr>
+							<th>Image d'article</th>
+							<td>
+								{% if comment.article.imageName %}
+									<img src="{{ vich_uploader_asset(comment.article, 'imageFile')|imagine_filter('president_admin')}}" alt="image de {{ comment.article.title }}"/>
+								{% else %}
+									<img src="{{asset('assets/images/users/user-4.jpg')}}" width="100" height="15" alt="{{ comment.article.title}}"/>
+								{% endif %}
+							</td>
+						</tr>
+
+						<tr>
+							<th>Article</th>
+							<td>{{ comment.article.title }}</td>
+						</tr>
+						<tr>
+							<th>Content</th>
+							<td>{{ comment.content }}</td>
+						</tr>
+						<tr>
+							<th>Author</th>
+							<td>{{ comment.author }}</td>
+						</tr>
+						<tr>
+							<th>CreatedAt</th>
+							<td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+						</tr>
+						<tr>
+							<th>UpdatedAt</th>
+							<td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<a href="{{ path('comment_index') }}">back to list</a>
+
+				<a href="{{ path('comment_edit', {'id': comment.id}) }}">edit</a>
+
+				{{ include('admin/comment/_delete_form.html.twig') }}
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+{% endblock %}

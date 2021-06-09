@@ -27,10 +27,6 @@ class Comment
      */
     private $content;
 
-    /**
-     * @ORM\Column(type="datetime",options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $postedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="comments")
@@ -42,6 +38,11 @@ class Comment
      * @ORM\Column(type="string", length=255)
      */
     private $author;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPublished;
 
     public function getId(): ?int
     {
@@ -57,18 +58,6 @@ class Comment
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getPostedAt(): ?\DateTimeInterface
-    {
-        return $this->postedAt;
-    }
-
-    public function setPostedAt(\DateTimeInterface $postedAt): self
-    {
-        $this->postedAt = $postedAt;
 
         return $this;
     }
@@ -93,6 +82,18 @@ class Comment
     public function setAuthor(string $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getIsPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): self
+    {
+        $this->isPublished = $isPublished;
 
         return $this;
     }

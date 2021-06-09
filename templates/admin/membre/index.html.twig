@@ -47,9 +47,6 @@
 										<div class="row mt-3">
 											{% for derniermembre in derniermembres %}
 												<div class="col">
-													<h4 class="mt-0 header-title">ID :
-														<span class=" text-center text-capitalize">{{derniermembre.id}}</span>
-													</h4>
 													<h4 class="mt-0 header-title">Nom :
 														<span class=" text-center text-capitalize">{{derniermembre.nom}}</span>
 													</h4>
@@ -81,51 +78,134 @@
 
 											<thead class="thead-dark">
 												<tr>
+													<th scope="col">Image</th>
+													<th scope="col">Rôle</th>
 													<th scope="col">Matricule</th>
-													<th scope="col">Nom</th>
-													<th scope="col">Prenom</th>
 													<th scope="col">Année d'adhésion</th>
 													<th scope="col">actions</th>
 												</tr>
 											</thead>
 											<tbody>
-												{% for membre in membres %}
-
+												{% for user in users %}
 													<tr>
-
-														<th>
-															{{ membre.referenceAjeutchim }}
-														</th>
-														<td>{{ membre.nom }}</td>
-														<td>{{ membre.prenom }}</td>
-														<td>{{ membre.createdAt ? membre.createdAt|date('d-m-Y') : '' }}</td>
 														<td>
-															<a href="{{ path('membre_show', {'id': membre.id}) }}" class="btn btn-warning">Voir</a>
-															<a href="{{ path('membre_edit', {'id': membre.id}) }}" class="btn btn-info">Modifier</a>
+															{% if user.imageName %}
+																<img src="{{ vich_uploader_asset(user, 'imageFile')}}" class="rounded-circle" width="100" height="100" alt="{{ user.pseudo }}"/>
+															{% else %}
+																<img src="{{asset('images/avatar.jpeg')}}" class="rounded-circle" width="100" height="100" alt="{{ user.pseudo }}"/>
+															{% endif %}
+														</td>
+														<td>
+															{% for role  in user.roles %}
+																{% if role == "ROLE_PRESI" %}
+																	Président
+																{% elseif role == "ROLE_VICE" %}
+																	Vice président
+																{% elseif role == "ROLE_SECRE" %}
+																	Secrétaire générale
+																{% elseif role == "ROLE_SECREA" %}
+																	Secrétaire générale adjoint
+																{% elseif role == "ROLE_SECREO" %}
+																	Secrétaire chargé a l'organisation
+																{% elseif role == "ROLE_SECREOA1" %}
+																	Secrétaire d'organisation adjoint 1
+																{% elseif role == "ROLE_SECREOA2" %}
+																	Secrétaire d'organisation adjoint 2
+																{% elseif role == "ROLE_TRESO" %}
+																	Trésorier
+																{% elseif role == "ROLE_TRESOA" %}
+																	Trésorier adjoint
+																{% elseif role == "ROLE_SCAE" %}
+																	Secrétaire chargé aux affaires exterieures
+																{% elseif role == "ROLE_SCAEA" %}
+																	Secrétaire chargé aux affaires exterieures adjoint
+																{% elseif role == "ROLE_SCIC" %}
+																	Secrétaire chargé a l'information et à la communication
+																{% elseif role == "ROLE_SCICA" %}
+																	Secrétaire chargé a l'information et à la communication adjoint
+																{% elseif role == "ROLE_SCAS" %}
+																	Secrétaire chargé aux affaires sociales
+																{% elseif role == "ROLE_SCASA" %}
+																	Secrétaire chargé aux affaires sociales adjoint
+																{% elseif role == "ROLE_SCAC" %}
+																	Secrétaire chargé aux affaires culturelles
+																{% elseif role == "ROLE_SCACA1" %}
+																	Secrétaire chargé aux affaires culturelles adjoint 1
+																{% elseif role == "ROLE_SCACA2" %}
+																	Secrétaire chargé aux affaires culturelles adjoint 2
+																{% elseif role == "ROLE_RF" %}
+																	Responsable des femmes
+																{% elseif role == "ROLE_RFA1" %}
+																	Responsable des femmes adjoint 1
+																{% elseif role == "ROLE_RFA2" %}
+																	Responsable des femmes adjoint 2
+																{% elseif role == "ROLE_MS" %}
+																	Maître de séance
+																{% elseif role == "ROLE_MSA" %}
+																	Maître de séance adjoint
+																{% elseif role == "ROLE_CC" %}
+																	Commissaire au compte
+																{% elseif role == "ROLE_CCA" %}
+																	Commissaire au compte adjoint
+																{% elseif role == "ROLE_SCRJR" %}
+																	Secrétaire chargé de la relation avec la jeunesse rurale
+																{% elseif role == "ROLE_SCRJRA" %}
+																	Secrétaire chargé de la relation avec la jeunesse rurale adjoint
+																{% elseif role == "ROLE_SCE" %}
+																	Secrétaire chargé des études
+																{% elseif role == "ROLE_SCEA" %}
+																	Secrétaire chargé des études adjoint
+																{% elseif role == "ROLE_SCEN" %}
+																	Secrétaire chargé de l'entrepreneuriat
+																{% elseif role == "ROLE_SCENA" %}
+																	Secrétaire chargé de l'entrepreneuriat adjoint
+																{% elseif role == "ROLE_CONSE" %}
+																	Conseillers
+																{% elseif role == "ROLE_PAR" %}
+																	Parraineur
+																{% elseif role == "ROLE_EDIT" %}
+																	Editeur
+																{% elseif role == "ROLE_MEMBRE" %}
+																	{% if user.roles | length == 2  %}
+																		Membre
+																	{% else %}
+																		Membre,
+																	{% endif %}
+																{% elseif role == "ROLE_ADMIN" %}
+																	Administrateur
+																{% endif %}
+															{% endfor %}
+														</td>
+														<td>
+															{{user.matricule}}
+														</td>
+														<td>{{ user.createdAt ? user.createdAt|date('d-m-Y') : '' }}</td>
+														<td>
+															<a href="#" class="btn btn-warning">Voir</a>
+															<a href="{{path('admin_utilisateur_edit',{'id':user.id})}}" class="btn btn-info">Modifier</a>
 														</td>
 													</tr>
-
 												{% else %}
 													<tr>
 														<td colspan="11">no records found</td>
 													</tr>
 												{% endfor %}
 											</tbody>
-										</table>
+										</tbody>
+									</table>
 
-									</div>
 								</div>
-
 							</div>
+
 						</div>
 					</div>
-					<!-- end col -->
 				</div>
-				<!-- end row -->
+				<!-- end col -->
 			</div>
-			<!-- container-fluid -->
+			<!-- end row -->
 		</div>
-		<!-- content -->
-		{{ include('includes/_footer_admin.html.twig')}}
+		<!-- container-fluid -->
 	</div>
-{% endblock %}
+	<!-- content -->
+	{{ include('includes/_footer_admin.html.twig')}}
+</div>{% endblock %}

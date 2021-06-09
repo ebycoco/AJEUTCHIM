@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Article;
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,6 +18,20 @@ class CommentRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Comment::class);
+    }
+
+    public function findCommentaire($value)
+    {
+        if ($value instanceof Article) {
+            $object = 'article';
+        }
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.' . $object . ' = :val')
+            ->andWhere('c.isPublished = true')
+            ->setParameter('val', $value->getId())
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

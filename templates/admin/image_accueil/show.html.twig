@@ -1,0 +1,55 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}ImageAccueil
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<h1>ImageAccueil</h1>
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ image_accueil.id }}</td>
+						</tr>
+						<tr>
+							<th>Title</th>
+							<td>{{ image_accueil.title }}</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>{{ image_accueil.description }}</td>
+						</tr>
+						<tr>
+							<th>ImageName</th>
+							<td>{{ image_accueil.imageName }}</td>
+						</tr>
+						<tr>
+							<th>CreatedAt</th>
+							<td>{{ image_accueil.createdAt ? image_accueil.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+						</tr>
+						<tr>
+							<th>UpdatedAt</th>
+							<td>{{ image_accueil.updatedAt ? image_accueil.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<a href="{{ path('image_accueil_index') }}">back to list</a>
+
+				<a href="{{ path('image_accueil_edit', {'id': image_accueil.id}) }}">edit</a>
+
+				{{ include('admin/image_accueil/_delete_form.html.twig') }}
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+{% endblock %}

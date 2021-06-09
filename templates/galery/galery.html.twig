@@ -1,0 +1,29 @@
+<section id="activite" class="container-fluid reveal">
+	<div class="col-12 text-center mt-5 ">
+		<p class="lead">
+			Les dernière galery publier
+		</p>
+		<!-- Three Column Section -->
+		<div class="container">
+			{% for row in galeries|batch(3)  %}
+				<div class="row mt-2">
+					{% for galerie in row %}
+						<div class="col-md-4 reveal-1">
+							<div class="card bg-white rounded shadow article">
+								<div class="mw-100 overflow-hidden">
+									<img src="{{ vich_uploader_asset(galerie, 'imageFile')|imagine_filter('article')}}" class="card-img-top" alt="{{galerie.titre}}">
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+			<div class="row text-center">
+				<div class="text-center">
+					{% do galeries.setPageRange(3) %}
+					{{knp_pagination_render(galeries,'base/pagination.html.twig')}}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

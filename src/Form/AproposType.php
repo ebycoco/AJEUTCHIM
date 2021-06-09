@@ -15,8 +15,7 @@ class AproposType extends AbstractType
         $builder
             ->add('contenue', CKEditorType::class, [
                 'config_name' => 'main_config',
-            ])
-            ->add('user');
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -28,7 +28,7 @@ class Contact
     private $nom;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string" , length=255)
      */
     private $numeroTel;
 
@@ -41,6 +41,16 @@ class Contact
      * @ORM\Column(type="text")
      */
     private $message;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isSend;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
 
     public function getId(): ?int
     {
@@ -59,12 +69,12 @@ class Contact
         return $this;
     }
 
-    public function getNumeroTel(): ?int
+    public function getNumeroTel(): ?string
     {
         return $this->numeroTel;
     }
 
-    public function setNumeroTel(int $numeroTel): self
+    public function setNumeroTel(string $numeroTel): self
     {
         $this->numeroTel = $numeroTel;
 
@@ -91,6 +101,30 @@ class Contact
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getIsSend(): ?bool
+    {
+        return $this->isSend;
+    }
+
+    public function setIsSend(bool $isSend): self
+    {
+        $this->isSend = $isSend;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

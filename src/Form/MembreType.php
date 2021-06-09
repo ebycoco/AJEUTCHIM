@@ -20,10 +20,7 @@ class MembreType extends AbstractType
             ->add('prenom', TextType::class)
             ->add('ville', TextType::class)
             ->add('contact', TextType::class)
-            ->add('profession', TextType::class)
-            ->add('email', EmailType::class, [
-                'label' => 'Veuillez entrer l\'email ci-desous',
-            ]);
+            ->add('profession', TextType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -46,6 +46,15 @@ class MembreRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllmembreUser($value)
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.referenceAjeutchim = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Membre[] Returns an array of Membre objects
     //  */

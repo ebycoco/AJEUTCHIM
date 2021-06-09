@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	Village | AJEUTCHIM
+{% endblock %}
+{% block body %}
+	<div class="container mt-4">
+		{% for village in villages %}
+			<div class="row">
+				<div class="col-md-6 offset-md-3">
+					{% if village.imageName %}
+						<img src="{{ asset(vich_uploader_asset(village,'imageFile'))}}" class="card-img-top">
+					{% else %}
+						<img src="{{ asset('images/empty/empty.jpg')}}" class="card-img-top">
+					{% endif %}
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="text-center">
+					<h2 class="mt-2  text-primary">
+						TCHIMOUKRO
+					</h2>
+				</div>
+				<p class="text-justify">{{ village.histoire|raw }}</p>
+			</div>
+		{% endfor %}
+		<div class="row"></div>
+	</div>
+
+{% endblock %}

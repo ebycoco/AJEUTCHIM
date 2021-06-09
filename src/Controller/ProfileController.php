@@ -2,20 +2,25 @@
 
 namespace App\Controller;
 
-use App\Entity\Depense;
-use App\Entity\User;
+use App\Entity\Candidature;
 use DateTime;
+use App\Entity\User;
 use App\Entity\Votant;
-use App\Form\DepenseType;
-use App\Form\EditUserConnecterType;
+use App\Entity\Depense;
+use App\Form\CandidatureType;
 use App\Form\VotantType;
+use App\Form\DepenseType;
+use App\Repository\UserRepository;
+use App\Form\EditUserConnecterType;
+use App\Repository\BureauRepository;
 use App\Repository\MembreRepository;
 use App\Repository\VotantRepository;
+use App\Repository\DepenseRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\DesactiveRepository;
 use App\Repository\CotisationRepository;
-use App\Repository\DepenseRepository;
-use App\Repository\UserRepository;
+use App\Repository\CandidatureRepository;
+use App\Repository\PresidentRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,8 +35,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ProfileController extends AbstractController
 {
     #[Route('/', name: 'app_profile')]
-    public function index(Request $request, DesactiveRepository $desactiveRepository, CotisationRepository $cotisationRepository, VotantRepository $votantRepository, SessionInterface $session, MembreRepository $membreRepository, CandidatRepository $candidatRepository): Response
+    public function index(Request $request, DesactiveRepository $desactiveRepository, CotisationRepository $cotisationRepository, VotantRepository $votantRepository, SessionInterface $session, MembreRepository $membreRepository, CandidatRepository $candidatRepository, BureauRepository $bureauRepository, PresidentRepository $presidentRepository): Response
     {
+        $noubeauPresident = $presidentRepository->findEncour(0);
+        $bureau = $bureauRepository->findMembreBureau($noubeauPresident);
         $emaildefault = $this->getUser()->getEmail();
         $motemaildefault = substr($emaildefault, 0, 9);
         if ($motemaildefault === "Ajeutchim") {
@@ -215,7 +222,92 @@ class ProfileController extends AbstractController
             'votes' => $votes,
             'activ' => $activ,
             'annee' => $annee,
+            'bureau' => $bureau,
             'form1' => $form1->createView(),
+        ]);
+    }
+    #[Route('/Ma-candidature', name: 'candidature_new', methods: ['GET', 'POST'])]
+    public function candidature(Request $request, MembreRepository $membreRepository, CandidatureRepository $candidatureRepository, DesactiveRepository $desactiveRepository): Response
+    {
+        $listeCandidat = $candidatureRepository->findAll();
+        $candidature = new Candidature();
+        $form = $this->createForm(CandidatureType::class, $candidature);
+        $form->handleRequest($request);
+        $matriculeUser = $this->getUser()->getMatricule();
+
+        $mainte = new DateTime("now");
+        $ouvertures = $desactiveRepository->findBylien('Candidature');
+        $votes = $desactiveRepository->findBylien('Vote');
+        $membre = $this->getUser();
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
+        if (!empty($ouvertures)) {
+            $debut = $ouvertures[count($ouvertures) - 1]->getDebut();
+            $fin = $ouvertures[count($ouvertures) - 1]->getFin();
+            if ($fin > $mainte) {
+                $activeet = 1;
+            } else {
+                $activeet = 0;
+            }
+        } else {
+            $activeet = 0;
+        }
+        if (!empty($votes)) {
+            $debut = $votes[count($votes) - 1]->getDebut();
+            $fin = $votes[count($votes) - 1]->getFin();
+            if ($fin > $mainte) {
+                $activ = 1;
+            } else {
+                $activ = 0;
+            }
+        } else {
+            $activ = 0;
+        }
+
+        if ($matriculeUser == null) {
+            $this->addFlash('danger', 'Vous ne pouvez pas déposer de candidature car vous être administrateur!');
+            return $this->redirectToRoute('app_profile');
+        }
+        for ($i = 0; $i < count($listeCandidat); $i++) {
+            $matriculeList = $listeCandidat[$i]->getMatriculeAjeutchim();
+            if ($matriculeUser == $matriculeList) {
+                $this->addFlash('danger', 'Vous ne pouvez plus poser de candidature car votre candidature est en cours de traitement !');
+                return $this->redirectToRoute('app_profile');
+            }
+        }
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $membre = $membreRepository->findAll();
+            $voire = $matriculeUser;
+
+            $peut = null;
+            for ($i = 0; $i < count($membre); $i++) {
+                $matricul = $membre[$i]->getReferenceAjeutchim();
+                if ($voire == $matricul) {
+                    $peut = $matricul;
+                }
+            }
+            if ($peut == null) {
+                $this->addFlash('warning', 'Votre matricule est invalid !');
+                return $this->redirectToRoute('app_profile');
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $candidature->setMatriculeAjeutchim($matriculeUser);
+            $candidature->setDroit(0);
+            $entityManager->persist($candidature);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre candidature a été envoyé avec success !');
+            return $this->redirectToRoute('app_profile');
+        }
+
+        return $this->render('profile/candidature.html.twig', [
+            'candidature' => $candidature,
+            'activeet' => $activeet,
+            'ouvertures' => $ouvertures,
+            'votes' => $votes,
+            'activ' => $activ,
+            'annee' => $annee,
+            'form' => $form->createView(),
         ]);
     }
     #[Route('/Mes-Cotisation', name: 'app_mescotisation')]
@@ -399,10 +491,58 @@ class ProfileController extends AbstractController
     }
 
     /**
+     * @Route("/bureau", name="app_bureau", methods={"GET","POST"})
+     */
+    public function bureau(DesactiveRepository $desactiveRepository, BureauRepository $bureauRepository, PresidentRepository $presidentRepository): Response
+    {
+        $noubeauPresident = $presidentRepository->findEncour(0);
+        $bureau = $bureauRepository->findMembreBureau($noubeauPresident);
+        $mainte = new DateTime("now");
+        $ouvertures = $desactiveRepository->findBylien('Candidature');
+        $votes = $desactiveRepository->findBylien('Vote');
+        $membre = $this->getUser();
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
+        if (!empty($ouvertures)) {
+            $debut = $ouvertures[count($ouvertures) - 1]->getDebut();
+            $fin = $ouvertures[count($ouvertures) - 1]->getFin();
+            if ($fin > $mainte) {
+                $activeet = 1;
+            } else {
+                $activeet = 0;
+            }
+        } else {
+            $activeet = 0;
+        }
+        if (!empty($votes)) {
+            $debut = $votes[count($votes) - 1]->getDebut();
+            $fin = $votes[count($votes) - 1]->getFin();
+            if ($fin > $mainte) {
+                $activ = 1;
+            } else {
+                $activ = 0;
+            }
+        } else {
+            $activ = 0;
+        }
+
+
+        return $this->render('profile/bureau.html.twig', [
+            'activeet' => $activeet,
+            'ouvertures' => $ouvertures,
+            'votes' => $votes,
+            'activ' => $activ,
+            'annee' => $annee,
+            'bureau' => $bureau,
+        ]);
+    }
+
+    /**
      * @Route("/mise-a-jour", name="user_profile")
      */
-    public function userprofil(Request $request, DesactiveRepository $desactiveRepository): Response
+    public function userprofil(Request $request, DesactiveRepository $desactiveRepository, MembreRepository $membreRepository): Response
     {
+
         $IdPass = $this->getUser()->getId();
         $user = $this->getUser();
         $form = $this->createForm(EditUserConnecterType::class, $user);
@@ -450,6 +590,15 @@ class ProfileController extends AbstractController
                 return $this->redirectToRoute('user_profile', ['id' => $IdPass]);
             } else {
                 $entityManager = $this->getDoctrine()->getManager();
+                $membreuser = $membreRepository->findAllmembreUser($this->getUser()->getMatricule());
+                for ($m = 0; $m < count($membreuser); $m++) {
+                    $membreuser[$m]->setNom($form->get('nom')->getData());
+                    $membreuser[$m]->setPrenom($form->get('prenom')->getData());
+                    $membreuser[$m]->setVille($form->get('ville')->getData());
+                    $membreuser[$m]->setContact($form->get('contact')->getData());
+                    $membreuser[$m]->setProfession($form->get('profession')->getData());
+                    $membreuser[$m]->setEmail($form->get('email')->getData());
+                }
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $this->addFlash('success', 'Votre e-mail a été modifier avec!');

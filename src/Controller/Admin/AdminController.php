@@ -84,7 +84,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/utilisateur", name="utilisateur", methods={"GET"})
      */
-    public function user(UserRepository $users, MediaUtilisateurRepository $media): Response
+    public function user(UserRepository $users): Response
     {
         return $this->render('admin/user/users.html.twig', [
             'users' => $users->findAll(),
@@ -114,17 +114,24 @@ class AdminController extends AbstractController
     /**
      * @Route("/utilisateur/modifier/{id}", name="utilisateur_edit")
      */
-    public function edituser(User $user, Request $request): Response
+    public function edituser(User $user, Request $request, MembreRepository $membreRepository): Response
     {
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $membreuser = $membreRepository->findAllmembreUser($user->getMatricule());
+
+            for ($m = 0; $m < count($membreuser); $m++) {
+                if ($membreuser[$m]->getReferenceAjeutchim() == $user->getMatricule()) {
+                    $membreuser[$m]->setEmail($form->get('email')->getData());
+                }
+            }
             $user->setIsVerified(true);
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Ajouter avec success !');
-            return $this->redirectToRoute('admin_utilisateur');
+            return $this->redirectToRoute('membre_index');
         }
         return $this->render('admin/user/edituser.html.twig', [
             'userForm' => $form->createView(),

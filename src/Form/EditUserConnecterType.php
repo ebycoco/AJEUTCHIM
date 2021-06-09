@@ -36,6 +36,11 @@ class EditUserConnecterType extends AbstractType
                 ]
             ])
             ->add('pseudo')
+            ->add('nom')
+            ->add('prenom')
+            ->add('ville')
+            ->add('contact')
+            ->add('profession')
             ->add('Valider', SubmitType::class);
     }
 

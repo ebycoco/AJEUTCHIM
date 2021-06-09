@@ -121,16 +121,44 @@
 													<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
 													</a>
 												{% else %}
-													<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
-													</a>
+													{% set acti = 0 %}
+													{% for candidat in candidats %}
+														{% if candidat.vuePublic == 1 %}
+															{% set acti = 1 %}
+														{% else %}
+															{% set acti = 0 %}
+														{% endif %}
+													{% endfor %}
+													{% if acti == 1 %}
+														<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
+														</a>
+													{% else %}
+
+														<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
+														</a>
+													{% endif %}
 												{% endif %}
 											{% elseif var2 == 1 %}
 												{% if public %}
 													<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
 													</a>
 												{% else %}
-													<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
-													</a>
+													{% set acti = 0 %}
+													{% for candidat in candidats %}
+														{% if candidat.vuePublic == 1 %}
+															{% set acti = 1 %}
+														{% else %}
+															{% set acti = 0 %}
+														{% endif %}
+													{% endfor %}
+													{% if acti == 1 %}
+														<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
+														</a>
+													{% else %}
+
+														<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
+														</a>
+													{% endif %}
 												{% endif %}
 											{% endif %}
 										{% else %}
@@ -142,8 +170,22 @@
 															<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
 															</a>
 														{% else %}
-															<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
-															</a>
+															{% set acti = 0 %}
+															{% for candidat in candidats %}
+																{% if candidat.vuePublic == 1 %}
+																	{% set acti = 1 %}
+																{% else %}
+																	{% set acti = 0 %}
+																{% endif %}
+															{% endfor %}
+															{% if acti == 1 %}
+																<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
+																</a>
+															{% else %}
+
+																<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
+																</a>
+															{% endif %}
 														{% endif %}
 
 													{% elseif deci == 2  %}
@@ -160,16 +202,44 @@
 														<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
 														</a>
 													{% else %}
-														<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
-														</a>
+														{% set acti = 0 %}
+														{% for candidat in candidats %}
+															{% if candidat.vuePublic == 1 %}
+																{% set acti = 1 %}
+															{% else %}
+																{% set acti = 0 %}
+															{% endif %}
+														{% endfor %}
+														{% if acti == 1 %}
+															<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
+															</a>
+														{% else %}
+
+															<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
+															</a>
+														{% endif %}
 													{% endif %}
 												{% else %}
 													{% if public %}
 														<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
 														</a>
 													{% else %}
-														<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
-														</a>
+														{% set acti = 0 %}
+														{% for candidat in candidats %}
+															{% if candidat.vuePublic == 1 %}
+																{% set acti = 1 %}
+															{% else %}
+																{% set acti = 0 %}
+															{% endif %}
+														{% endfor %}
+														{% if acti == 1 %}
+															<a class="btn btn-warning" href="{{ path('candidat_fin_plublic') }}">Enlever au public
+															</a>
+														{% else %}
+
+															<a class="btn btn-success" href="{{ path('candidat_etatpublic') }}">Publier resultat
+															</a>
+														{% endif %}
 													{% endif %}
 												{% endif %}
 											{% endif %}

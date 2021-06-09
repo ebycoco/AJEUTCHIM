@@ -1,0 +1,36 @@
+<section id="activite" class="container-fluid reveal">
+	<div class="col-12 text-center mt-5 ">
+		<p class="lead">
+			Les dernières vidéo publier
+		</p>
+		<!-- Three Column Section -->
+		<div class="container">
+			{% for row in videos|batch(3)  %}
+				<div class="row mt-2">
+					{% for video in row %}
+						<div class="col-md-4 reveal-1">
+							<div class="card bg-white rounded shadow article">
+								<div class="mw-100 overflow-hidden">
+									<iframe src="https://www.youtube.com/embed/{{video.lien}}" frameborder="0" allowfullscreen></iframe>
+								</div>
+								<div class="card-body">
+									<h5 class="card-title">{{video.title|u.truncate(20,'...',false) | raw}}</h5>
+									<hr>
+									<p class="text-left">Publier :
+										<time class="timeago">{{video.createdAt| ago(locale='fr')}}</time>
+									</p>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+			<div class="row text-center">
+				<div class="text-center">
+					{% do videos.setPageRange(3) %}
+					{{knp_pagination_render(videos,'base/pagination.html.twig')}}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,40 @@
+{% extends 'baseprofile.html.twig' %}
+
+{% block title %}New Candidature
+{% endblock %}
+
+{% block body %}
+	<div class="form-maj">
+		{% for message in app.flashes('warning') %}
+			<div class="alert alert-warning text-center">
+				{{ message }}
+			</div>
+		{% endfor %}
+		<div class="container personnelle">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Nom</th>
+						<th scope="col">Prenom</th>
+						<th scope="col">Contact</th>
+						<th scope="col">Post</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for bureau in bureau %}
+						<tr>
+							<td>{{ bureau.membre.nom }}</td>
+							<td>{{ bureau.membre.prenom }}</td>
+							<td>{{ bureau.membre.contact }}</td>
+							<td>{{ bureau.postAjeutchim.name }}</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3">pas de membre du bureau</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}New categorie
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Nouvelle categorie</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Nouvelle categorie</li>
+							</ol>
+						</div>
+						<div class="col-sm-6">
+							<a class="btn btn-warning" href="{{ path('categorie_index') }}">Voir la liste</a>
+
+						</div>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+
+				{% for message in app.flashes('warning') %}
+					<div class="alert alert-warning">
+						{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('danger') %}
+					<div class="alert alert-danger">
+						{{ message }}
+					</div>
+				{% endfor %}
+				<h1>Create new Categorie</h1>
+
+				{{ include('admin/categorie/_form.html.twig') }}
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+{% endblock %}

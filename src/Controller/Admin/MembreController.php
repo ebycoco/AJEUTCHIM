@@ -25,10 +25,11 @@ class MembreController extends AbstractController
     /**
      * @Route("/", name="membre_index", methods={"GET"})
      */
-    public function index(MembreRepository $membreRepository): Response
+    public function index(MembreRepository $membreRepository, UserRepository $users): Response
     {
         return $this->render('admin/membre/index.html.twig', [
             'membres' => $membreRepository->findMembre(),
+            'users' => $users->findByUser(),
             'derniermembres' => $membreRepository->dernierMembreAjouter(),
         ]);
     }
@@ -45,26 +46,31 @@ class MembreController extends AbstractController
         $form->handleRequest($request);
         $jouj = new DateTime('now');
         $annee = $jouj->format(date('Y'));
-        $email = "Ajeutchim" . mt_rand(1, 999) . "@gmail.com";
-        $users = $userRepository->findAll();
-        $emailentre = $email;
-        for ($i = 0; $i < count($users); $i++) {
-            $emailbase = $users[$i]->getEmail();
-            if ($emailentre == $emailbase) {
-                $emailentre = "Ajeutchim" . mt_rand(1, 999) . "@gmail.com";
-            }
-        }
-        $email = $emailentre;
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $email = "Ajeutchim" . mt_rand(1, 999) . "@gmail.com";
+            $users = $userRepository->findAll();
+            for ($i = 0; $i < count($users); $i++) {
+                $emailbase = $users[$i]->getEmail();
+                if ($email == $emailbase) {
+                    $emailentre = "Ajeutchim" . mt_rand(1, 999) . "@gmail.com";
+                }
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $membre->setReferenceAjeutchim('AJEUT' . mt_rand(99, 999) . 'CHIM');
             $membre->setAnnee($annee);
+            $membre->setEmail($email);
             $membre->setAdhesion(500);
             $membre->setUser($this->getUser());
             $entityManager->persist($membre);
             $pass = "123456";
             $user->setEmail($email);
             $user->setMembre($membre);
+            $user->setNom($form->get('nom')->getData());
+            $user->setPrenom($form->get('prenom')->getData());
+            $user->setVille($form->get('ville')->getData());
+            $user->setContact($form->get('contact')->getData());
+            $user->setProfession($form->get('profession')->getData());
             $user->setRoles(['ROLE_MEMBRE']);
             $user->setIsVerified(1);
             $user->setMatricule($form->getData()->getReferenceAjeutchim());
@@ -106,7 +112,6 @@ class MembreController extends AbstractController
 
         return $this->render('admin/membre/new.html.twig', [
             'membre' => $membre,
-            'email' => $email,
             'form' => $form->createView(),
         ]);
     }

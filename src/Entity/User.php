@@ -159,7 +159,7 @@ class User implements UserInterface, Serializable
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
-     * @Vich\UploadableField(mapping="utilisateur", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="utilisateurs", fileNameProperty="imageName")
      * @Assert\Image(maxSize = "8M")
      * 
      *  
@@ -178,6 +178,42 @@ class User implements UserInterface, Serializable
      * @ORM\ManyToOne(targetEntity=Membre::class, inversedBy="users")
      */
     private $membre;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $contact;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $profession;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FonctionAjeutchim::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $fonctionAjeutchims;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Galery::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $galeries;
+
 
 
 
@@ -201,6 +237,8 @@ class User implements UserInterface, Serializable
         $this->rejectProjects = new ArrayCollection();
         $this->membres = new ArrayCollection();
         $this->autredepenses = new ArrayCollection();
+        $this->fonctionAjeutchims = new ArrayCollection();
+        $this->galeries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -930,5 +968,125 @@ class User implements UserInterface, Serializable
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized);
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(?string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(?string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getContact(): ?string
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?string $contact): self
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getProfession(): ?string
+    {
+        return $this->profession;
+    }
+
+    public function setProfession(?string $profession): self
+    {
+        $this->profession = $profession;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FonctionAjeutchim[]
+     */
+    public function getFonctionAjeutchims(): Collection
+    {
+        return $this->fonctionAjeutchims;
+    }
+
+    public function addFonctionAjeutchim(FonctionAjeutchim $fonctionAjeutchim): self
+    {
+        if (!$this->fonctionAjeutchims->contains($fonctionAjeutchim)) {
+            $this->fonctionAjeutchims[] = $fonctionAjeutchim;
+            $fonctionAjeutchim->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFonctionAjeutchim(FonctionAjeutchim $fonctionAjeutchim): self
+    {
+        if ($this->fonctionAjeutchims->removeElement($fonctionAjeutchim)) {
+            // set the owning side to null (unless already changed)
+            if ($fonctionAjeutchim->getUser() === $this) {
+                $fonctionAjeutchim->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Galery[]
+     */
+    public function getGaleries(): Collection
+    {
+        return $this->galeries;
+    }
+
+    public function addGalery(Galery $galery): self
+    {
+        if (!$this->galeries->contains($galery)) {
+            $this->galeries[] = $galery;
+            $galery->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGalery(Galery $galery): self
+    {
+        if ($this->galeries->removeElement($galery)) {
+            // set the owning side to null (unless already changed)
+            if ($galery->getUser() === $this) {
+                $galery->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

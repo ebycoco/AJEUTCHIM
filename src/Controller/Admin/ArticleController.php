@@ -24,7 +24,6 @@ class ArticleController extends AbstractController
             'articles' => $articleRepository->findAll(),
         ]);
     }
-
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
      */
@@ -36,6 +35,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $article->setUser($this->getUser());
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -46,6 +46,18 @@ class ArticleController extends AbstractController
             'article' => $article,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/activation/{id}", name="comment_activation")
+     */
+    public function activation(Article $article)
+    {
+        $article->setActive(($article->getActive() ? false : true));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($article);
+        $em->flush();
+        return new Response("true");
     }
 
     /**
@@ -83,7 +95,7 @@ class ArticleController extends AbstractController
      */
     public function delete(Request $request, Article $article): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();

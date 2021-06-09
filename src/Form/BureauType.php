@@ -17,16 +17,6 @@ class BureauType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('president', EntityType::class, [
-                'class' => President::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er
-                        ->createQueryBuilder('p')
-                        ->andWhere('p.etat = 0')
-                        ->orderBy('p.id', 'DESC');
-                },
-                'choice_label' => 'membre',
-            ])
             ->add('membre', EntityType::class, [
                 'class' => Membre::class,
                 'choice_label' => 'prenom'

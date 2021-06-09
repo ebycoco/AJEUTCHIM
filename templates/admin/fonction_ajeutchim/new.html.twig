@@ -1,0 +1,50 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}New FonctionAjeutchim
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Nouvelle FonctionAjeutchim</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Nouvelle FonctionAjeutchim</li>
+							</ol>
+						</div>
+						<div class="col-sm-6">
+							<a class="btn btn-warning" href="{{ path('fonction_ajeutchim_index') }}">Voir la liste</a>
+
+						</div>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+
+				{% for message in app.flashes('warning') %}
+					<div class="alert alert-warning">
+						{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('danger') %}
+					<div class="alert alert-danger">
+						{{ message }}
+					</div>
+				{% endfor %}
+
+				{{ include('admin/fonction_ajeutchim/_form.html.twig') }}
+
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+{% endblock %}

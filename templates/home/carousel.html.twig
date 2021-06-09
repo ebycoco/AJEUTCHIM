@@ -1,0 +1,57 @@
+<!-- Image Carousel -->
+<div
+	id="carousel" class="carousel slide" data-ride="carousel" data-interval="6500">
+	<!-- Carousel Content -->
+	<div class="carousel-inner ">
+		{% set activee = "active" %}
+		{% for image_accueil in image_accueils %}
+			<div class="carousel-item {{activee}} reveal">
+				<img src="{{ vich_uploader_asset(image_accueil, 'imageFile')}}" alt="" class="w-100"/>
+				<div class="carousel-caption ">
+					<div class="container">
+						{% if image_accueil.title == "AJEUTCHIM"%}
+							<div class="row justify-content-center">
+								<div class="col-8 bg-custom d-none d-md-block py-3 px-0 reveal-2">
+									<h1>{{image_accueil.title }}</h1>
+									<div class="border-top border-primary w-50 mx-auto my-3"></div>
+									<h3 class="pb-3">{{image_accueil.description }}</h3>
+									<a href="#" class="buttonsliderd mr-2">View Demo</a>
+									<a href="#" class="buttonsliderp ml-2">Start Now</a>
+								</div>
+							</div>
+						{% elseif image_accueil.title == "TCHIMOUKRO" %}
+							<div class="row justify-content-center">
+								<div class="col-5 bg-custom d-none d-lg-block py-3 px-0 pr-3 reveal-5">
+									<p class="lead pb-3">
+										{{image_accueil.description }}
+									</p>
+									<a href="#" class="buttonsliderd">See phone</a>
+								</div>
+							</div>
+						{% elseif image_accueil.title == "Notre slogan" %}
+							<div class="row justify-content-start text-left">
+								<div class="col-7 bg-custom d-none d-lg-block py-3 px-0 pl-3 reveal-7">
+									<h3 class="pb-3">{{image_accueil.title }}</h3>
+									<p class="lead">{{image_accueil.description }}</p>
+									<a href="#" class="buttonsliderp">See tablet</a>
+								</div>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			{% set activee = " " %}
+		{% endfor %}
+	</div>
+	<!-- End Carousel Content -->
+
+	<!-- Previous & Next Buttons -->
+	<a href="#carousel" class="carousel-control-prev" role="button" data-slide="prev">
+		<span class="fas fa-chevron-left fa-2x"></span>
+	</a>
+	<a href="#carousel" class="carousel-control-next" role="button" data-slide="next">
+		<span class="fas fa-chevron-right fa-2x"></span>
+	</a>
+	<!-- End Previous & Next Buttons -->
+</div>
+<!-- End Image Carousel -->

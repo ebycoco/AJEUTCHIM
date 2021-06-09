@@ -1,0 +1,90 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}categorie index
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Bienvenue sur le Tabeau bord</li>
+							</ol>
+						</div>
+						<div class="col-sm-3">
+							<a class="btn btn-primary" href="{{ path('categorie_new') }}">Ajouter une categorie</a>
+
+						</div>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				<!-- end row -->
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success">
+						{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('danger') %}
+					<div class="alert alert-danger">
+						{{ message }}
+					</div>
+				{% endfor %}
+				<div class="row">
+					<div class="col">
+
+						<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Name</th>
+									<th>Couleur</th>
+									<th>CreatedAt</th>
+									<th>actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for categorie in categories %}
+									<tr>
+										<td>{{ categorie.id }}</td>
+										<td>{{ categorie.name }}</td>
+										<td style="background: {{categorie.couleur}};"></td>
+										<td>{{ categorie.createdAt ? categorie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+										<td>
+											<a class="btn btn-warning" href="{{ path('categorie_show', {'id': categorie.id}) }}">show</a>
+											<a class="btn btn-primary" href="{{ path('categorie_edit', {'id': categorie.id}) }}">edit</a>
+										</td>
+									</tr>
+								{% else %}
+									<tr>
+										<td colspan="4">no records found</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<!-- container-fluid -->
+
+			</div>
+			<!-- content -->
+
+			<footer class="footer">
+				© 2019 Veltrix
+				<span class="d-none d-sm-inline-block">
+					- Crafted with
+					<i class="mdi mdi-heart text-danger"></i>
+					by Themesbrand</span>.
+			</footer>
+
+		</div>
+	{% endblock %}

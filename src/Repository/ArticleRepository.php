@@ -33,8 +33,18 @@ class ArticleRepository extends ServiceEntityRepository
     public function dernierArticle()
     {
         return $this->createQueryBuilder('a')
+            ->andWhere('a.active = true')
             ->orderBy('a.id', 'DESC')
             ->setMaxResults(6)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function articleActive()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.active = true')
+            ->orderBy('a.id', 'DESC')
             ->getQuery()
             ->getResult();
     }

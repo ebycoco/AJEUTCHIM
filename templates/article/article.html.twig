@@ -1,0 +1,60 @@
+<section id="activite" class="container-fluid reveal">
+	<div class="col-12 text-center mt-5 ">
+		<p class="lead">
+			Les dernière articles publier
+		</p>
+		<!-- Three Column Section -->
+		<div class="container">
+			{% for row in articles|batch(3)  %}
+				<div class="row mt-2">
+					{% for article in row %}
+						<div class="col-md-4 reveal-1">
+							<div class="card bg-white rounded shadow article">
+								<div class="mw-100 overflow-hidden">
+									<a href="{{ path('article_detail', {'slug': article.slug}) }}"><img src="{{ vich_uploader_asset(article, 'imageFile')|imagine_filter('article')}}" class="card-img-top" alt="{{article.title|u.truncate(20,'...',false) | raw}}"></a>
+								</div>
+								<div class="card-body">
+									<h5 class="card-title">{{article.title|u.truncate(20,'...',false) | raw}}</h5>
+									<hr>
+									<div class="row">
+										<div class="col-lg-8">
+											<p>Publier :
+												<time class="timeago">{{article.publishedAt| ago(locale='fr')}}
+												</time>
+											</p>
+										</div>
+										<div class="col-lg-4">
+											{% if article.categorie.couleur %}
+												<p class="text-center text-white text-lowercase" style="background-color: {{article.categorie.couleur}}; font-size:11px;border-radius:5px;">
+													{{article.categorie.name}}
+												</p>
+											{% else %}
+												<p class="text-center bg-primary text-white text-lowercase" style="font-size:11px;border-radius:5px;">
+													{{article.categorie.name}}
+												</p>
+											{% endif %}
+										</div>
+									</div>
+									<p class="text-justify">{{article.content|u.truncate(150,'...',false) | raw}}</p>
+									<p class="text-right " style="color: #ff5500;">
+										<i style="color: #838383;" class="fas fa-user-circle"></i>
+										Auteur:
+										{{ article.user.pseudo }}</p>
+									<div class="text-center">
+										<a href="{{ path('article_detail', {'slug': article.slug}) }}" class="btn btn-outline-warning btn-md">Suite...</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+			<div class="row text-center">
+				<div class="text-center">
+					{% do articles.setPageRange(3) %}
+					{{knp_pagination_render(articles,'base/pagination.html.twig')}}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

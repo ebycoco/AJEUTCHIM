@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Bureau;
 use App\Entity\Candidat;
 use App\Entity\Desactive;
 use App\Entity\Membre;
+use App\Entity\President;
 use App\Entity\Votant;
 use App\Form\CandidatType;
 use App\Form\VotantType;
 use App\Repository\CandidatRepository;
 use App\Repository\DesactiveRepository;
 use App\Repository\MembreRepository;
+use App\Repository\PostAjeutchimRepository;
+use App\Repository\PresidentRepository;
 use App\Repository\VotantRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -431,8 +435,35 @@ class CandidatController extends AbstractController
         return $this->redirectToRoute('candidat_resultat');
     }
     #[Route('/etat/public', name: 'candidat_etatpublic', methods: ['GET'])]
-    public function etatpublic(CandidatRepository $candidatRepository, DesactiveRepository $desactiveRepository): Response
+    public function etatpublic(CandidatRepository $candidatRepository, DesactiveRepository $desactiveRepository, PresidentRepository $presidentRepository, PostAjeutchimRepository $postAjeutchimRepository): Response
     {
+        $post = $postAjeutchimRepository->pesident('Président');
+
+        $jouj = new DateTime('now');
+        $annee = $jouj->format(date('Y'));
+        $vinqueur = $candidatRepository->findCandidatPlusPoint($annee);
+        $president = new President();
+        $bureau = new Bureau();
+        $actuelpresident = $presidentRepository->findEncour(false);
+        if (count($actuelpresident) == null) {
+            for ($i = 0; $i < count($vinqueur); $i++) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $president->setUser($this->getUser());
+                $president->setMembre($vinqueur[$i]->getMembre());
+                $president->setDebutedAt($jouj);
+                $president->setEtat(0);
+                $president->setUser($this->getUser());
+                $entityManager->persist($president);
+                $bureau->setMembre($vinqueur[$i]->getMembre());
+                for ($p = 0; $p < count($post); $p++) {
+                    $bureau->setPostAjeutchim($post[$p]);
+                }
+                $bureau->setPresident($president);
+                $bureau->setEtat(0);
+                $entityManager->persist($bureau);
+                $entityManager->flush();
+            }
+        }
         $desac = $desactiveRepository->findAll();
         for ($i = 0; $i < count($desac); $i++) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -471,7 +502,7 @@ class CandidatController extends AbstractController
                 $nmbreToure2 = $fin[$i]->getTour2();
                 $fin[$i]->setVuePublic(false);
                 if (!empty($nmbreToure2) && !empty($nmbreToure1)) {
-                    $fin[$i]->setVuePublic(true);
+                    $fin[$i]->setVuePublic(($fin[$i]->getVuePublic() == 0) ? true : false);
                 } elseif (empty($nmbreToure2) && !empty($nmbreToure1)) {
                     $fin[$i]->setVuePublic(false);
                 }
@@ -482,7 +513,7 @@ class CandidatController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $nmbreToure1 = $fin[$i]->getTour1();
                 $nmbreToure2 = $fin[$i]->getTour2();
-                $fin[$i]->setVuePublic(true);
+                $fin[$i]->setVuePublic(($fin[$i]->getVuePublic() == 0) ? true : false);
             }
             $entityManager->flush();
         }

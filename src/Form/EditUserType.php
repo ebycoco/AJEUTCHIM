@@ -27,8 +27,6 @@ class EditUserType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('pseudo')
-            ->add('matricule')
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Administrateur' => 'ROLE_ADMIN',
@@ -66,6 +64,7 @@ class EditUserType extends AbstractType
                     'Conseillers' => 'ROLE_CONSE',
                     'Parraineur' => 'ROLE_PAR',
                     'Utilisateur' => 'ROLE_USER',
+                    'Membre' => 'ROLE_MEMBRE',
                     'Tresorier' => 'ROLE_EDIT',
                 ],
                 'expanded' => true,

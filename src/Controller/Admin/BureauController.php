@@ -50,29 +50,30 @@ class BureauController extends AbstractController
             $bureauPresiMembreOccupe = $bureauRepository->findPostMembreOccupe($noubeauPresident, $membreSumi);
             // verifie s'il y a un nouveau bureau qui n'est pas vide 
             if (empty($membreBureau)) {
-                if ($bureau->getPostAjeutchim()->getName() == "Président") { 
+                if ($bureau->getPostAjeutchim()->getName() == "Président") {
                     $nompresi = $noubeauPresident[0]->getMembre()->getPrenom();
                     $nompresiEntrer = $bureau->getMembre()->getPrenom();
-                    if ($nompresi == $nompresiEntrer ) { 
+                    if ($nompresi == $nompresiEntrer) {
                         $entityManager = $this->getDoctrine()->getManager();
+                        for ($b = 0; $b < count($noubeauPresident); $b++) {
+                            $bureau->setPresident($noubeauPresident[$b]);
+                        }
                         $bureau->setEtat(0);
                         $entityManager->persist($bureau);
                         $entityManager->flush();
-                        $this->addFlash( 'success', 'Ajouter avec success !');
-                    return $this->redirectToRoute('bureau_new');
-                    }else {
-                        $this->addFlash('warning','Ce n\'est pas le president !');
-                    return $this->redirectToRoute('bureau_new');
+                        $this->addFlash('success', 'Ajouter avec success !');
+                        return $this->redirectToRoute('bureau_new');
+                    } else {
+                        $this->addFlash('warning', 'Ce n\'est pas le president !');
+                        return $this->redirectToRoute('bureau_new');
                     }
-                    
-                }else {
+                } else {
                     $this->addFlash(
                         'warning',
                         'metter le president dabord !'
                     );
                     return $this->redirectToRoute('bureau_new');
                 }
-                
             } else {
                 // verifie s'il le post existe dejà dans le nouveau bureau
                 if ($bureauPresi) {
@@ -91,6 +92,9 @@ class BureauController extends AbstractController
                     return $this->redirectToRoute('bureau_new');
                 }
                 $entityManager = $this->getDoctrine()->getManager();
+                for ($b = 0; $b < count($noubeauPresident); $b++) {
+                    $bureau->setPresident($noubeauPresident[$b]);
+                }
                 $bureau->setEtat(0);
                 $entityManager->persist($bureau);
                 $entityManager->flush();

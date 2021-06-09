@@ -76,6 +76,11 @@ class Candidat
      */
     private $candidature;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Membre::class, inversedBy="candidats")
+     */
+    private $membre;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -206,6 +211,18 @@ class Candidat
     public function setCandidature(?Candidature $candidature): self
     {
         $this->candidature = $candidature;
+
+        return $this;
+    }
+
+    public function getMembre(): ?Membre
+    {
+        return $this->membre;
+    }
+
+    public function setMembre(?Membre $membre): self
+    {
+        $this->membre = $membre;
 
         return $this;
     }

@@ -1,0 +1,43 @@
+<div class="col-lg-8">
+	<div class="card border-0 mb-3">
+		<div class="card-header bg-primary text-white text-uppercase text-center">
+			Mot du president
+		</div>
+		<div class="row py-4">
+			{% for bureau in bureaux %}
+				{% if bureau.postAjeutchim.name == "Président"%}
+					<div class="col-lg-4 text-center figure">
+						{% if bureau.president.imageName %}
+							<img src="{{ vich_uploader_asset(bureau.president, 'imageFile')}}" class="rounded mx-auto d-block w-100" alt=""/>
+
+						{% else %}
+							<img src="{{asset('images/avatar.jpeg')}}" class="rounded mx-auto d-block w-100" alt=""/>
+
+						{% endif %}
+						<figcaption class="figure-caption text-center">
+							{{ bureau.membre.nom }}
+							{{ bureau.membre.prenom }}
+						</figcaption>
+					</div>
+					<div class="col-lg-8 mb-4 my-lg-auto">
+						<h1 class="text-dark font-weight-bold mb-3">
+							Bienvenu
+						</h1>
+						{% if bureau.president.contenue %}
+							<p class="mb-4">
+								{{bureau.president.contenue | raw}}
+							</p>
+						{% else %}
+							<p class="mb-4">
+								Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde distinctio mollitia perspiciatis laudantium officia quis officiis, laborum dolore neque facilis beatae ullam dignissimos provident nisi aut cumque aliquam dolorem quaerat.
+							</p>
+						{% endif %}
+						<a href="#" target="_blank" class="btn btn-outline-warning btn-lg">Lire suite</a>
+					</div>
+					{% else %}
+
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+</div>

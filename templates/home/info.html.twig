@@ -1,0 +1,20 @@
+<div class="col-lg-4">
+	<div class="card border-0 mb-3">
+		<div class="card-header bg-warning text-white text-uppercase text-center">
+			Informations
+		</div>
+		<div class="card-body">
+			<div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+				<div class="carousel-inner" role="listbox">
+					{% set activee = "active" %}
+					{% for flashe in flashes %}
+						<div class="carousel-item {{activee}}">
+							<p>{{flashe.content| raw}}</p>
+							{% set activee = " " %}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -7,10 +7,14 @@ use App\Repository\MembreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MembreRepository::class)
  * @ORM\Table(name="Ajeutchim_membres") 
+ * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks
  */
 class Membre
@@ -100,8 +104,8 @@ class Membre
      * @ORM\Column(type="float")
      */
     private $adhesion;
- 
-     /**
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="membres")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -110,7 +114,14 @@ class Membre
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="membre")
      */
-    private $users; 
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Candidat::class, mappedBy="membre")
+     */
+    private $candidats;
+
+
 
     public function __construct()
     {
@@ -120,7 +131,8 @@ class Membre
         $this->membreConseil = new ArrayCollection();
         $this->mandats = new ArrayCollection();
         $this->presidents = new ArrayCollection();
-        $this->users = new ArrayCollection(); 
+        $this->users = new ArrayCollection();
+        $this->candidats = new ArrayCollection();
     }
 
     public function __toString()
@@ -216,7 +228,7 @@ class Membre
 
         return $this;
     }
- 
+
 
     /**
      * @return Collection|Cotisation[]
@@ -420,7 +432,7 @@ class Membre
         $this->adhesion = $adhesion;
 
         return $this;
-    } 
+    }
     public function getUser(): ?User
     {
         return $this->user;
@@ -461,5 +473,35 @@ class Membre
         }
 
         return $this;
-    }  
+    }
+
+    /**
+     * @return Collection|Candidat[]
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(Candidat $candidat): self
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats[] = $candidat;
+            $candidat->setMembre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(Candidat $candidat): self
+    {
+        if ($this->candidats->removeElement($candidat)) {
+            // set the owning side to null (unless already changed)
+            if ($candidat->getMembre() === $this) {
+                $candidat->setMembre(null);
+            }
+        }
+
+        return $this;
+    }
 }

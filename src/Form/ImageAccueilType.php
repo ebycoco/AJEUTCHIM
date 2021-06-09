@@ -22,10 +22,7 @@ class ImageAccueilType extends AbstractType
                 'image_uri' => false,
                 'label' => 'Image du président (JPG or PNG file)',
 
-            ])
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('user');
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

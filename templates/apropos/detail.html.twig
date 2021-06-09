@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	Histoire | AJEUTCHIM
+{% endblock %}
+{% block body %}
+	<div class="container mt-4">
+		{% for apropo in apropos %}
+			<div class="row">
+				<h2 class="mt-2 text-center text-primary">
+					AJEUTCHIM
+				</h2>
+				<p class="text-justify">{{ apropo.contenue|raw }}</p>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

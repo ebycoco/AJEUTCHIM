@@ -41,3 +41,9 @@ liip_imagine:
                 thumbnail:
                     size: [100,75]
                     mode: outbound
+
+        article:
+            quality: 75
+            filters:
+                scale:
+                    dim: [350,200]

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Membre;
 use App\Entity\President;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -23,6 +24,9 @@ class PresidentPhotoType extends AbstractType
                 'image_uri' => false,
                 'label' => 'Image du président (JPG or PNG file)',
 
+            ])
+            ->add('contenue', CKEditorType::class, [
+                'config_name' => 'main_config',
             ]);
     }
 

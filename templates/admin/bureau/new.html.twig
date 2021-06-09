@@ -3,108 +3,108 @@
 {% block title %}New Bureau
 {% endblock %}
 
-{% block body %}  
-		<div
-			class="content-page">
-			<!-- Start content -->
-			<div class="content">
-				<div class="container-fluid">
-					<div class="page-title-box">
-						<div class="row align-items-center">
-							<div class="col-sm-6">
-								<h4 class="page-title">Administration</h4>
-								<ol
-									class="breadcrumb">
-									<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
-									<li class="breadcrumb-item active">Vous être dans Produits</li>
-								</ol>
-							</div> 
-						</div>
-						<!-- end row -->
-					</div>
-					<!-- end page-title -->
-					<div class="row">
-						<div class="col-md-4">
-							{{ include('admin/bureau/_form.html.twig') }}
-						</div>
-						<div class="col-md-8">
-							<div class="row">
-								<div class="col">
-									{% for message in app.flashes('warning') %}
-										<div class="alert alert-warning">
-											{{ message }}
-										</div>
-									{% endfor %}
-									{% for message in app.flashes('success') %}
-										<div class="alert alert-success">
-											{{ message }}
-										</div>
-									{% endfor %}
-									{% for noubeauPresident in noubeauPresident %}
-										<h3 class="text-center">
-											Bureau de
-											{{noubeauPresident.membre.nom}}
-											{{noubeauPresident.membre.prenom}}
-										</h3>
-									{% endfor %}
-
-									{# <h5 class="text-center"> son <span class="text-primary">{{ bureau.mandat }}</span> 																									</h5> #}
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<table id="" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-										<thead>
-											<tr>
-												<th scope="col">Post</th>
-												<th scope="col">Nom</th>
-												<th scope="col">Prenom</th>
-												<th scope="col">actions</th>
-											</tr>
-										</thead>
-										<tbody>
-											{% for bureau in bureaus %}
-												<tr>
-													<th>{{bureau.postAjeutchim.name}}</th>
-													<td>{{bureau.membre.nom}}</td>
-													<td>{{bureau.membre.prenom}}</td>
-													<td>
-														{% for noubeauPresident in noubeauPresident %}
-															{% if bureau.membre.id == noubeauPresident.membre.id  %}
-																{% if noubeauPresident.membre.prenom == bureau.membre.prenom %}
-																	{% if bureau.postAjeutchim.name =="Président" %}
-																		<a href="{{ path('president_edit', {'id': noubeauPresident.id}) }}" class="btn btn-primary">Fin mandat</a>
-																	{% else %}
-																		<a href="{{ path('bureau_edit', {'id': bureau.id}) }}" class="btn btn-warning">Modifier</a>
-																	{% endif %}
-
-																{% else %}
-																	<a href="{{ path('bureau_edit', {'id': bureau.id}) }}" class="btn btn-danger">changer</a>
-																{% endif %}
-															{% elseif bureau.membre.id != 1 %}
-																<a href="{{ path('bureau_edit', {'id': bureau.id}) }}" class="btn btn-warning">Modifier</a>
-
-																{% else %}
-
-
-															{% endif %}
-														{% endfor %}
-													</td>
-												</tr>
-											{% else %}
-												<tr>
-													<td colspan="5">no records found</td>
-												</tr>
-											{% endfor %}
-										</tbody>
-									</table>
-								</div>
-							</div>
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Vous être dans Produits</li>
+							</ol>
 						</div>
 					</div>
 					<!-- end row -->
 				</div>
-				<!-- container-fluid -->
-			</div><!-- content -->{{ include('includes/_footer_admin.html.twig')}}
+				<!-- end page-title -->
+				<div class="row">
+					<div class="col-md-4">
+						{{ include('admin/bureau/_form.html.twig') }}
+					</div>
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col">
+								{% for message in app.flashes('warning') %}
+									<div class="alert alert-warning">
+										{{ message }}
+									</div>
+								{% endfor %}
+								{% for message in app.flashes('success') %}
+									<div class="alert alert-success">
+										{{ message }}
+									</div>
+								{% endfor %}
+								{% for noubeauPresident in noubeauPresident %}
+									<h3 class="text-center">
+										Bureau de
+										{{noubeauPresident.membre.nom}}
+										{{noubeauPresident.membre.prenom}}
+									</h3>
+								{% endfor %}
+
+								{# <h5 class="text-center"> son <span class="text-primary">{{ bureau.mandat }}</span> 																									</h5> #}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<table id="" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+									<thead>
+										<tr>
+											<th scope="col">Post</th>
+											<th scope="col">Nom</th>
+											<th scope="col">Prenom</th>
+											<th scope="col">actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for bureau in bureaus %}
+											<tr>
+												<th>{{bureau.postAjeutchim.name}}</th>
+												<td>{{bureau.membre.nom}}</td>
+												<td>{{bureau.membre.prenom}}</td>
+												<td>
+													{% for noubeauPresident in noubeauPresident %}
+														{% if bureau.membre.id == noubeauPresident.membre.id  %}
+															{% if noubeauPresident.membre.prenom == bureau.membre.prenom %}
+																{% if bureau.postAjeutchim.name =="Président" %}
+																	<a href="{{ path('president_edit', {'id': noubeauPresident.id}) }}" class="btn btn-primary">Fin mandat</a>
+																{% else %}
+																	<a href="{{ path('bureau_edit', {'id': bureau.id}) }}" class="btn btn-warning">Modifier</a>
+																{% endif %}
+
+															{% else %}
+																<a href="{{ path('bureau_edit', {'id': bureau.id}) }}" class="btn btn-danger">changer</a>
+															{% endif %}
+														{% elseif bureau.membre.id != 1 %}
+															<a href="{{ path('bureau_edit', {'id': bureau.id}) }}" class="btn btn-warning">Modifier</a>
+
+															{% else %}
+
+
+														{% endif %}
+													{% endfor %}
+												</td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="5">no records found</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div><!-- content -->{{ include('includes/_footer_admin.html.twig')}}
 
 	{% endblock %}

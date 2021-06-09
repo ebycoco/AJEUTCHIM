@@ -30,18 +30,13 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
-        for ($nbUsers = 1; $nbUsers <= 30; $nbUsers++) {
+        for ($nbUsers = 1; $nbUsers <= 1; $nbUsers++) {
             $user = new User();
             if ($nbUsers === 1) {
                 $user->setEmail("brouyaoeric7@gmail.com");
                 $user->setRoles(['ROLE_ADMIN']);
                 $user->setIsVerified(1);
                 $user->setPseudo("Ebychoco");
-            } else {
-                $user->setEmail($faker->email);
-                $user->setRoles(['ROLE_USER']);
-                $user->setIsVerified($faker->numberBetween(0, 1));
-                $user->setPseudo($faker->name);
             }
             $user->setPassword($this->userPasswordEncoder->encodePassword($user, "123456"));
             $manager->persist($user);

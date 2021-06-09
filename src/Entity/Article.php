@@ -7,7 +7,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,9 +40,10 @@ class Article
     private $content;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $slug;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -118,14 +119,14 @@ class Article
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getSlug(): ?string
     {
-        return $this->description;
+        return $this->slug;
     }
 
-    public function setDescription(?string $description): self
+    public function setSlug(?string $slug): self
     {
-        $this->description = $description;
+        $this->slug = $slug;
 
         return $this;
     }

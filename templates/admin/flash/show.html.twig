@@ -1,0 +1,57 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Edit Cotisation
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6"></div>
+						<div class="col-sm-6">
+							<a class="btn btn-warning" href="{{ path('flash_index') }}">Retour</a>
+
+
+						</div>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ flash.id }}</td>
+						</tr>
+						<tr>
+							<th>Content</th>
+							<td>{{ flash.content| raw }}</td>
+						</tr>
+						<tr>
+							<th>CreatedAt</th>
+							<td>{{ flash.createdAt ? flash.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+						</tr>
+						<tr>
+							<th>UpdatedAt</th>
+							<td>{{ flash.updatedAt ? flash.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<a class="btn btn-primary" href="{{ path('flash_edit', {'id': flash.id}) }}">Modifier</a>
+
+				{{ include('admin/flash/_delete_form.html.twig') }}
+				<!-- end row -->
+			</div>
+			<!-- container-fluid -->
+		</div>
+		<!-- content -->
+		{{ include('includes/_footer_admin.html.twig')}}
+	</div>
+
+{% endblock %}

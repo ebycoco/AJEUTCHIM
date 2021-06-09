@@ -1,0 +1,117 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Image index
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+	<div
+		class="content-page">
+		<!-- Start content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="page-title-box">
+					<div class="row align-items-center">
+						<div class="col-sm-6">
+							<h4 class="page-title">Administration</h4>
+							<ol
+								class="breadcrumb">
+								<!-- <li class="breadcrumb-item"><a href="javascript:void(0);"><i class="mdi mdi-home-outline"></i></a></li> -->
+								<li class="breadcrumb-item active">Bienvenue sur le Tabeau bord</li>
+							</ol>
+						</div>
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end page-title -->
+				<!-- end row -->
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success">
+						{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('danger') %}
+					<div class="alert alert-danger">
+						{{ message }}
+					</div>
+				{% endfor %}
+				<div class="row">
+					<div class="col">
+						<table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+							<thead>
+								<tr>
+									<th>Image</th>
+									<th>Titre</th>
+									<th>CreatedAt</th>
+									<th>actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for image_accueil in image_accueils %}
+									<tr>
+										<td>
+											{% if image_accueil.imageName %}
+												<img src="{{ vich_uploader_asset(image_accueil, 'imageFile')}}" width="150" height="100" alt="{{ image_accueil.title }}"/>
+											{% else %}
+												<img src="{{asset('images/avatar.jpeg')}}" class="rounded-circle" width="100" height="100" alt="{{ user.pseudo }}"/>
+											{% endif %}
+										</td>
+										<td>{{image_accueil.title}}</td>
+										<td>{{ image_accueil.createdAt ? image_accueil.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+										<td>
+											<a href="{{ path('image_accueil_show', {'id': image_accueil.id}) }}">show</a>
+											<a href="{{ path('image_accueil_edit', {'id': image_accueil.id}) }}">edit</a>
+										</td>
+									</tr>
+								{% else %}
+									<tr>
+										<td colspan="7">no records found</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+			<!-- container-fluid -->
+
+		</div>
+		<!-- content -->
+
+		<footer class="footer">
+			© 2019 Veltrix
+			<span class="d-none d-sm-inline-block">
+				- Crafted with
+				<i class="mdi mdi-heart text-danger"></i>
+				by Themesbrand</span>.
+		</footer>
+
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+	<script>
+		let depenses = document.querySelector("#depenses")
+let depenseGraph = new Chart(depenses, {
+type: "pie",
+data: {
+labels: [
+"depen1", "depen2", "depen3", "depen4"
+],
+datasets: [
+{
+label: "Répartition des depenses",
+data: [
+2, 5, 3;
+4
+],
+backgroundColor: ["#4090cb", "#e74c5e"]
+}
+]
+}
+})
+	</script>
+{% endblock %}

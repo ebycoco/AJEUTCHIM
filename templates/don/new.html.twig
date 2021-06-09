@@ -4,10 +4,41 @@
 {% endblock %}
 
 {% block body %}
-
-	<h1>Create new Don</h1>
-
-	{{ include('don/_form.html.twig') }}
-
-	<a href="{{ path('don_index') }}">back to list</a>
+	<!-- MultiStep Form -->
+	<div class="container-fluid" id="grad1">
+		<div class="row justify-content-center mt-0">
+			<div class="col-12 col-sm-10 col-md-8 col-lg-7 text-center p-0 mt-3 mb-2">
+				<div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+					<h2>
+						<strong>Les informations sur le doneur</strong>
+					</h2>
+					<p>Nous vous prions de bien vouloir remplire tous les champs</p>
+					<div class="row mt-3">
+						<div class="col-md-12 mx-0 mb-4">
+							{{ form_start(form) }}
+							<div class="form-row">
+								<div class="col">{{form_row(form.nom)}}</div>
+								<div class="col">
+									{{form_row(form.prenom)}}</div>
+							</div>
+							<div class="form-row">
+								<div class="col">{{ form_row(form.numeroTel) }}</div>
+								<div class="col">{{ form_row(form.montant) }}</div>
+							</div>
+							<div class="form-row">
+								<div class="col">{{ form_row(form.email) }}</div>
+								<div class="col">{{ form_row(form.ville) }}</div>
+							</div>
+							<div class="form-row">
+								<div class="col">{{ form_row(form.pays) }}</div>
+								<div class="col">{{ form_row(form.idReference) }}</div>
+							</div>
+							<button class="btn btn-primary">{{ button_label|default('Envoyer') }}</button>
+							{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

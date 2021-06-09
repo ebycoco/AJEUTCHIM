@@ -129,7 +129,8 @@
 																		{% elseif role == "ROLE_PAR" %}
 																			Parraineur
 																		{% elseif role == "ROLE_EDIT" %}
-																			Editeur
+																		{% elseif role == "ROLE_MEMBRE" %}
+																			Membre
 																		{% elseif role == "ROLE_USER" %}
 																			{% if user.roles | length == 1  %}
 																				Membre

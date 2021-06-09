@@ -1,0 +1,114 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	{{article.slug}}
+	| AJEUTCHIM
+{% endblock %}
+{% block body %}
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-md-4">
+				{% if article.imageName %}
+					<img src="{{ asset(vich_uploader_asset(article,'imageFile'))}}" class="card-img-top">
+				{% else %}
+					<img src="{{ asset('images/empty/empty.jpg')}}" class="card-img-top">
+				{% endif %}
+			</div>
+			<div class="col-md-8">
+
+				<div class="row">
+					<div class="col-lg-8">
+						<p style="color: #ff5500;">
+							<i style="color: #838383;" class="fas fa-user-circle"></i>
+							La Rédaction:
+							{{ article.user.pseudo }}</p>
+					</div>
+					<div class="col-lg-4">
+						{% if article.categorie.couleur %}
+							<p class="text-center text-white text-lowercase" style="background-color: {{article.categorie.couleur}}; font-size:11px;border-radius:5px;">
+								{{article.categorie.name}}
+							</p>
+						{% else %}
+							<p class="text-center bg-primary text-white text-lowercase" style="font-size:11px;border-radius:5px;">
+								{{article.categorie.name}}
+							</p>
+						{% endif %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h1>{{ article.title }}</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<p>{{ article.content|raw }}</p>
+						{{ commentaires| length }}
+						<i class="text-primary fa fa-comment" aria-hidden="true"></i>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="text-center">
+
+					<h4 class="mt-3 text-info">Commentaire recent</h4>
+					{% include 'home/messageAlert.html.twig' %}
+				</div>
+				<div class="row">
+					{% for comment in commentaires  %}
+						<div class="col-md-4">
+							<h6 class="text-right">{{comment.author}}</h6>
+						</div>
+						<div class="col-md-8">
+							<p class="text-muted">
+								{{comment.content}}
+							</p>
+						</div>
+					{% endfor %}
+				</div>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-8">
+				<div class="container">
+					<div class="row">
+						<div
+							class="col-md-5 col-lg-4 col-xl-3 mb-5">
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+								Commenter
+							</button>
+						</div>
+					</div>
+
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									{{include('form/_commentForm.html.twig')}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

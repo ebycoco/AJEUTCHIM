@@ -155,12 +155,12 @@ section .heading {
 /*============= TOP BAR HEADER =============*/
 
 .top-bar {
-  background: #7aaec4;
+  background: #7aaec4 !important;
   height: 2.8rem;
   padding: 0.5rem 0;
 }
 .top-bar a {
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
   font-size: 1.1rem;
 }
@@ -651,3 +651,26 @@ Extra (xl) large devices (large desktops, 1200px and up)
 .timeline-heading h4 {
   color: #4981b3;
 }
+.organigrame {
+  list-style: none;
+}
+
+.modal .modal-content {
+  background: #fff !important;
+  border-color: #fff !important;
+}
+/* organigramme */
+* {
+  margin: 0;
+  padding: 0
+}
+
+html {
+  height: 100%
+}
+
+#grad1 {
+  background-color: #9C27B0;
+  background-image: linear-gradient(120deg, #FF4081, #81D4FA)
+}     
+ 

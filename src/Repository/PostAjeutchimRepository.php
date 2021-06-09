@@ -18,6 +18,16 @@ class PostAjeutchimRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PostAjeutchim::class);
     }
+    public function pesident($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.name = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return PostAjeutchim[] Returns an array of PostAjeutchim objects

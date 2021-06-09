@@ -103,25 +103,33 @@ class CandidatureController extends AbstractController
         ]);
     }
     #[Route('/{id}/valider', name: 'candidature_valider', methods: ['GET', 'POST'])]
-    public function valider(Candidature $candidature): Response
+    public function valider(Candidature $candidature, MembreRepository $membreRepository): Response
     {
-        $jouj = new DateTime('now');
-        $annee = $jouj->format(date('Y'));
-        $candidat = new Candidat();
-        $entityManager = $this->getDoctrine()->getManager();
-        $candidature->setDroit(1);
-        $entityManager->persist($candidature);
-        $candidat->setNom($candidature->getNom());
-        $candidat->setPrenom($candidature->getPrenom());
-        $candidat->setCandidature($candidature);
-        $candidat->setNombreVoix(0);
-        $candidat->setEtat(false);
-        $candidat->setAnnee($annee);
-        $candidat->setTour1('1er Tour');
-        $candidat->setFin(false);
-        $candidat->setVuePublic(false);
-        $entityManager->persist($candidat);
-        $entityManager->flush();
+        $membre = $membreRepository->findAll();
+        for ($i = 0; $i < count($membre); $i++) {
+            $person = $membre[$i]->getReferenceAjeutchim();
+            if ($person == $candidature->getMatriculeAjeutchim()) {
+                $jouj = new DateTime('now');
+                $annee = $jouj->format(date('Y'));
+                $candidat = new Candidat();
+                $entityManager = $this->getDoctrine()->getManager();
+                $candidature->setDroit(1);
+                $entityManager->persist($candidature);
+                $candidat->setNom($candidature->getNom());
+                $candidat->setPrenom($candidature->getPrenom());
+                $candidat->setCandidature($candidature);
+                $candidat->setMembre($membre[$i]);
+                $candidat->setNombreVoix(0);
+                $candidat->setEtat(false);
+                $candidat->setAnnee($annee);
+                $candidat->setTour1('1er Tour');
+                $candidat->setFin(false);
+                $candidat->setVuePublic(false);
+                $entityManager->persist($candidat);
+                $entityManager->flush();
+            }
+        }
+
 
         return $this->redirectToRoute('candidature_index');
     }
