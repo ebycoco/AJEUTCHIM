@@ -53,8 +53,6 @@ class User implements UserInterface, Serializable
      */
     private $isVerified = false;
 
-
-
     /**
      * @ORM\OneToMany(targetEntity=Ajeutchim::class, mappedBy="user", orphanRemoval=true)
      */
